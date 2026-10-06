@@ -1449,6 +1449,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         });
         builder.setOnPreDismissListener(di -> onDismiss.run());
         BottomSheet bottomSheet = builder.create();
+        bottomSheet.setUseLightStatusBar(false);
         bottomSheet.scrollNavBar = true;
         bottomSheet.show();
         try {

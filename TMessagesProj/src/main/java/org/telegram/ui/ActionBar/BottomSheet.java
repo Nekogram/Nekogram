@@ -1564,6 +1564,8 @@ public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
         shadowDrawable.setColorFilter(color, PorterDuff.Mode.MULTIPLY);
         if (internalBackgroundColor != color) {
             internalBackgroundColor = color;
+            behindKeyboardColorKey = -1;
+            behindKeyboardColor = color;
             if (container != null) {
                 container.invalidate(0,
                     container.getMeasuredHeight() - container.internalPaddingBottom,
