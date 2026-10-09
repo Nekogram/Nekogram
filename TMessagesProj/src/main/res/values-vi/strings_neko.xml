@@ -324,8 +324,25 @@
     <string name="AskCamera">Hỏi mỗi lần</string>
     <string name="FrontCamera">Camera trước</string>
     <string name="RearCamera">Camera sau</string>
+    <string name="GooeyAvatarAnimation">Hoạt ảnh avatar \"Gooey\"</string>
     <string name="JsonCopyKey">Copy Key</string>
     <string name="JsonCopyValue">Copy giá trị</string>
+    <string name="LocalCustomEmoji">Tùy chỉnh Emoji cục bộ</string>
+    <string name="MiniSenderAvatar">Ảnh đại diện nhỏ của người gửi</string>
+    <string name="ExternalStreamingProtocol">Giao thức phát trực tuyến bên ngoài</string>
+    <string name="ExternalStreamingProtocolDescription">Chọn cách các video chưa xem hết được phát tới trình phát bên ngoài. “Native” hoạt động tốt nhất với hầu hết các trình phát hiện đại; hãy chuyển sang “HTTP” nếu video bị đứng hoặc không phát được.</string>
+    <string name="ExternalStreamingProtocolContentProvider">Native</string>
+    <string name="ExternalStreamingProtocolHttp">HTTP</string>
+    <string name="ExportSession">Xuất phiên đăng nhập</string>
+    <string name="SessionQR">Đăng nhập bằng QR</string>
+    <string name="CreateSessionQR">Tạo QR đăng nhập</string>
+    <string name="PassQR">Passkey QR</string>
+    <string name="CreatePassQR">Tạo Passkey QR</string>
+    <string name="PassQRNewPassword">Bảo vệ mã QR này bằng mật khẩu</string>
+    <string name="ConfirmNewPassword">Xác nhận mật khẩu</string>
+    <string name="PassQRAbout">Lưu mật khẩu của bạn dưới dạng mã QR được mã hóa. Bạn có thể quét mã này để đăng nhập trên một thiết bị khác.</string>
+    <string name="PassQREncryption">Quét bằng Nekogram để đăng nhập.</string>
+    <string name="InvalidPassQr">Mã QR khóa truy cập không hợp lệ</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Cài đặt trợ năng</string>
 </resources>

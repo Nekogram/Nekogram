@@ -311,7 +311,7 @@
     <string name="AutoInlineBot">Автоматично inline режим бота</string>
     <string name="AutoInlineBotDesc">Автоматично запитувати inline режим бота на основі тексту повідомлення.</string>
     <string name="ShortStandardQuality">SD</string>
-    <string name="ForceFontWeightFallback">Змусити передню вагу впасти назад</string>
+    <string name="ForceFontWeightFallback">Примусова підміна насиченості шрифту</string>
     <string name="HideChannelBottomButtons">Приховати нижні кнопки у каналі</string>
     <string name="TranslationKeepFormatting">Зберігати форматування тексту в перекладі</string>
     <string name="PredictiveBackAnimation">Прогнозована задня анімація</string>
@@ -324,6 +324,25 @@
     <string name="AskCamera">Запитувати кожного разу</string>
     <string name="FrontCamera">Фронтальна камера</string>
     <string name="RearCamera">Основна камера</string>
+    <string name="GooeyAvatarAnimation">Анімація аватара \"Gooey\"</string>
+    <string name="JsonCopyKey">Скопіювати ключ</string>
+    <string name="JsonCopyValue">Скопіювати значення</string>
+    <string name="LocalCustomEmoji">Локальні власні емодзі</string>
+    <string name="MiniSenderAvatar">Міні фото відправника</string>
+    <string name="ExternalStreamingProtocol">Протокол зовнішньої потокової передачі</string>
+    <string name="ExternalStreamingProtocolDescription">Оберіть спосіб стрімінгу недовантажених відео у зовнішні плеєри. Режим Native працює найкраще з більшістю сучасних програвачів, змініть на HTTP, якщо відео зависають або не відтворюються.</string>
+    <string name="ExternalStreamingProtocolContentProvider">Нативний</string>
+    <string name="ExternalStreamingProtocolHttp">HTTP</string>
+    <string name="ExportSession">Експортувати сесію</string>
+    <string name="SessionQR">Сесія QR</string>
+    <string name="CreateSessionQR">Створити сесію QR</string>
+    <string name="PassQR">Passkey QR</string>
+    <string name="CreatePassQR">Створити Passkey QR</string>
+    <string name="PassQRNewPassword">Захистити цей QR-код паролем</string>
+    <string name="ConfirmNewPassword">Підтвердити пароль</string>
+    <string name="PassQRAbout">Зберігає ваш Passkey як зашифрований QR-код. Ви можете зісканувати його для входу на іншому пристрої.</string>
+    <string name="PassQREncryption">Зіскануйте через Nekogram, щоб увійти.</string>
+    <string name="InvalidPassQr">Недійсний QR-код Passkey</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Налаштування спеціальних можливостей</string>
 </resources>
