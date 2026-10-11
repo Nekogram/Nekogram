@@ -11962,7 +11962,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         nameTextView[a].setRightDrawable2(getVerifiedCrossfadeDrawable(a));
                         nameTextViewRightDrawableContentDescription = LocaleController.getString(R.string.AccDescrVerified);
                     } else if (ConfigHelper.isChatCat(chat)) {
-                        nameTextView[a].setRightDrawable(Theme.profile_verifiedCatDrawable);
+                        nameTextView[a].setRightDrawable2(Theme.profile_verifiedCatDrawable);
                     } else {
                         nameTextView[a].setRightDrawable2(null);
                         nameTextViewRightDrawableContentDescription = null;
