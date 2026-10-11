@@ -677,7 +677,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
 //                        index--;
                     }
                     int position = 0;
-                    int f = 1 + (isGiftsVisible() ? 1 : 0);
+                    int f = 1 + (giftsTab != null ? 1 : 0);
                     if (isGiftsVisible() && index == 1) {
                         position = giftsSectionRow;
                     } else if (type == TYPE_AVATAR_CONSTRUCTOR && index == 0) {
@@ -1278,7 +1278,7 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
                     }
                     final int count = pack.expanded ? pack.documents.size() : Math.min(maxlen, pack.documents.size());
                     if (position > startPosition && position <= startPosition + 1 + count) {
-                        emojiTabs.select((emojiTabs.recentTab != null ? 1 : 0) + (emojiTabs.isGiftsVisible() ? 1 : 0) + index);
+                        emojiTabs.select((emojiTabs.recentTab != null ? 1 : 0) + (emojiTabs.giftsTab != null ? 1 : 0) + index);
                         return;
                     }
                 }
