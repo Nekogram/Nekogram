@@ -27,8 +27,10 @@ build_scripts=(
     build_dav1d.sh
     build_ffmpeg.sh
     build_tlottie.sh
+    build_wallet_engine.sh
     build_tdlib.sh
     build_wamr.sh
+    build_prisma.sh
 )
 
 for script in "${build_scripts[@]}"; do

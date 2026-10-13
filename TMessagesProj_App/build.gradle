@@ -53,6 +53,12 @@ android {
         }
     }
 
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging = true
+        }
+    }
+
     buildTypes {
         debug {
             if (localProperties.getProperty("storeFile") != null) {

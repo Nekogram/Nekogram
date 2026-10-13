@@ -6,11 +6,11 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 
-import org.telegram.messenger.CodeHighlighting;
 import org.telegram.messenger.LinkifyPort;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.ui.Components.TextStyleSpan;
 import org.telegram.ui.Components.URLSpanReplacement;
+import org.telegram.utils.code.highlight.CodeHighlighting;
 
 import java.util.ArrayList;
 import java.util.regex.Pattern;
