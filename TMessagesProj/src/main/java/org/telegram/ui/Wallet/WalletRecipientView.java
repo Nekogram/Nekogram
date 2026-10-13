@@ -53,6 +53,11 @@ public class WalletRecipientView extends FrameLayout {
 
     public WalletRecipientView(Context context, Theme.ResourcesProvider resourcesProvider,
                                Runnable onOpenRecipient, Runnable onAddressCopied) {
+        this(context, resourcesProvider, onOpenRecipient, onAddressCopied, false);
+    }
+
+    public WalletRecipientView(Context context, Theme.ResourcesProvider resourcesProvider,
+                               Runnable onOpenRecipient, Runnable onAddressCopied, boolean noBg) {
         super(context);
         this.resourcesProvider = resourcesProvider;
         content = new FrameLayout(context);
@@ -60,12 +65,14 @@ public class WalletRecipientView extends FrameLayout {
         content.setPivotX(0);
         content.setPivotY(0);
         addView(content, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
-        content.setBackground(Theme.createRadSelectorDrawable(
-            getThemedColor(Theme.key_windowBackgroundGray),
-            Theme.blendOver(getThemedColor(Theme.key_windowBackgroundGray), getThemedColor(Theme.key_listSelector)),
-            dp(32), dp(32)
-        ));
-        ScaleStateListAnimator.apply(this, .02f, 1.2f);
+        if (!noBg) {
+            content.setBackground(Theme.createRadSelectorDrawable(
+                    getThemedColor(Theme.key_windowBackgroundGray),
+                    Theme.blendOver(getThemedColor(Theme.key_windowBackgroundGray), getThemedColor(Theme.key_listSelector)),
+                    dp(32), dp(32)
+            ));
+            ScaleStateListAnimator.apply(this, .02f, 1.2f);
+        }
         addressInfoImage = new BackupImageView(context);
         addressInfoImage.setRoundRadius(dp(18));
         content.addView(addressInfoImage, LayoutHelper.createFrame(34, 34, Gravity.LEFT | Gravity.CENTER_VERTICAL, 15, 0, 0, 0));

@@ -1,19 +1,14 @@
 package tw.nekomimi.nekogram.settings;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Outline;
 import android.text.TextUtils;
-import android.view.Gravity;
-import android.view.HapticFeedbackConstants;
 import android.view.View;
-import android.view.ViewOutlineProvider;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingClientStateListener;
@@ -26,32 +21,28 @@ import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.android.billingclient.api.QueryProductDetailsParams;
 import com.google.common.collect.ImmutableList;
-import com.google.zxing.EncodeHintType;
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
-import org.telegram.messenger.FileLog;
+import org.telegram.messenger.BotWebViewVibrationEffect;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
-import org.telegram.messenger.TelegramQRCodeWriter;
 import org.telegram.ui.ActionBar.AlertDialog;
-import org.telegram.ui.ActionBar.BaseFragment;
-import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.FlickerLoadingView;
 import org.telegram.ui.Components.ItemOptions;
 import org.telegram.ui.Components.LayoutHelper;
-import org.telegram.ui.Components.TextHelper;
+import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.UItem;
 import org.telegram.ui.Components.UniversalAdapter;
+import org.telegram.ui.Components.UniversalRecyclerView;
 import org.telegram.ui.LaunchActivity;
-import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
+import org.telegram.ui.Wallet.WalletRecipientView;
+import org.telegram.ui.Wallet.WalletSendEnterAmount;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -59,13 +50,13 @@ import tw.nekomimi.nekogram.helpers.remote.ConfigHelper;
 
 public class NekoDonateActivity extends BaseNekoSettingsActivity implements PurchasesUpdatedListener {
     private static final List<String> SKUS = Arrays.asList("donate001", "donate002", "donate005", "donate010", "donate020", "donate050", "donate100");
-    private final List<ConfigHelper.Crypto> cryptos = ConfigHelper.getCryptos();
 
+    private final int sendGramsRow = rowId++;
     private final int donateRow = 100;
-    private final int cryptoRow = 200;
 
     private BillingClient billingClient;
     private List<ProductDetails> productDetails;
+    private final String tonAddress = ConfigHelper.getTonAddress();
 
     @Override
     public boolean onFragmentCreate() {
@@ -152,15 +143,10 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
 
     @Override
     protected void fillItems(ArrayList<UItem> items, UniversalAdapter adapter) {
-        if (cryptos != null && !cryptos.isEmpty()) {
-            items.add(UItem.asHeader(LocaleController.getString(R.string.Cryptocurrency)));
-            var cryptoId = 0;
-            for (var crypto : cryptos) {
-                items.add(TextDetailSettingsCellFactory.of(cryptoRow + cryptoId++, String.format("%s (%s)", crypto.currency, crypto.chain), crypto.address));
-            }
+        if (!TextUtils.isEmpty(tonAddress)) {
+            items.add(WalletAddressCellFactory.of(sendGramsRow, tonAddress));
             items.add(UItem.asShadow(null));
         }
-
         items.add(UItem.asHeader(LocaleController.getString(R.string.GooglePlay)));
         if (productDetails != null && !productDetails.isEmpty()) {
             for (int i = 0; i < productDetails.size(); i++) {
@@ -177,7 +163,14 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
     @Override
     protected void onItemClick(UItem item, View view, int position, float x, float y) {
         var id = item.id;
-        if (id >= donateRow && id < cryptoRow) {
+        if (id == sendGramsRow) {
+            if (getMessagesController().config.walletAvailable.get()) {
+                presentFragment(new WalletSendEnterAmount(tonAddress));
+            } else {
+                AndroidUtilities.addToClipboard(tonAddress);
+                BulletinFactory.of(this).createCopyBulletin(LocaleController.getString(R.string.WalletAddressCopiedBulletin)).show();
+            }
+        } else if (id >= donateRow) {
             if (productDetails != null && productDetails.size() > id - donateRow) {
                 var productDetailsParamsList =
                         ImmutableList.of(
@@ -190,25 +183,22 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
                         .build();
                 billingClient.launchBillingFlow(getParentActivity(), flowParams);
             }
-        } else if (id >= cryptoRow) {
-            ConfigHelper.Crypto crypto = cryptos.get(id - cryptoRow);
-            QRCodeBottomSheet.showForCrypto(this, crypto);
         }
     }
 
     @Override
     protected boolean onItemLongClick(UItem item, View view, int position, float x, float y) {
         var id = item.id;
-        if (id >= cryptoRow) {
-            ConfigHelper.Crypto crypto = cryptos.get(id - cryptoRow);
+        if (id == sendGramsRow) {
             ItemOptions.makeOptions(this, view)
                     .setScrimViewBackground(listView.getClipBackground(view))
-                    .add(R.drawable.msg_qrcode, LocaleController.getString(R.string.GetQRCode), () -> QRCodeBottomSheet.showForCrypto(this, crypto))
-                    .add(R.drawable.msg_copy, LocaleController.getString(R.string.Copy), () -> {
-                        AndroidUtilities.addToClipboard(crypto.address);
-                        BulletinFactory.of(this).createCopyBulletin(LocaleController.getString(R.string.TextCopied)).show();
+                    .addIf(getMessagesController().config.walletAvailable.get(), R.drawable.ic_gram, LocaleController.getString(R.string.WalletSendGrams), () -> {
+                        presentFragment(new WalletSendEnterAmount(tonAddress));
                     })
-                    .setMinWidth(190)
+                    .add(R.drawable.msg_copy, LocaleController.getString(R.string.WalletCopyAddress), () -> {
+                        AndroidUtilities.addToClipboard(tonAddress);
+                        BulletinFactory.of(this).createCopyBulletin(LocaleController.getString(R.string.WalletAddressCopiedBulletin)).show();
+                    })
                     .show();
             return true;
         }
@@ -232,10 +222,7 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
                         if (billingResult1.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                             AndroidUtilities.runOnUIThread(() -> {
                                 BulletinFactory.of(this).createErrorBulletin(LocaleController.getString(R.string.DonateThankYou)).show();
-                                try {
-                                    fragmentView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
-                                } catch (Exception ignored) {
-                                }
+                                BotWebViewVibrationEffect.NOTIFICATION_SUCCESS.vibrate();
                                 if (getParentActivity() instanceof LaunchActivity) {
                                     ((LaunchActivity) getParentActivity()).getFireworksOverlay().start();
                                 }
@@ -251,81 +238,45 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
         }
     }
 
-    public static class QRCodeBottomSheet extends BottomSheet {
+    private static class WalletAddressCell extends FrameLayout {
+        private final WalletRecipientView addressInfoLayout;
 
-        private QRCodeBottomSheet(Context context, ConfigHelper.Crypto crypto, Theme.ResourcesProvider resourcesProvider) {
-            super(context, false, resourcesProvider);
 
-            fixNavigationBar(getThemedColor(Theme.key_windowBackgroundGray));
-            setBackgroundColor(getThemedColor(Theme.key_windowBackgroundGray));
-
-            var linearLayout = new LinearLayout(context);
-            linearLayout.setOrientation(LinearLayout.VERTICAL);
-
-            var titleView = TextHelper.makeTextView(context, 20, Theme.key_windowBackgroundWhiteBlackText, true);
-            titleView.setText(crypto.currency);
-            linearLayout.addView(titleView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 0, 6, 0, 0));
-
-            var subTitleView = TextHelper.makeTextView(context, 14, Theme.key_windowBackgroundWhiteGrayText, false);
-            subTitleView.setText(crypto.chain);
-            linearLayout.addView(subTitleView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 0, 6, 0, 6));
-
-            var imageContainer = new LinearLayout(context);
-            imageContainer.setOrientation(LinearLayout.VERTICAL);
-            imageContainer.setGravity(Gravity.CENTER_HORIZONTAL);
-            imageContainer.setPadding(AndroidUtilities.dp(8), AndroidUtilities.dp(8), AndroidUtilities.dp(8), AndroidUtilities.dp(8));
-            imageContainer.setBackground(Theme.createRoundRectDrawable(AndroidUtilities.dp(16), Theme.getColor(Theme.key_windowBackgroundWhite)));
-            linearLayout.addView(imageContainer, LayoutHelper.createLinear(220 + 16, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 18, 0, 18, 0));
-
-            var imageView = new ImageView(context);
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-            imageView.setOutlineProvider(new ViewOutlineProvider() {
-                @Override
-                public void getOutline(View view, Outline outline) {
-                    outline.setRoundRect(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight(), AndroidUtilities.dp(12));
-                }
-            });
-            imageView.setClipToOutline(true);
-            imageView.setImageBitmap(createQR(crypto.address));
-            imageContainer.addView(imageView, LayoutHelper.createLinear(220, 220));
-
-            View.OnClickListener copy = (v) -> {
-                AndroidUtilities.addToClipboard(crypto.address);
-                getBulletinFactory().createCopyBulletin(LocaleController.getString(R.string.TextCopied)).show();
-            };
-
-            var addressView = TextHelper.makeTextView(context, 12, Theme.key_windowBackgroundWhiteGrayText, false);
-            addressView.setText(crypto.address);
-            addressView.setPadding(AndroidUtilities.dp(4), AndroidUtilities.dp(4), AndroidUtilities.dp(4), AndroidUtilities.dp(4));
-            addressView.setBackground(Theme.createRadSelectorDrawable(getThemedColor(Theme.key_listSelector), 8, 8));
-            addressView.setOnClickListener(copy);
-            imageContainer.addView(addressView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 0, 0, 0));
-
-            var copyView = new ButtonWithCounterView(context, true, resourcesProvider).setRound();
-            copyView.setText(LocaleController.getString(R.string.Copy), false);
-            copyView.setOnClickListener(copy);
-            linearLayout.addView(copyView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 48, Gravity.BOTTOM, 16, 16, 16, 16));
-
-            var scrollView = new ScrollView(context);
-            scrollView.addView(linearLayout);
-            setCustomView(scrollView);
+        public WalletAddressCell(@NonNull Context context, Theme.ResourcesProvider resourcesProvider) {
+            super(context);
+            addressInfoLayout = new WalletRecipientView(context, resourcesProvider, null, null, true);
+            addressInfoLayout.setOnClickListener(null);
+            addView(addressInfoLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 64));
         }
 
-        private Bitmap createQR(String key) {
-            try {
-                HashMap<EncodeHintType, Object> hints = new HashMap<>();
-                hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.M);
-                hints.put(EncodeHintType.MARGIN, 0);
-                var writer = new TelegramQRCodeWriter();
-                return writer.encode(key, 768, 768, hints, null, 1.0f, 0xffffffff, 0xff000000, false);
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-            return null;
+        public void setAddress(String address) {
+            addressInfoLayout.setRecipient(null, address);
+        }
+    }
+
+    private static class WalletAddressCellFactory extends UItem.UItemFactory<WalletAddressCell> {
+        static {
+            setup(new WalletAddressCellFactory());
         }
 
-        public static void showForCrypto(BaseFragment fragment, ConfigHelper.Crypto crypto) {
-            new QRCodeBottomSheet(fragment.getParentActivity(), crypto, fragment.getResourceProvider()).show();
+        @Override
+        public WalletAddressCell createView(Context context, RecyclerListView listView, int currentAccount, int classGuid, Theme.ResourcesProvider resourcesProvider) {
+            var frame = new WalletAddressCell(context, resourcesProvider);
+            frame.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            return frame;
+        }
+
+        @Override
+        public void bindView(View view, UItem item, boolean divider, UniversalAdapter adapter, UniversalRecyclerView listView) {
+            var recipientView = (WalletAddressCell) view;
+            recipientView.setAddress(item.text.toString());
+        }
+
+        public static UItem of(int id, CharSequence title) {
+            var item = UItem.ofFactory(WalletAddressCellFactory.class);
+            item.id = id;
+            item.text = title;
+            return item;
         }
     }
 }

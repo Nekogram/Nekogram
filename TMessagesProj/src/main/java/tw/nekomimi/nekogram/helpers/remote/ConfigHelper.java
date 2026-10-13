@@ -49,12 +49,12 @@ public class ConfigHelper extends BaseRemoteHelper {
         return config.verify;
     }
 
-    public static List<Crypto> getCryptos() {
+    public static String getTonAddress() {
         Config config = getInstance().getConfig();
-        if (config == null || config.cryptos == null) {
-            return Collections.emptyList();
+        if (config == null || config.tonAddress == null) {
+            return null;
         }
-        return config.cryptos;
+        return config.tonAddress;
     }
 
     private static List<News> getNews() {
@@ -209,18 +209,6 @@ public class ConfigHelper extends BaseRemoteHelper {
         public Integer minVersion;
     }
 
-    public static class Crypto {
-        @SerializedName("currency")
-        @Expose
-        public String currency;
-        @SerializedName("chain")
-        @Expose
-        public String chain;
-        @SerializedName("address")
-        @Expose
-        public String address;
-    }
-
     public static class Config {
         @SerializedName("verify")
         @Expose
@@ -228,8 +216,8 @@ public class ConfigHelper extends BaseRemoteHelper {
         @SerializedName("news")
         @Expose
         public List<News> news;
-        @SerializedName("cryptos")
+        @SerializedName("ton_address")
         @Expose
-        public List<Crypto> cryptos;
+        public String tonAddress;
     }
 }
