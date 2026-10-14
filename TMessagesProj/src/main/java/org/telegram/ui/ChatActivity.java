@@ -20748,7 +20748,7 @@ public class ChatActivity extends BaseFragment implements
         public String getFileName(int index) {
             TLObject media = getMedia(index);
             if (media instanceof TLRPC.Photo) {
-                media = FileLoader.getClosestPhotoSizeWithSize(((TLRPC.Photo) media).sizes, AndroidUtilities.getPhotoSize());
+                media = FileLoader.getClosestPhotoSizeWithSize(((TLRPC.Photo) media).sizes, AndroidUtilities.getPhotoSize(true));
             }
             return FileLoader.getAttachFileName(media);
         }
@@ -20760,7 +20760,7 @@ public class ChatActivity extends BaseFragment implements
         public TLRPC.PhotoSize getFileLocation(TLObject media, int[] size) {
             if (media instanceof TLRPC.Photo) {
                 TLRPC.Photo photo = (TLRPC.Photo) media;
-                TLRPC.PhotoSize sizeFull = FileLoader.getClosestPhotoSizeWithSize(photo.sizes, AndroidUtilities.getPhotoSize());
+                TLRPC.PhotoSize sizeFull = FileLoader.getClosestPhotoSizeWithSize(photo.sizes, AndroidUtilities.getPhotoSize(true));
                 if (sizeFull != null) {
                     size[0] = sizeFull.size;
                     if (size[0] == 0) size[0] = -1;

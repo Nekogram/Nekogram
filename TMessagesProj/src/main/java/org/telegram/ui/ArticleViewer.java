@@ -6392,7 +6392,7 @@ public class ArticleViewer extends IArticleViewer implements NotificationCenter.
             if (block instanceof TL_iv.pageBlockPhoto) {
                 TLRPC.Photo photo = getPhotoWithId(page, ((TL_iv.pageBlockPhoto) block).photo_id);
                 if (photo != null) {
-                    TLRPC.PhotoSize sizeFull = FileLoader.getClosestPhotoSizeWithSize(photo.sizes, AndroidUtilities.getPhotoSize());
+                    TLRPC.PhotoSize sizeFull = FileLoader.getClosestPhotoSizeWithSize(photo.sizes, AndroidUtilities.getPhotoSize(true));
                     if (sizeFull != null) {
                         return getExistingPathToAttach(sizeFull);
                     }

@@ -7071,7 +7071,7 @@ public class RichMessageLayout {
             this.photo = root.getPhoto(block.photo_id);
 
             if (photo != null) {
-                sizeFull = FileLoader.getClosestPhotoSizeWithSize(photo.sizes, AndroidUtilities.getPhotoSize());
+                sizeFull = FileLoader.getClosestPhotoSizeWithSize(photo.sizes, AndroidUtilities.getPhotoSize(true));
                 strippedSize = FileLoader.getStrippedPhotoSize(photo.sizes);
             } else {
                 sizeFull = null;
@@ -8068,7 +8068,7 @@ public class RichMessageLayout {
             this.pageBlock = pb;
             this.photo = root.getPhoto(pb.photo_id);
             if (photo != null) {
-                sizeFull = FileLoader.getClosestPhotoSizeWithSize(photo.sizes, AndroidUtilities.getPhotoSize());
+                sizeFull = FileLoader.getClosestPhotoSizeWithSize(photo.sizes, AndroidUtilities.getPhotoSize(true));
                 strippedSize = FileLoader.getStrippedPhotoSize(photo.sizes);
             } else {
                 sizeFull = null;

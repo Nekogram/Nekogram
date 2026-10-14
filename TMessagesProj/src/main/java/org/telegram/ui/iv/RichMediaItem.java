@@ -230,7 +230,7 @@ public class RichMediaItem {
             imageReceiver.setOrientation(media.orientation, media.invert, true);
             imageReceiver.setImage(ImageLocation.getForPath(media.localPath), filter, null, null, null, 0);
         } else if (media.isReady() && media.photo != null) {
-            final TLRPC.PhotoSize big = FileLoader.getClosestPhotoSizeWithSize(media.photo.sizes, AndroidUtilities.getPhotoSize());
+            final TLRPC.PhotoSize big = FileLoader.getClosestPhotoSizeWithSize(media.photo.sizes, AndroidUtilities.getPhotoSize(true));
             final TLRPC.PhotoSize thumb = FileLoader.getClosestPhotoSizeWithSize(media.photo.sizes, 100);
             imageReceiver.setOrientation(0, 0, false);
             imageReceiver.setImage(
