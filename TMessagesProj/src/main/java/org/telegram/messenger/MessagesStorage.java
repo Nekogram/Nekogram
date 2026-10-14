@@ -10967,7 +10967,7 @@ public class MessagesStorage extends BaseController {
             for (int i = 0; i < userIds.size(); ++i) {
                 long userId = userIds.get(i);
                 TLRPC.User user = getMessagesController().getUser(userId);
-                if (user != null) {
+                if (user != null && !(user instanceof TLRPC.TL_userForeign_old2)) {
                     result.add(user);
                     userIds.remove(i);
                     i--;
