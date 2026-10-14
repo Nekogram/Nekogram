@@ -1291,13 +1291,23 @@ public class WalletActivity extends UniversalFragment implements NotificationCen
                 }
 
                 final String scheme = uri.getScheme();
-                if (!("ton".equalsIgnoreCase(scheme) || "tc".equalsIgnoreCase(scheme))
+                if (!("ton".equalsIgnoreCase(scheme) || "tc".equalsIgnoreCase(scheme) || isSendGrams(scheme, uri))
                         || !(getParentActivity() instanceof LaunchActivity)
                         || !new LinkManager((LaunchActivity) getParentActivity(), currentAccount, null, false).handle(uri)) {
                     showInvalidWalletQr();
                 }
             }
         });
+    }
+
+    private boolean isSendGrams(String scheme, Uri uri) {
+        if ("http".equalsIgnoreCase(scheme) || "https".equalsIgnoreCase(scheme)) {
+            var segments = uri.getPathSegments();
+            if (segments == null || segments.isEmpty()) return false;
+            var first = segments.get(0);
+            return "sendgrams".equalsIgnoreCase(first);
+        }
+        return false;
     }
 
     @Override
