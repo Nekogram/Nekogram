@@ -12,7 +12,8 @@ on:
 
 jobs:
   build:
-    runs-on: blacksmith-32vcpu-ubuntu-2404
+    # GitHub-hosted runner; no separate Blacksmith runner pool is required.
+    runs-on: ubuntu-24.04
     permissions:
       id-token: write
       attestations: write
@@ -22,6 +23,7 @@ jobs:
       CCACHE_HARDLINK: "true"
       CCACHE_NOHASHDIR: "true"
       CCACHE_MAXSIZE: "10G"
+      CMAKE_BUILD_PARALLEL_LEVEL: "2"
     steps:
       - uses: actions/checkout@v7
         with:
@@ -53,7 +55,8 @@ jobs:
           mkdir -p ~/.gradle
           echo 'org.gradle.caching=true' >> ~/.gradle/gradle.properties
           echo 'org.gradle.parallel=true' >> ~/.gradle/gradle.properties
-          echo 'org.gradle.jvmargs=-Xmx56g -Dfile.encoding=UTF-8 -XX:+UseParallelGC' >> ~/.gradle/gradle.properties
+          echo 'org.gradle.workers.max=2' >> ~/.gradle/gradle.properties
+          echo 'org.gradle.jvmargs=-Xmx8g -Dfile.encoding=UTF-8 -XX:+UseParallelGC' >> ~/.gradle/gradle.properties
           echo 'android.native.buildOutput=verbose' >> ~/.gradle/gradle.properties
 
       - name: Configure Signing
