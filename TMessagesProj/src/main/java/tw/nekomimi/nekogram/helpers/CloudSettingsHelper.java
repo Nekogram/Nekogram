@@ -26,7 +26,6 @@ import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.CheckBoxSquare;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.ScaleStateListAnimator;
-import org.telegram.ui.Components.TextViewSwitcher;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
 
 import java.io.ByteArrayInputStream;
@@ -38,6 +37,7 @@ import java.util.function.BiConsumer;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
+import tw.nekomimi.nekogram.AlphaTextViewSwitcher;
 import tw.nekomimi.nekogram.NekoConfig;
 
 public class CloudSettingsHelper {
@@ -81,7 +81,7 @@ public class CloudSettingsHelper {
         builder.setMessage(AndroidUtilities.replaceTags(LocaleController.getString(R.string.CloudConfigDesc)));
         builder.setTopImage(R.drawable.cloud, Theme.getColor(Theme.key_dialogTopBackground, resourcesProvider));
 
-        TextViewSwitcher syncedDate = new TextViewSwitcher(context);
+        AlphaTextViewSwitcher syncedDate = new AlphaTextViewSwitcher(context);
         syncedDate.setFactory(() -> {
             TextView tv = new TextView(context);
             tv.setGravity(Gravity.START);
@@ -89,8 +89,6 @@ public class CloudSettingsHelper {
             tv.setTextColor(Theme.getColor(Theme.key_dialogTextGray3, resourcesProvider));
             return tv;
         });
-        syncedDate.setInAnimation(context, R.anim.alpha_in);
-        syncedDate.setOutAnimation(context, R.anim.alpha_out);
         syncedDate.setText(formatSyncedDate(), false);
 
         var storageHelper = getCloudStorageHelper();

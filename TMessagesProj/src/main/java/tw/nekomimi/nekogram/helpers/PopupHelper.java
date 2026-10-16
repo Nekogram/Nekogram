@@ -104,9 +104,9 @@ public class PopupHelper {
         if (userId != 0) {
             ActionBarMenuSubItem subItem = ActionBarMenuItem.addItem(popupLayout, R.drawable.msg_calendar, LocaleController.getString(R.string.RegistrationDate), false, fragment.getResourceProvider());
             var regDate = RegDateHelper.getRegDate(userId);
-            subItem.setSubtext(regDate != null ? RegDateHelper.formatRegDate(regDate, null) : LocaleController.getString(R.string.Loading));
+            subItem.setAnimatedSubtext(regDate != null ? RegDateHelper.formatRegDate(regDate, null) : LocaleController.getString(R.string.Loading), false);
             if (regDate == null) {
-                RegDateHelper.getRegDate(userId, (date, error) -> subItem.setSubtext(RegDateHelper.formatRegDate(date, error), true));
+                RegDateHelper.getRegDate(userId, (date, error) -> subItem.setAnimatedSubtext(RegDateHelper.formatRegDate(date, error), true));
             }
         }
         if (did != 0) {
