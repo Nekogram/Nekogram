@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">नेको सेटिंग्स</string>
+    <string name="NekoSettings">Irongram सेटिंग्स</string>
     <string name="PreferIPv6">IPv6 को प्राथमिकता दें</string>
     <string name="MessageMenu">संदेश मेनू</string>
     <string name="HidePhone">मेरा फोन नंबर छिपाएं</string>
@@ -22,7 +22,7 @@
     <string name="AddToSavedMessages">संदेश सेव करो</string>
     <string name="CreateMention">उल्लेख बनाएं</string>
     <string name="Prpr">बहुत अच्छा </string>
-    <string name="NekogramRunning">नेकोग्राम चल रहा है</string>
+    <string name="NekogramRunning">Irongram चल रहा है</string>
     <string name="EventType">साइडबार आइकन सेट</string>
     <string name="DependsOnDate">तारीख पर निर्भर करता है</string>
     <string name="Christmas">क्रिसमस</string>
@@ -60,12 +60,12 @@
     <string name="DisableNumberRounding">नंबर राउंडिंग बंद करें</string>
     <string name="Categories">श्रेणियां</string>
     <string name="OfficialChannel">ऑफिशियल चैनल</string>
-    <string name="About">नेकोग्राम के बारे में</string>
+    <string name="About">Irongram के बारे में</string>
     <string name="IgnoreBlockedAbout">यह वास्तव में छुपाएगा नहीं। मैसेज आपको पढ़ने के लिए उपलब्ध रहेंगे लेकिन जो मैसेज होंगे वो स्पॉयलर टेक्स्ट में कन्वर्ट हो जाएंगे और मीडिया अपने आप डाउनलोड नहीं होगा।</string>
     <string name="Donate">दान करें</string>
     <string name="DonateAbout">हमारा विकास सपोर्ट करें</string>
-    <string name="TranslationAbout">हमें नेकोग्रा को अपनी भाषा में अनुवाद करने में मदद करें</string>
-    <string name="Translation">नेकोग्राम को ट्रांसलेट करें</string>
+    <string name="TranslationAbout">हमें Irongram को अपनी भाषा में अनुवाद करने में मदद करें।</string>
+    <string name="Translation">Irongram का अनुवाद करें</string>
     <string name="GooglePlay">गूगल प्ले</string>
     <string name="ResetStickerSize">स्टिकर साइज रीसेट करें</string>
     <string name="RestartAppToTakeEffect">ऐप को रिस्टार्ट करें बदलाव के लिए</string>
@@ -114,7 +114,7 @@
     <string name="RegistrationDateNewer">%s से नया</string>
     <string name="RegistrationDateOlder">%s से पुराना</string>
     <string name="RegistrationDateApproximately">लगभग %s</string>
-    <string name="UpdateNekogram">Nekogram को अपडेट करें</string>
+    <string name="UpdateNekogram">Irongram को अपडेट करें</string>
     <string name="TranslationTarget">चाही गई भाषा</string>
     <string name="TranslationTargetApp">App को फॉलो करें</string>
     <string name="Translator">अनुवादक</string>
@@ -140,9 +140,9 @@
     <string name="OfficialSite">ऑफिशियल साइट</string>
     <string name="MutualContact">परस्पर संपर्क</string>
     <string name="MutualContactDescription">यह एक परस्पर कॉन्टैक्ट है।</string>
-    <string name="InviteTextNeko">हैलो, मैं चैट करने के लिए नेकोग्राम का उपयोग कर रहा हूं। मुझे जुड़ें! यहाँ पर डाउनलोड करो: %1$s</string>
-    <string name="ShareNekogram">Nekogram को साझा करें</string>
-    <string name="NekogramVersion">Nekogram %1$s\n टेलीग्राम पर आधारित है। %2$s\n %3$s के द्वारा डिज़ाइन किया गया है।</string>
+    <string name="InviteTextNeko">नमस्ते, मैं चैट करने के लिए Irongram का उपयोग कर रहा हूँ। मेरे साथ जुड़ें! यहाँ से डाउनलोड करें: %1$s</string>
+    <string name="ShareNekogram">Irongram को साझा करें</string>
+    <string name="NekogramVersion">Irongram %1$s\n टेलीग्राम पर आधारित है। %2$s\n %3$s के द्वारा डिज़ाइन किया गया है।</string>
     <string name="UpdateInstalling">अपडेट को इंस्टॉल किया जा रहा है...</string>
     <string name="UpdateInstallingNotification">अपडेट पूर्ण होने पर एक नोटिफिकेशन दिखाया जायेगा।</string>
     <string name="UpdateInstallingRelaunch">अपडेट पूर्ण होने पर एप्प रिस्टार्ट होगी।</string>
@@ -165,7 +165,7 @@
     <string name="SaveToDownloadCount_few">डॉउनलोड में %1$d फाइल्स सहेजी जा रही है।</string>
     <string name="SaveToDownloadCount_many">कुल %1$d फाइलों को डाउनलोड में सहेजा जा रहा है</string>
     <string name="SaveToDownloadCount_other">कुल %1$d फाइलों को डाउनलोड में सहेजा जा रहा है</string>
-    <string name="AppLinkNotVerifiedMessage">एंड्रॉइड 12 और उससे ऊपर के वर्जन के लिए, आपको नेकोग्राम में t.me लिंक खोलने के लिए इसे सेटिंग में जाकर सत्यापित लिंक में मैन्युअल रूप से लिंक जोड़ने की आवश्यकता है।</string>
+    <string name="AppLinkNotVerifiedMessage">Android 12 और नए संस्करणों में t.me लिंक Irongram में खोलने के लिए, सेटिंग्स में सत्यापित लिंक में इसे मैन्युअल रूप से जोड़ें।</string>
     <string name="AppLinkNotVerifiedTitle">एप्प लिंक्स वेरिफाई नहीं हो सकी।</string>
     <string name="AutoTranslate">ऑटोमैटिक अनुवाद</string>
     <string name="AutoTranslateAbout">उन संदेशों का स्वचालित रूप से अनुवाद करें जो दूसरी भाषा में हैं।</string>
@@ -183,14 +183,14 @@
     <string name="TabletMode">टैबलेट मोड</string>
     <string name="TabletModeAuto">स्वत:</string>
     <string name="DeleteAllFromSelfDone">आपके सभी संदेश हटा दिए गए हैं</string>
-    <string name="UnknownNekoSettingsOption">ऐसा कोई नेको सेटिंग्स विकल्प नहीं है।</string>
+    <string name="UnknownNekoSettingsOption">ऐसा कोई Irongram सेटिंग विकल्प नहीं है।</string>
     <string name="ProviderYouDaoTranslate">YouDao अनुवादक</string>
     <string name="ProviderBaiduTranslate">Baidu अनुवादक</string>
     <string name="ProviderSogouTranslate">Sogou अनुवादक</string>
     <string name="Translated">अनुवाद किया जा चुका है</string>
     <string name="PasscodeNeeded">आपको पहले पासकोड लॉक सक्षम करना होगा</string>
     <string name="PasscodeNeko">पासकोड </string>
-    <string name="PasscodeShowInSettings">Neko सेटिंग में दिखाएं</string>
+    <string name="PasscodeShowInSettings">Irongram सेटिंग में दिखाएं</string>
     <string name="PasscodeShowInSettingsAbout">छिपाने के बाद, आप इस पेज को **केवल** लिंक द्वारा खोल सकते हैं:</string>
     <string name="PasscodeSet">पासकोड सेट करें</string>
     <string name="PasscodeEdit">पासकोड बदलें</string>
@@ -271,7 +271,7 @@
     <string name="NavigationAnimationBezier">क्लासिक</string>
     <string name="NavigationAnimationSpring">प्राकृतिक</string>
     <string name="CloudConfig">क्लाउड सेटिंग्स</string>
-    <string name="CloudConfigDesc">अपनी नेको सेटिंग्स को टेलीग्राम क्लाउड में सहेजें</string>
+    <string name="CloudConfigDesc">अपनी Irongram सेटिंग्स को Telegram क्लाउड में सहेजें।</string>
     <string name="CloudConfigSyncDate">अंतिम बार समन्वयित: %s, क्लाउड: %s</string>
     <string name="CloudConfigSyncDateNever">कभी नहीं</string>
     <string name="CloudConfigSync">क्लाउड से सिंक करें</string>

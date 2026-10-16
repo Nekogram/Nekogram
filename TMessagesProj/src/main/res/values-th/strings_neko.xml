@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">การตั้งค่า Neko</string>
+    <string name="NekoSettings">การตั้งค่า Irongram</string>
     <string name="PreferIPv6">ขอเชื่อมต่อผ่าน IPv6</string>
     <string name="MessageMenu">เมนูข้อความ</string>
     <string name="HidePhone">ซ่อนหมายเลขโทรศัพท์ของฉัน</string>
@@ -22,7 +22,7 @@
     <string name="AddToSavedMessages">บันทึกข้อความ</string>
     <string name="CreateMention">เอ่ยถึง</string>
     <string name="Prpr">เปะโรเปะโร</string>
-    <string name="NekogramRunning">Nekogram กำลังทำงาน</string>
+    <string name="NekogramRunning">Irongram กำลังทำงาน</string>
     <string name="EventType">ชุดไอคอนแถบด้านข้าง</string>
     <string name="DependsOnDate">ขึ้นอยู่กับวันที่</string>
     <string name="Christmas">คริสต์มาส</string>
@@ -64,8 +64,8 @@
     <string name="IgnoreBlockedAbout">มันไม่ได้ซ่อนจริงๆ! ข้อความยังคงสามารถดูได้ แต่ข้อความจะถูกแปลงเป็นสปอยเลอร์และสื่อจะไม่ดาวน์โหลดอัตโนมัติ</string>
     <string name="Donate">บริจาค</string>
     <string name="DonateAbout">สนับสนุนการพัฒนาของเรา</string>
-    <string name="TranslationAbout">ช่วยเราแปล Nekogram เป็นภาษาของคุณ</string>
-    <string name="Translation">แปล Nekogram</string>
+    <string name="TranslationAbout">ช่วยเราแปล Irongram เป็นภาษาของคุณ</string>
+    <string name="Translation">แปล Irongram</string>
     <string name="GooglePlay">Google Play</string>
     <string name="ResetStickerSize">รีเซ็ตขนาดสติ๊กเกอร์</string>
     <string name="RestartAppToTakeEffect">เริ่มแอปพลิเคชันใหม่เพื่อให้การเปลี่ยนแปลงมีผล</string>
@@ -114,7 +114,7 @@
     <string name="RegistrationDateNewer">ใหม่กว่า %s</string>
     <string name="RegistrationDateOlder">เก่ากว่า %s</string>
     <string name="RegistrationDateApproximately">ประมาณ %s</string>
-    <string name="UpdateNekogram">อัพเดต Nekogram</string>
+    <string name="UpdateNekogram">อัพเดต Irongram</string>
     <string name="TranslationTarget">ภาษาเป้าหมาย</string>
     <string name="TranslationTargetApp">ติดตามแอป</string>
     <string name="Translator">นักแปล</string>
@@ -140,9 +140,9 @@
     <string name="OfficialSite">เว็บไซต์อย่างเป็นทางการ</string>
     <string name="MutualContact">การติดต่อซึ่งกันและกัน</string>
     <string name="MutualContactDescription">การติดต่อครั้งนี้เป็นการติดต่อร่วมกัน</string>
-    <string name="InviteTextNeko">เฮ้ ฉันใช้ Nekogram เพื่อแชท เข้าร่วมกับฉันสิ! ดาวน์โหลดได้ที่นี่: %1$s</string>
-    <string name="ShareNekogram">แชร์ Nekogram...</string>
-    <string name="NekogramVersion">Nekogram %1$s\nนั้นอิงจาก Telegram %2$s\nออกแบบโดย %3$s</string>
+    <string name="InviteTextNeko">เฮ้ ฉันใช้ Irongram เพื่อแชท เข้าร่วมกับฉันสิ! ดาวน์โหลดได้ที่นี่: %1$s</string>
+    <string name="ShareNekogram">แชร์ Irongram...</string>
+    <string name="NekogramVersion">Irongram %1$s\nนั้นอิงจาก Telegram %2$s\nออกแบบโดย %3$s</string>
     <string name="UpdateInstalling">กำลังติดตั้งการอัพเดต...</string>
     <string name="UpdateInstallingNotification">จะมีการแจ้งเตือนเมื่อการอัปเดตเสร็จสิ้น</string>
     <string name="UpdateInstallingRelaunch">แอปจะเปิดใหม่อีกครั้งเมื่อการอัปเดตเสร็จสิ้น</string>
@@ -165,7 +165,7 @@
     <string name="SaveToDownloadCount_few">กำลังบันทึกไฟล์ %1$d ไฟล์เพื่อดาวน์โหลด</string>
     <string name="SaveToDownloadCount_many">กำลังบันทึกไฟล์ %1$d ไฟล์เพื่อดาวน์โหลด</string>
     <string name="SaveToDownloadCount_other">กำลังบันทึกไฟล์ %1$d ไฟล์เพื่อดาวน์โหลด</string>
-    <string name="AppLinkNotVerifiedMessage">สำหรับ Android 12 และใหม่กว่า คุณจะต้องเพิ่มลิงก์ไปยังลิงก์ที่ตรวจยืนยันด้วยตนเองเพื่อเปิดลิงก์ t.me ใน Nekogram</string>
+    <string name="AppLinkNotVerifiedMessage">สำหรับ Android 12 และใหม่กว่า คุณจะต้องเพิ่มลิงก์ไปยังลิงก์ที่ตรวจยืนยันด้วยตนเองเพื่อเปิดลิงก์ t.me ใน Irongram</string>
     <string name="AppLinkNotVerifiedTitle">ลิงก์แอปไม่ได้รับการตรวจสอบ</string>
     <string name="AutoTranslate">แปลอัตโนมัติ</string>
     <string name="AutoTranslateAbout">แปลข้อความที่เป็นภาษาอื่นโดยอัตโนมัติ</string>
@@ -183,14 +183,14 @@
     <string name="TabletMode">โหมดแท็บเล็ต</string>
     <string name="TabletModeAuto">อัตโนมัติ</string>
     <string name="DeleteAllFromSelfDone">ข้อความทั้งหมดของคุณถูกลบออกแล้ว</string>
-    <string name="UnknownNekoSettingsOption">ไม่มีตัวเลือกการตั้งค่า Neko ดังกล่าว</string>
+    <string name="UnknownNekoSettingsOption">ไม่มีตัวเลือกการตั้งค่า Irongram ดังกล่าว</string>
     <string name="ProviderYouDaoTranslate">YouDao Translator</string>
     <string name="ProviderBaiduTranslate">Baidu Translate</string>
     <string name="ProviderSogouTranslate">Sogou Translate</string>
     <string name="Translated">แปลแล้ว</string>
     <string name="PasscodeNeeded">คุณจะต้องเปิดใช้งานการล็อครหัสผ่านก่อน</string>
     <string name="PasscodeNeko">รหัสผ่าน</string>
-    <string name="PasscodeShowInSettings">แสดงในการตั้งค่า Neko</string>
+    <string name="PasscodeShowInSettings">แสดงในการตั้งค่า Irongram</string>
     <string name="PasscodeShowInSettingsAbout">หลังจากซ่อนแล้ว คุณสามารถ **เปิดหน้านี้ได้** โดยใช้ลิงก์เท่านั้น:</string>
     <string name="PasscodeSet">ตั้งรหัสผ่าน</string>
     <string name="PasscodeEdit">เปลี่ยนรหัสผ่าน</string>
@@ -270,7 +270,7 @@
     <string name="NavigationAnimationBezier">คลาสสิก</string>
     <string name="NavigationAnimationSpring">เป็นธรรมชาติ</string>
     <string name="CloudConfig">การตั้งค่าคลาวด์</string>
-    <string name="CloudConfigDesc">บันทึกการตั้งค่า Neko ของคุณไปยังคลาวด์ Telegram</string>
+    <string name="CloudConfigDesc">บันทึกการตั้งค่า Irongram ของคุณไปยังคลาวด์ Telegram</string>
     <string name="CloudConfigSyncDate">ซิงค์ล่าสุด: %s, คลาวด์: %s</string>
     <string name="CloudConfigSyncDateNever">ไม่เคย</string>
     <string name="CloudConfigSync">ซิงค์ไปยังคลาวด์</string>
@@ -279,7 +279,7 @@
     <string name="CloudConfigRestoreShort">คืนค่า</string>
     <string name="CloudConfigSyncing">กำลังซิงค์...</string>
     <string name="CloudConfigAutoSync">การซิงค์อัตโนมัติ</string>
-    <string name="CloudConfigAutoSyncDesc">ซิงค์ไปยังคลาวด์โดยอัตโนมัติหลังจากทำการเปลี่ยนแปลงการตั้งค่า Neko</string>
+    <string name="CloudConfigAutoSyncDesc">ซิงค์ไปยังคลาวด์โดยอัตโนมัติหลังจากทำการเปลี่ยนแปลงการตั้งค่า Irongram</string>
     <string name="CloudConfigSyncFailed">ไม่สามารถซิงค์การตั้งค่าไปยังคลาวด์ได้</string>
     <string name="CloudConfigRestoreFailed">ไม่สามารถคืนค่าการตั้งค่าจากคลาวด์ได้</string>
     <string name="ReducedColors">ลดสี</string>

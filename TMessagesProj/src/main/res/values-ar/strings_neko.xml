@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">إعدادات نيكو</string>
+    <string name="NekoSettings">إعدادات Irongram</string>
     <string name="PreferIPv6">تفضيل الاتصال عبر IPv6</string>
     <string name="MessageMenu">اختيارات ضغطة الرسائل</string>
     <string name="HidePhone">إخفاء رقم هاتفي</string>
@@ -22,7 +22,7 @@
     <string name="AddToSavedMessages">حفظ الرسالة</string>
     <string name="CreateMention">صنع إشعار</string>
     <string name="Prpr">إعادة تدوير</string>
-    <string name="NekogramRunning">نيكوغرام قيدُ التشغيل</string>
+    <string name="NekogramRunning">Irongram قيد التشغيل</string>
     <string name="EventType">مجموعة أيقونات الشريط الجانبي</string>
     <string name="DependsOnDate">يعتمد علىٰ التاريخ</string>
     <string name="Christmas">عيدُ الميلاد</string>
@@ -64,8 +64,8 @@
     <string name="IgnoreBlockedAbout">إنه ليس مخفيًا حقًا!  لا تزال الرسائل متاحة للعرض ، ولكن سيتم تحويل النص إلى Spoiler ولن يتم تنزيل الوسائط تلقائيًا.</string>
     <string name="Donate">تبرع</string>
     <string name="DonateAbout">تبرع للمشروع.</string>
-    <string name="TranslationAbout">ساعدنا على ترجمة نيكوجرام إلى لغتك.</string>
-    <string name="Translation">ترجمة نيكوغرام</string>
+    <string name="TranslationAbout">ساعدنا على ترجمة Irongram إلى لغتك.</string>
+    <string name="Translation">ترجمة Irongram</string>
     <string name="GooglePlay">جوجل بلاي</string>
     <string name="ResetStickerSize">إعادة تعيين حجم ملصق</string>
     <string name="OfficialChannelUsername">nekoupdates</string>
@@ -115,7 +115,7 @@
     <string name="RegistrationDateNewer">أحدث من %s</string>
     <string name="RegistrationDateOlder">أقدم من %s</string>
     <string name="RegistrationDateApproximately">%s تقريبا</string>
-    <string name="UpdateNekogram">تحديث نيكوغرام</string>
+    <string name="UpdateNekogram">تحديث Irongram</string>
     <string name="TranslationTarget">اللغة المراد الترجمة إليها</string>
     <string name="TranslationTargetApp">لغة التطبيق</string>
     <string name="Translator">مترجم</string>
@@ -142,9 +142,9 @@
     <string name="OfficialSite">الموقع الرسمي</string>
     <string name="MutualContact">جهة اتصال مشتركة</string>
     <string name="MutualContactDescription">جهة الاتصال هذه هي جهة اتصال مشتركة.</string>
-    <string name="InviteTextNeko">مرحبا، أنا أستخدم نيكوغرام للمحادثة. انضم إليّ! قم بتنزيله هنا: %1$s</string>
-    <string name="ShareNekogram">مشاركة نيكوغرام...</string>
-    <string name="NekogramVersion">نيكوغرام %1$s\nمبنية على تيليجرام %2$s\nمصمم من قبل %3$s</string>
+    <string name="InviteTextNeko">مرحبا، أنا أستخدم Irongram للمحادثة. انضم إليّ! قم بتنزيله هنا: %1$s</string>
+    <string name="ShareNekogram">مشاركة Irongram...</string>
+    <string name="NekogramVersion">Irongram %1$s\nمبنية على تيليجرام %2$s\nمصمم من قبل %3$s</string>
     <string name="UpdateInstalling">جار تثبيت التحديث...</string>
     <string name="UpdateInstallingNotification">سيظهر إشعار عند اكتمال التحديث.</string>
     <string name="UpdateInstallingRelaunch">سيتم إعادة تشغيل التطبيق عند اكتمال التحديث.</string>
@@ -167,7 +167,7 @@
     <string name="SaveToDownloadCount_few">حفظ %1$d ملفات للتنزيلات</string>
     <string name="SaveToDownloadCount_many">حفظ %1$d ملفات للتنزيلات</string>
     <string name="SaveToDownloadCount_other">حفظ الملفات للتنزيلات</string>
-    <string name="AppLinkNotVerifiedMessage">لنظام Android 12 والإصدارات الأحدث ، تحتاج إلى إضافة رابط يدويًا إلى الروابط التي تم التحقق منها لفتح روابط t.me في Nekogram.</string>
+    <string name="AppLinkNotVerifiedMessage">لنظام Android 12 والإصدارات الأحدث ، تحتاج إلى إضافة رابط يدويًا إلى الروابط التي تم التحقق منها لفتح روابط t.me في Irongram.</string>
     <string name="AppLinkNotVerifiedTitle">لم يتم التحقق من روابط التطبيق</string>
     <string name="AutoTranslate">ترجمة تلقائية</string>
     <string name="AutoTranslateAbout">يمكنك ترجمة الرسائل المكتوبة بلغة أخرى تلقائيًا.</string>
@@ -185,14 +185,14 @@
     <string name="TabletMode">وضع الكمبيوتر اللوحي</string>
     <string name="TabletModeAuto">وضع الكمبيوتر اللوحي تلقائي</string>
     <string name="DeleteAllFromSelfDone">كل رسائلك حُذفت</string>
-    <string name="UnknownNekoSettingsOption">لا يوجد خِيار لإعدادات نكو من هذا القبيل.</string>
+    <string name="UnknownNekoSettingsOption">لا يوجد خيار إعدادات Irongram كهذا.</string>
     <string name="ProviderYouDaoTranslate">مترجم يودوا 🇨🇳</string>
     <string name="ProviderBaiduTranslate">تَرْجَمَة بادو</string>
     <string name="ProviderSogouTranslate">مترجم سجوي 🇨🇳</string>
     <string name="Translated">تمت التَّرْجَمَة</string>
     <string name="PasscodeNeeded">يجب عليك تفعيل قُفْل رمز المرور أولاً</string>
     <string name="PasscodeNeko">رمز الدخول</string>
-    <string name="PasscodeShowInSettings">إظهار رمز المرور في الإعدادات ناكو</string>
+    <string name="PasscodeShowInSettings">إظهار في إعدادات Irongram</string>
     <string name="PasscodeShowInSettingsAbout">بعد التخفي، يمكنك **فقط** فتح هذه الصفحة عن طريق الرابط:</string>
     <string name="PasscodeSet">تعيين رمز المرور</string>
     <string name="PasscodeEdit">تغيير رمز المرور</string>
@@ -274,7 +274,7 @@
     <string name="NavigationAnimationBezier">عَتِيق</string>
     <string name="NavigationAnimationSpring">طبيعي</string>
     <string name="CloudConfig">إعدادات السحابة</string>
-    <string name="CloudConfigDesc">احفظ إعدادات Neko الخاصة بك في سحابة Telegram.</string>
+    <string name="CloudConfigDesc">احفظ إعدادات Irongram الخاصة بك في سحابة Telegram.</string>
     <string name="CloudConfigSyncDate">آخر مزامنة: %s, السحابة: %s</string>
     <string name="CloudConfigSyncDateNever">أبداً</string>
     <string name="CloudConfigSync">المزامنة مع السحابة</string>

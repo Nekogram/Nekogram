@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">Мама</string>
+    <string name="NekoSettings">Configuració d'Irongram</string>
     <string name="PreferIPv6">Prefereixo connectar-me a través de IPv6</string>
     <string name="MessageMenu">Инетик</string>
     <string name="HidePhone">Спрятать телефончик</string>

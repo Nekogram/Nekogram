@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">Nekogram Ayarları</string>
+    <string name="NekoSettings">Irongram Ayarları</string>
     <string name="PreferIPv6">IPv6 üzerinden bağlanmayı tercih edin</string>
     <string name="MessageMenu">Mesaj Menüsü</string>
     <string name="HidePhone">Telefon numaramı gizle</string>
@@ -22,7 +22,7 @@
     <string name="AddToSavedMessages">Mesajı Kaydet</string>
     <string name="CreateMention">Bahset</string>
     <string name="Prpr">Peropero</string>
-    <string name="NekogramRunning">Nekogram çalışıyor</string>
+    <string name="NekogramRunning">Irongram çalışıyor</string>
     <string name="EventType">Kenar çubuğu simgeleri</string>
     <string name="DependsOnDate">Tarihe bağlı</string>
     <string name="Christmas">Yılbaşı</string>
@@ -64,8 +64,8 @@
     <string name="IgnoreBlockedAbout">GERÇEKTEN GİZLEYEMEZ! Mesajlar görüntülenmeye devam ederler, ama ancak metin spoilera dönüştürülürler ve medya otomatik olarak indirilmiyecek.</string>
     <string name="Donate">Bağış yapın</string>
     <string name="DonateAbout">Geliştiriciler destekleyiniz.</string>
-    <string name="TranslationAbout">Nekogrammızı sizin dilinize çevirmemize yardımcı olunuz.</string>
-    <string name="Translation">Nekogram\'ı diline çevir</string>
+    <string name="TranslationAbout">Irongrammızı sizin dilinize çevirmemize yardımcı olunuz.</string>
+    <string name="Translation">Irongram\'ı diline çevir</string>
     <string name="GooglePlay">Google Play</string>
     <string name="ResetStickerSize">Çıkartma boyutunu sıfırla</string>
     <string name="RestartAppToTakeEffect">Etkili olması için uygulamayı yeniden başlatın.</string>
@@ -114,7 +114,7 @@
     <string name="RegistrationDateNewer">Şu %s tarihinden sonra</string>
     <string name="RegistrationDateOlder">Şu %s tarihinden önce</string>
     <string name="RegistrationDateApproximately">Yaklaşık olarak %s</string>
-    <string name="UpdateNekogram">Nekogram\'ı Güncelleyiniz</string>
+    <string name="UpdateNekogram">Irongram\'ı Güncelleyiniz</string>
     <string name="TranslationTarget">Hedef dil</string>
     <string name="TranslationTargetApp">Uygulamayı takip edin</string>
     <string name="Translator">Çeviri</string>
@@ -140,9 +140,9 @@
     <string name="OfficialSite">Resmi site</string>
     <string name="MutualContact">Karşılıklı kişi</string>
     <string name="MutualContactDescription">Bu kişi de sizi kişilerine kaydetti.</string>
-    <string name="InviteTextNeko">Hey, sohbet etmek için Nekogram kullanıyorum. Bana katıl! Buradan indirilebilirsin: %1$s</string>
-    <string name="ShareNekogram">Nekogram\'ı paylaş...</string>
-    <string name="NekogramVersion">Telegram %2$s tabanlı\nNekogram %1$s\n%3$s tarafından tasarlandı</string>
+    <string name="InviteTextNeko">Hey, sohbet etmek için Irongram kullanıyorum. Bana katıl! Buradan indirilebilirsin: %1$s</string>
+    <string name="ShareNekogram">Irongram\'ı paylaş...</string>
+    <string name="NekogramVersion">Telegram %2$s tabanlı\nIrongram %1$s\n%3$s tarafından tasarlandı</string>
     <string name="UpdateInstalling">Güncelleme yükleniyor...</string>
     <string name="UpdateInstallingNotification">Güncelleme tamamlandığında bir bildirim gösterilecek.</string>
     <string name="UpdateInstallingRelaunch">Güncelleme tamamlandığında uygulama kendini yeniden başlatacak.</string>
@@ -165,7 +165,7 @@
     <string name="SaveToDownloadCount_few">%1$d dosya indirilenlere kaydediliyor</string>
     <string name="SaveToDownloadCount_many">%1$d dosya indirilenlere kaydediliyor</string>
     <string name="SaveToDownloadCount_other">%1$d dosya indirilenlere kaydediliyor</string>
-    <string name="AppLinkNotVerifiedMessage">Android 12 ve üstü sürümlerde, t.me bağlantılarını Nekogram\'da açmak için doğrulanmış bağlantılara elle bağlantı eklemelisiniz.</string>
+    <string name="AppLinkNotVerifiedMessage">Android 12 ve üstü sürümlerde, t.me bağlantılarını Irongram\'da açmak için doğrulanmış bağlantılara elle bağlantı eklemelisiniz.</string>
     <string name="AppLinkNotVerifiedTitle">Uygulama bağlantıları doğrulanmamış</string>
     <string name="AutoTranslate">Otomatik çeviri</string>
     <string name="AutoTranslateAbout">Başka bir dilde olan mesajları otomatik olarak çevirin.</string>
@@ -183,14 +183,14 @@
     <string name="TabletMode">Tablet modu</string>
     <string name="TabletModeAuto">Otomatik</string>
     <string name="DeleteAllFromSelfDone">Tüm mesajlarınız silindi</string>
-    <string name="UnknownNekoSettingsOption">Böyle bir Neko Ayarlar seçeneği yok.</string>
+    <string name="UnknownNekoSettingsOption">Böyle bir Irongram Ayarlar seçeneği yok.</string>
     <string name="ProviderYouDaoTranslate">YouDao Çeviri</string>
     <string name="ProviderBaiduTranslate">Baidu Çeviri</string>
     <string name="ProviderSogouTranslate">Sogou Çeviri</string>
     <string name="Translated">çevrildi</string>
     <string name="PasscodeNeeded">Önce uygulama kilidini etkinleştirmelisiniz</string>
     <string name="PasscodeNeko">Parola</string>
-    <string name="PasscodeShowInSettings">Neko Ayarlarında Göster</string>
+    <string name="PasscodeShowInSettings">Irongram Ayarlarında Göster</string>
     <string name="PasscodeShowInSettingsAbout">Gizledikten sonra, bu sayfayı **YALNIZCA** bağlantıyla açabilirsiniz:</string>
     <string name="PasscodeSet">Parola ayarla</string>
     <string name="PasscodeEdit">Parolayı değiştir</string>
@@ -272,7 +272,7 @@
     <string name="NavigationAnimationBezier">Klasik</string>
     <string name="NavigationAnimationSpring">Doğal</string>
     <string name="CloudConfig">Bulut Ayarları</string>
-    <string name="CloudConfigDesc">Neko Ayarlarınızı Telegram bulutuna kaydedin.</string>
+    <string name="CloudConfigDesc">Irongram Ayarlarınızı Telegram bulutuna kaydedin.</string>
     <string name="CloudConfigSyncDate">Son senkronize edillme: %s, bulut: %s</string>
     <string name="CloudConfigSyncDateNever">asla</string>
     <string name="CloudConfigSync">Bulut\'a senkronize edin</string>
@@ -281,7 +281,7 @@
     <string name="CloudConfigRestoreShort">Geri Yükle</string>
     <string name="CloudConfigSyncing">Senkronize ediliyor...</string>
     <string name="CloudConfigAutoSync">Otomatik senkronize et</string>
-    <string name="CloudConfigAutoSyncDesc">Neko Ayarlarında değişiklik yaptıktan sonra otomatik olarak buluta senkronize et.</string>
+    <string name="CloudConfigAutoSyncDesc">Irongram Ayarlarında değişiklik yaptıktan sonra otomatik olarak buluta senkronize et.</string>
     <string name="CloudConfigSyncFailed">Ayarlar buluta senkronize edilemedi.</string>
     <string name="CloudConfigRestoreFailed">Buluttan ayarlar geri yüklenemedi.</string>
     <string name="ReducedColors">Renkleri azaltın</string>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">Neko Indstillinger</string>
+    <string name="NekoSettings">Irongram Indstillinger</string>
     <string name="PreferIPv6">Prefer connecting through IPv6</string>
     <string name="MessageMenu">Meddelelse menu</string>
     <string name="HidePhone">Skjul mit telefonnummer</string>
@@ -16,7 +16,7 @@
     <string name="AddToSavedMessages">Gem besked</string>
     <string name="CreateMention">Opret Omtale</string>
     <string name="Prpr">Peropero</string>
-    <string name="NekogramRunning">Nekogram kører</string>
+    <string name="NekogramRunning">Irongram kører</string>
     <string name="EventType">Sidebar ikon sæt</string>
     <string name="DependsOnDate">Afhænger af dato</string>
     <string name="Christmas">Jul</string>
@@ -56,8 +56,8 @@
     <string name="IgnoreBlockedAbout">Det er IKKE RIGTIG HIDE! Beskeder er stadig tilgængelige til at se, men tekst vil blive konverteret til Spoiler og medier vil ikke automatisk downloade.</string>
     <string name="Donate">Donér</string>
     <string name="DonateAbout">Støt vores udvikling.</string>
-    <string name="TranslationAbout">Hjælp os med at oversætte Nekogram til dit sprog.</string>
-    <string name="Translation">Oversæt Nekogram</string>
+    <string name="TranslationAbout">Hjælp os med at oversætte Irongram til dit sprog.</string>
+    <string name="Translation">Oversæt Irongram</string>
     <string name="GooglePlay">Google Play</string>
     <string name="ResetStickerSize">Nulstil klistermærkets størrelse</string>
     <string name="RestartAppToTakeEffect">Genstart app\'en for at træde i kraft.</string>
@@ -103,7 +103,7 @@
     <string name="SelectBetween">Vælg mellem</string>
     <string name="StickerSavedHint">Klistermærke gemt i galleri</string>
     <string name="RegistrationDate">Registreringsdato</string>
-    <string name="UpdateNekogram">Opdater Nekogram</string>
+    <string name="UpdateNekogram">Opdater Irongram</string>
     <string name="TranslationTarget">Målsprog</string>
     <string name="TranslationTargetApp">Følg app</string>
     <string name="Translator">Oversætter</string>
@@ -128,12 +128,12 @@
     <string name="OfficialSite">Officiel hjemmeside</string>
     <string name="MutualContact">Gensidig kontakt</string>
     <string name="MutualContactDescription">Denne kontakt er en gensidig kontakt.</string>
-    <string name="InviteTextNeko">Hej, jeg bruger Nekogram til at chatte med. Tilmeld dig mig! Download det her: %1$s</string>
-    <string name="ShareNekogram">Del Nekogram...</string>
-    <string name="NekogramVersion">Nekogram %1$s\nBaseret på Telegram %2$s\nDesignet af %3$s</string>
+    <string name="InviteTextNeko">Hej, jeg bruger Irongram til at chatte med. Tilmeld dig mig! Download det her: %1$s</string>
+    <string name="ShareNekogram">Del Irongram...</string>
+    <string name="NekogramVersion">Irongram %1$s\nBaseret på Telegram %2$s\nDesignet af %3$s</string>
     <string name="UpdateInstalling">Installerer opdatering...</string>
     <string name="UpdateInstallingNotification">En meddelelse vil blive vist, når opdateringen er færdig.</string>
-    <string name="UpdateInstallingRelaunch">Nekogram vil genstarte, når opdateringen er færdig.</string>
+    <string name="UpdateInstallingRelaunch">Irongram vil genstarte, når opdateringen er færdig.</string>
     <string name="UpdateInstalledNotification">Installationen af opdateringer er færdig, tryk for at starte appen.</string>
     <string name="UpdateFailedToInstall">Opdateringen kunne ikke installeres: %d</string>
     <string name="QRLoginMessage">Scan QRCode med en anden enhed for at logge ind.</string>
@@ -152,7 +152,7 @@
     <string name="SaveToDownloadCount_few">Gemmer %1$d filer til downloads</string>
     <string name="SaveToDownloadCount_many">Gemmer %1$d filer til downloads</string>
     <string name="SaveToDownloadCount_other">Gemmer %1$d filer til downloads</string>
-    <string name="AppLinkNotVerifiedMessage">For Android 12 og nyere, skal du manuelt tilføje link til bekræftede links for at åbne t.me links i Nekogram.</string>
+    <string name="AppLinkNotVerifiedMessage">For Android 12 og nyere, skal du manuelt tilføje link til bekræftede links for at åbne t.me links i Irongram.</string>
     <string name="AppLinkNotVerifiedTitle">App-links ikke verificeret</string>
     <string name="AutoTranslate">Automatisk oversættelse</string>
     <string name="AutoTranslateAbout">Oversæt automatisk meddelelser, der er på et andet sprog.</string>
@@ -170,14 +170,14 @@
     <string name="TabletMode">Tablet-tilstand</string>
     <string name="TabletModeAuto">Auto</string>
     <string name="DeleteAllFromSelfDone">Alle dine beskeder er slettet</string>
-    <string name="UnknownNekoSettingsOption">Der er ikke en sådan indstillingsmulighed for Neko.</string>
+    <string name="UnknownNekoSettingsOption">Der er ikke en sådan indstillingsmulighed for Irongram.</string>
     <string name="ProviderYouDaoTranslate">YouDao oversætter</string>
     <string name="ProviderBaiduTranslate">Baidu Oversætter</string>
     <string name="ProviderSogouTranslate">Sogou Oversætter</string>
     <string name="Translated">oversat</string>
     <string name="PasscodeNeeded">Du er nødt til at aktivere adgangskode lås først</string>
     <string name="PasscodeNeko">Adgangskode</string>
-    <string name="PasscodeShowInSettings">Vis i Neko-indstillinger</string>
+    <string name="PasscodeShowInSettings">Vis i Irongram-indstillinger</string>
     <string name="PasscodeShowInSettingsAbout">Når du har skjult siden, kan du **KUN** åbne denne side via et link:</string>
     <string name="PasscodeSet">Indstil adgangskode</string>
     <string name="PasscodeEdit">Skift adgangskode</string>

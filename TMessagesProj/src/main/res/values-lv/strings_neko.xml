@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">Neko iestatījumi</string>
+    <string name="NekoSettings">Irongram iestatījumi</string>
     <string name="MessageMenu">Ziņu izvēlne</string>
     <string name="HidePhone">Paslēpt manu tālruņa numuru</string>
     <string name="DeleteAllFromSelf">Dzēst savus ziņojumus</string>
@@ -15,7 +15,7 @@
     <string name="AddToSavedMessages">Saglabāt ziņojumu</string>
     <string name="CreateMention">Izveidot pieminēšanu</string>
     <string name="Prpr">Peropero</string>
-    <string name="NekogramRunning">Nekogram darbojas</string>
+    <string name="NekogramRunning">Irongram darbojas</string>
     <string name="EventType">Sānu joslas ikonu komplekts</string>
     <string name="DependsOnDate">Atkarībā no datuma</string>
     <string name="Christmas">Ziemassvētki</string>
@@ -57,8 +57,8 @@
     <string name="IgnoreBlockedAbout">TAS NAV ĪSTI PASLĒPT! Ziņojumi joprojām ir pieejami apskatei, bet teksts tiks pārveidots uz spoileru un multivides līdzekļi netiks automātiski lejupielādēti.</string>
     <string name="Donate">Ziedot</string>
     <string name="DonateAbout">Atbalstiet mūsu attīstību.</string>
-    <string name="TranslationAbout">Palīdziet mums tulkot Nekogram jūsu valodā.</string>
-    <string name="Translation">Tulkot Nekogram</string>
+    <string name="TranslationAbout">Palīdziet mums tulkot Irongram jūsu valodā.</string>
+    <string name="Translation">Tulkot Irongram</string>
     <string name="GooglePlay">Google Play</string>
     <string name="ResetStickerSize">Atiestatīt uzlīmes lielumu</string>
     <string name="RestartAppToTakeEffect">Restartējiet lietotni, lai tas stātos spēkā.</string>
@@ -107,7 +107,7 @@
     <string name="RegistrationDateNewer">Jaunāks nekā %s</string>
     <string name="RegistrationDateOlder">Vecāks par %s</string>
     <string name="RegistrationDateApproximately">Aptuveni %s</string>
-    <string name="UpdateNekogram">Nekogrammas atjaunināšana</string>
+    <string name="UpdateNekogram">Irongrammas atjaunināšana</string>
     <string name="TranslationTarget">Mērķa valoda</string>
     <string name="TranslationTargetApp">Sekojiet lietotnei</string>
     <string name="Translator">Tulkotājs</string>
@@ -132,9 +132,9 @@
     <string name="OfficialSite">Oficiālā vietne</string>
     <string name="MutualContact">Savstarpējs kontakts</string>
     <string name="MutualContactDescription">Šis kontakts ir savstarpējs kontakts.</string>
-    <string name="InviteTextNeko">Hei, es izmantoju Nekogram, lai tērzētu. Pievienojies man! Lejupielādējiet to šeit: %1$s</string>
-    <string name="ShareNekogram">Kopīgojiet Nekogram...</string>
-    <string name="NekogramVersion">Nekogram %1$s\nPamatojoties uz Telegram %2$s\n\n Izstrādāts %3$s</string>
+    <string name="InviteTextNeko">Hei, es izmantoju Irongram, lai tērzētu. Pievienojies man! Lejupielādējiet to šeit: %1$s</string>
+    <string name="ShareNekogram">Kopīgojiet Irongram...</string>
+    <string name="NekogramVersion">Irongram %1$s\nPamatojoties uz Telegram %2$s\n\n Izstrādāts %3$s</string>
     <string name="UpdateInstalling">Atjauninājumu instalēšana...</string>
     <string name="UpdateInstallingNotification">Pēc atjaunināšanas pabeigšanas tiks parādīts paziņojums.</string>
     <string name="UpdateInstallingRelaunch">Pēc atjaunināšanas pabeigšanas lietotne tiks palaista no jauna.</string>
@@ -156,7 +156,7 @@
     <string name="SaveToDownloadCount_few">%1$d failu saglabāšana lejupielādēs</string>
     <string name="SaveToDownloadCount_many">%1$d failu saglabāšana lejupielādēs</string>
     <string name="SaveToDownloadCount_other">%1$d failu saglabāšana lejupielādēs</string>
-    <string name="AppLinkNotVerifiedMessage">Lai atvērtu t.me saites programmā Nekogram, operētājsistēmā Android 12 un jaunākās versijās ir manuāli jāpievieno saite pārbaudītajām saitēm.</string>
+    <string name="AppLinkNotVerifiedMessage">Lai atvērtu t.me saites programmā Irongram, operētājsistēmā Android 12 un jaunākās versijās ir manuāli jāpievieno saite pārbaudītajām saitēm.</string>
     <string name="AppLinkNotVerifiedTitle">Programmu saites nav pārbaudītas</string>
     <string name="AutoTranslate">Automātiskais tulkojums</string>
     <string name="AutoTranslateAbout">Automātiski tulkot ziņojumus citā valodā.</string>
@@ -174,14 +174,14 @@
     <string name="TabletMode">Planšetdatora režīms</string>
     <string name="TabletModeAuto">Auto</string>
     <string name="DeleteAllFromSelfDone">Visi jūsu ziņojumi tiek dzēsti</string>
-    <string name="UnknownNekoSettingsOption">Šādas opcijas Neko iestatījumi nav.</string>
+    <string name="UnknownNekoSettingsOption">Šādas opcijas Irongram iestatījumi nav.</string>
     <string name="ProviderYouDaoTranslate">YouDao tulkotājs</string>
     <string name="ProviderBaiduTranslate">Baidu tulkotājs</string>
     <string name="ProviderSogouTranslate">Sogou tulkot</string>
     <string name="Translated">tulkojums</string>
     <string name="PasscodeNeeded">Vispirms jāaktivizē piekļuves koda bloķēšana</string>
     <string name="PasscodeNeko">Pieejas kods</string>
-    <string name="PasscodeShowInSettings">Rādīt Neko iestatījumos</string>
+    <string name="PasscodeShowInSettings">Rādīt Irongram iestatījumos</string>
     <string name="PasscodeShowInSettingsAbout">Pēc paslēpšanas varat **TIKAI** atvērt šo lapu, izmantojot saiti:</string>
     <string name="PasscodeSet">Iestatīt piekļuves kodu</string>
     <string name="PasscodeEdit">Mainīt piekļuves kodu</string>

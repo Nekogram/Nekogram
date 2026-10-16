@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">Setări Neko</string>
+    <string name="NekoSettings">Setări Irongram</string>
     <string name="PreferIPv6">Preferați să vă conectați prin IPv6</string>
     <string name="MessageMenu">Meniu mesaj</string>
     <string name="HidePhone">Ascunde numărul de telefon</string>
@@ -22,7 +22,7 @@
     <string name="AddToSavedMessages">Salvează mesaj</string>
     <string name="CreateMention">Creează mențiune</string>
     <string name="Prpr">Peropero</string>
-    <string name="NekogramRunning">Nekogram rulează</string>
+    <string name="NekogramRunning">Irongram rulează</string>
     <string name="EventType">Set pictograme bară laterală</string>
     <string name="DependsOnDate">În funcție de dată</string>
     <string name="Christmas">Crăciun</string>
@@ -64,8 +64,8 @@
     <string name="IgnoreBlockedAbout">NU SUNT CHIAR ASCUNSE! Mesajele sunt încă disponibile dar textul va fi transformat în Spoiler iar fișierele nu se vor descărca automat.</string>
     <string name="Donate">Donați</string>
     <string name="DonateAbout">Sprijiniți dezvoltarea noastră.</string>
-    <string name="TranslationAbout">Ajutați-ne să traducem Nekogram în limba dvs.</string>
-    <string name="Translation">Traduceți Nekogram</string>
+    <string name="TranslationAbout">Ajutați-ne să traducem Irongram în limba dvs.</string>
+    <string name="Translation">Traduceți Irongram</string>
     <string name="GooglePlay">Google Play</string>
     <string name="ResetStickerSize">Resetați dimensiunea stickerului</string>
     <string name="RestartAppToTakeEffect">Reporniți aplicația pentru a avea efect.</string>
@@ -114,7 +114,7 @@
     <string name="RegistrationDateNewer">Mai nou decât %s</string>
     <string name="RegistrationDateOlder">Mai vechi decât %s</string>
     <string name="RegistrationDateApproximately">Aproximativ %s</string>
-    <string name="UpdateNekogram">Actualizați Nekogram</string>
+    <string name="UpdateNekogram">Actualizați Irongram</string>
     <string name="TranslationTarget">Limbă țintă</string>
     <string name="TranslationTargetApp">Urmăriți aplicația</string>
     <string name="Translator">Traducător</string>
@@ -140,9 +140,9 @@
     <string name="OfficialSite">Site oficial</string>
     <string name="MutualContact">Contacte în comun</string>
     <string name="MutualContactDescription">Acest contact este un contact comun.</string>
-    <string name="InviteTextNeko">Salut, folosesc Nekogram pentru a vorbi. Alăturați-vă nouă! Descarcă aici: %1$s</string>
-    <string name="ShareNekogram">Distribuie Nekogram...</string>
-    <string name="NekogramVersion">Nekogram %1$s\nBazat pe Telegram %2$s\nProiectat de %3$s</string>
+    <string name="InviteTextNeko">Salut, folosesc Irongram pentru a vorbi. Alăturați-vă nouă! Descarcă aici: %1$s</string>
+    <string name="ShareNekogram">Distribuie Irongram...</string>
+    <string name="NekogramVersion">Irongram %1$s\nBazat pe Telegram %2$s\nProiectat de %3$s</string>
     <string name="UpdateInstalling">Se instalează actualizarea...</string>
     <string name="UpdateInstallingNotification">O notificare va fi afișată când actualizarea este finalizată.</string>
     <string name="UpdateInstallingRelaunch">Aplicația se va relansa când actualizarea este finalizată.</string>
@@ -165,7 +165,7 @@
     <string name="SaveToDownloadCount_few">Se salvează %1$d fișiere in descărcări</string>
     <string name="SaveToDownloadCount_many">Se salvează %1$d fișiere in descărcări</string>
     <string name="SaveToDownloadCount_other">Se salvează %1$d fișiere in descărcări</string>
-    <string name="AppLinkNotVerifiedMessage">Pentru Android 12 și versiunile mai noi, trebuie să adăugați manual link-ul la linkurile verificate pentru a deschide linkurile de tip \"t.me\" în Nekogram.</string>
+    <string name="AppLinkNotVerifiedMessage">Pentru Android 12 și versiunile mai noi, trebuie să adăugați manual link-ul la linkurile verificate pentru a deschide linkurile de tip \"t.me\" în Irongram.</string>
     <string name="AppLinkNotVerifiedTitle">Link-urile aplicației nu sunt verificate</string>
     <string name="AutoTranslate">Traducere automată</string>
     <string name="AutoTranslateAbout">Traduceți automat mesajele în altă limbă.</string>
@@ -183,14 +183,14 @@
     <string name="TabletMode">Modul tabletă</string>
     <string name="TabletModeAuto">Implicit</string>
     <string name="DeleteAllFromSelfDone">Toate mesajele dumneavoastră sunt șterse</string>
-    <string name="UnknownNekoSettingsOption">Nu există o astfel de opţiune de Setări Neko.</string>
+    <string name="UnknownNekoSettingsOption">Nu există o astfel de opţiune de Setări Irongram.</string>
     <string name="ProviderYouDaoTranslate">Traducător YouDao</string>
     <string name="ProviderBaiduTranslate">Traducător Baidu</string>
     <string name="ProviderSogouTranslate">Traducător Sogou</string>
     <string name="Translated">tradus</string>
     <string name="PasscodeNeeded">Mai întâi trebuie să activați blocarea codului de acces</string>
     <string name="PasscodeNeko">Cod de acces</string>
-    <string name="PasscodeShowInSettings">Afișează în setările Neko</string>
+    <string name="PasscodeShowInSettings">Afișează în setările Irongram</string>
     <string name="PasscodeShowInSettingsAbout">După ascundere, puteți deschide această pagină **NUMAI** prin link:</string>
     <string name="PasscodeSet">Setați codul de acces</string>
     <string name="PasscodeEdit">Schimbați codul de acces</string>
@@ -270,7 +270,7 @@
     <string name="NavigationAnimationBezier">Clasic</string>
     <string name="NavigationAnimationSpring">Natural</string>
     <string name="CloudConfig">Setări Cloud</string>
-    <string name="CloudConfigDesc">Salvați setările Neko în Telegram Cloud.</string>
+    <string name="CloudConfigDesc">Salvați setările Irongram în Telegram Cloud.</string>
     <string name="CloudConfigSyncDate">Ultima sincronizare: %s, cloud: %s</string>
     <string name="CloudConfigSyncDateNever">niciodată</string>
     <string name="CloudConfigSync">Sincronizare în cloud</string>
@@ -279,7 +279,7 @@
     <string name="CloudConfigRestoreShort">Restabiliți</string>
     <string name="CloudConfigSyncing">Se sincronizează...</string>
     <string name="CloudConfigAutoSync">Auto sincronizare</string>
-    <string name="CloudConfigAutoSyncDesc">Sincronizați setările automat cu cloud după modificarea setărilor Neko.</string>
+    <string name="CloudConfigAutoSyncDesc">Sincronizați setările automat cu cloud după modificarea setărilor Irongram.</string>
     <string name="CloudConfigSyncFailed">Sincronizarea setărilor cu cloud a eșuat.</string>
     <string name="CloudConfigRestoreFailed">Restabilirea setărilor din cloud a eșuat.</string>
     <string name="ReducedColors">Reduceți culorile</string>

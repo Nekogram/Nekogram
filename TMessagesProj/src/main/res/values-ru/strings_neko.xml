@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">Настройки Neko</string>
+    <string name="NekoSettings">Настройки Irongram</string>
     <string name="PreferIPv6">Предпочитать подключение через IPv6</string>
     <string name="MessageMenu">Меню сообщений</string>
     <string name="HidePhone">Скрыть мой номер телефона</string>
@@ -22,7 +22,7 @@
     <string name="AddToSavedMessages">В избранное</string>
     <string name="CreateMention">Создать упоминание</string>
     <string name="Prpr">Peropero</string>
-    <string name="NekogramRunning">Nekogram запущен</string>
+    <string name="NekogramRunning">Irongram запущен</string>
     <string name="EventType">Иконки бокового меню</string>
     <string name="DependsOnDate">Зависит от даты</string>
     <string name="Christmas">Рождество</string>
@@ -62,13 +62,16 @@
     <string name="OfficialChannel">Официальный канал</string>
     <string name="About">О проекте</string>
     <string name="IgnoreBlockedAbout">ОНИ НА САМОМ ДЕЛЕ НЕ СКРЫВАЮТСЯ! Сообщения будут доступны для просмотра, но текст будет скрыт под спойлер, а автозагрузка медиа будет отключена.</string>
-    <string name="Donate">Поддержать Nekogram</string>
+    <string name="Donate">Поддержать Irongram</string>
     <string name="DonateAbout">Поддержите разработку проекта.</string>
-    <string name="TranslationAbout">Помогите перевести Nekogram на ваш язык.</string>
-    <string name="Translation">Помочь перевести Neko</string>
+    <string name="TranslationAbout">Переводы пока ведутся в Crowdin исходного проекта Nekogram.</string>
+    <string name="Translation">Помочь перевести Irongram</string>
     <string name="GooglePlay">Google Play</string>
     <string name="ResetStickerSize">Сбросить размер стикера</string>
     <string name="OfficialChannelUsername">nekoupdates</string>
+    <string name="IrongramUpstreamChannel">Канал исходного проекта Nekogram</string>
+    <string name="IrongramDownloads">Загрузки</string>
+    <string name="IrongramRebrandCredit">Ребрендинг в Irongram выполнен Arena.ai Agent Mode 16.10.2026. Исходный проект: Nekogram.</string>
     <string name="RestartAppToTakeEffect">Перезапустите приложение для применения настроек.</string>
     <string name="DisableAppBarShadow">Отключить тень заголовка</string>
     <string name="MediaPreview">Предпросмотр медиа в списке чатов</string>
@@ -115,7 +118,7 @@
     <string name="RegistrationDateNewer">Новее %s</string>
     <string name="RegistrationDateOlder">Старше %s</string>
     <string name="RegistrationDateApproximately">Приблизительно %s</string>
-    <string name="UpdateNekogram">Обновить Nekogram</string>
+    <string name="UpdateNekogram">Обновить Irongram</string>
     <string name="TranslationTarget">Целевой язык</string>
     <string name="TranslationTargetApp">Язык приложения</string>
     <string name="Translator">Переводчик</string>
@@ -141,9 +144,9 @@
     <string name="OfficialSite">Официальный сайт</string>
     <string name="MutualContact">Общий контакт</string>
     <string name="MutualContactDescription">Этот контакт является общим.</string>
-    <string name="InviteTextNeko">Привет, я использую Nekogram для переписки. Присоединяйся! Скачать его можно здесь: %1$s</string>
-    <string name="ShareNekogram">Поделиться Nekogram...</string>
-    <string name="NekogramVersion">Nekogram %1$s\nНа основе Telegram %2$s\nДизайн %3$s</string>
+    <string name="InviteTextNeko">Привет, я использую Irongram для переписки. Присоединяйся! Скачать его можно здесь: %1$s</string>
+    <string name="ShareNekogram">Поделиться Irongram...</string>
+    <string name="NekogramVersion">Irongram %1$s\nНа основе Telegram %2$s\nДизайн %3$s</string>
     <string name="UpdateInstalling">Установка обновления...</string>
     <string name="UpdateInstallingNotification">После завершения обновления появится уведомление.</string>
     <string name="UpdateInstallingRelaunch">Когда обновление завершится, приложение будет перезапущено.</string>
@@ -166,7 +169,7 @@
     <string name="SaveToDownloadCount_few">Сохранение %1$d файлов в загрузки</string>
     <string name="SaveToDownloadCount_many">Сохранение %1$d файлов в загрузки</string>
     <string name="SaveToDownloadCount_other">Сохранение %1$d файлов в загрузки</string>
-    <string name="AppLinkNotVerifiedMessage">Для Android 12 и более поздних версий вам необходимо вручную добавить ссылку к подтверждённым ссылкам, чтобы открывать ссылки t.me в Nekogram.</string>
+    <string name="AppLinkNotVerifiedMessage">Для Android 12 и более поздних версий вам необходимо вручную добавить ссылку к подтверждённым ссылкам, чтобы открывать ссылки t.me в Irongram.</string>
     <string name="AppLinkNotVerifiedTitle">Ссылки приложения не подтверждены</string>
     <string name="AutoTranslate">Автоперевод</string>
     <string name="AutoTranslateAbout">Автоматически переводить сообщения с иностранного языка.</string>
@@ -184,14 +187,14 @@
     <string name="TabletMode">Режим планшета</string>
     <string name="TabletModeAuto">Автоматически</string>
     <string name="DeleteAllFromSelfDone">Все ваши сообщения удалены</string>
-    <string name="UnknownNekoSettingsOption">Такого параметра Neko нет.</string>
+    <string name="UnknownNekoSettingsOption">Такого параметра Irongram нет.</string>
     <string name="ProviderYouDaoTranslate">YouDao Translator</string>
     <string name="ProviderBaiduTranslate">Baidu Translate</string>
     <string name="ProviderSogouTranslate">Sogou Translate</string>
     <string name="Translated">переведено</string>
     <string name="PasscodeNeeded">Сначала необходимо включить код-пароль</string>
     <string name="PasscodeNeko">Код-пароль</string>
-    <string name="PasscodeShowInSettings">Показать в настройках Neko</string>
+    <string name="PasscodeShowInSettings">Показать в настройках Irongram</string>
     <string name="PasscodeShowInSettingsAbout">После скрытия, вы можете открыть эту страницу **ТОЛЬКО** по ссылке:</string>
     <string name="PasscodeSet">Установить код-пароль</string>
     <string name="PasscodeEdit">Изменить код-пароль</string>
@@ -273,7 +276,7 @@
     <string name="NavigationAnimationBezier">Стандартная</string>
     <string name="NavigationAnimationSpring">Обычная</string>
     <string name="CloudConfig">Облачные настройки</string>
-    <string name="CloudConfigDesc">Сохранить ваши настройки Neko в облачном хранилище Telegram.</string>
+    <string name="CloudConfigDesc">Сохранить ваши настройки Irongram в облачном хранилище Telegram.</string>
     <string name="CloudConfigSyncDate">Последняя синхронизация: %s, в облаке: %s</string>
     <string name="CloudConfigSyncDateNever">никогда</string>
     <string name="CloudConfigSync">Синхронизировать с облаком</string>
@@ -282,7 +285,7 @@
     <string name="CloudConfigRestoreShort">Восстановить</string>
     <string name="CloudConfigSyncing">Синхронизация...</string>
     <string name="CloudConfigAutoSync">Автосинхронизация</string>
-    <string name="CloudConfigAutoSyncDesc">Автоматическая синхронизация с облаком после изменения настроек Neko.</string>
+    <string name="CloudConfigAutoSyncDesc">Автоматическая синхронизация с облаком после изменения настроек Irongram.</string>
     <string name="CloudConfigSyncFailed">Не удалось синхронизировать настройки с облаком.</string>
     <string name="CloudConfigRestoreFailed">Не удалось восстановить настройки из облака.</string>
     <string name="ReducedColors">Уменьшить количество цветов</string>

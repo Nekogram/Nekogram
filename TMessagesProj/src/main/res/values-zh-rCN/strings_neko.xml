@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">喵设置</string>
+    <string name="NekoSettings">Irongram 设置</string>
     <string name="PreferIPv6">优先通过 IPv6 连接</string>
     <string name="MessageMenu">消息菜单</string>
     <string name="HidePhone">隐藏您的手机号码</string>
@@ -22,7 +22,7 @@
     <string name="AddToSavedMessages">保存消息</string>
     <string name="CreateMention">创建\@</string>
     <string name="Prpr">ペロペロ</string>
-    <string name="NekogramRunning">猫猫奔跑中</string>
+    <string name="NekogramRunning">Irongram 正在运行</string>
     <string name="EventType">抽屉图标集</string>
     <string name="DependsOnDate">基于日期</string>
     <string name="Christmas">圣诞节</string>
@@ -64,8 +64,8 @@
     <string name="IgnoreBlockedAbout">并不是真正的隐藏！仍然可以查看消息，但文本将被转换为黑幕，媒体也不会自动下载。</string>
     <string name="Donate">捐赠</string>
     <string name="DonateAbout">支持我们的开发。</string>
-    <string name="TranslationAbout">帮助我们将 Nekogram 翻译成您的语言。</string>
-    <string name="Translation">翻译 Nekogram</string>
+    <string name="TranslationAbout">帮助我们将 Irongram 翻译成您的语言。</string>
+    <string name="Translation">翻译 Irongram</string>
     <string name="GooglePlay">Google Play</string>
     <string name="ResetStickerSize">重置贴纸大小</string>
     <string name="RestartAppToTakeEffect">重启应用以生效。</string>
@@ -80,7 +80,7 @@
     <string name="AutoPauseVideo">自动暂停视频</string>
     <string name="AutoPauseVideoAbout">当锁定屏幕/切换到后台时。</string>
     <string name="DisableProximityEvents">禁用距离传感器事件</string>
-    <string name="Page1Message2">Nekogram 是使用 Telegram API\n的**非官方**应用</string>
+    <string name="Page1Message2">Irongram 是使用 Telegram API\n的**非官方**应用</string>
     <string name="MapDriftingFix">地图定位漂移修复</string>
     <string name="VoiceEnhancements">语音增强</string>
     <string name="VoiceEnhancementsAbout">噪声抑制和语音归一化</string>
@@ -115,7 +115,7 @@
     <string name="RegistrationDateNewer">晚于 %s</string>
     <string name="RegistrationDateOlder">早于 %s</string>
     <string name="RegistrationDateApproximately">大约 %s</string>
-    <string name="UpdateNekogram">更新 Nekogram</string>
+    <string name="UpdateNekogram">更新 Irongram</string>
     <string name="TranslationTarget">目标语言</string>
     <string name="TranslationTargetApp">跟随应用</string>
     <string name="Translator">翻译</string>
@@ -141,9 +141,9 @@
     <string name="OfficialSite">官方网站</string>
     <string name="MutualContact">双向联系人</string>
     <string name="MutualContactDescription">此联系人是一个双向联系人。</string>
-    <string name="InviteTextNeko">嗨，我在使用 Nekogram 聊天。加入我们吧！从这里下载：%1$s</string>
-    <string name="ShareNekogram">分享 Nekogram...</string>
-    <string name="NekogramVersion">Nekogram %1$s\n基于 Telegram %2$s\n由 %3$s 设计</string>
+    <string name="InviteTextNeko">嗨，我在使用 Irongram 聊天。加入我们吧！从这里下载：%1$s</string>
+    <string name="ShareNekogram">分享 Irongram...</string>
+    <string name="NekogramVersion">Irongram %1$s\n基于 Telegram %2$s\n由 %3$s 设计</string>
     <string name="UpdateInstalling">正在安装更新...</string>
     <string name="UpdateInstallingNotification">更新完成后，将显示一个通知。</string>
     <string name="UpdateInstallingRelaunch">更新完成后，应用将重新启动。</string>
@@ -166,7 +166,7 @@
     <string name="SaveToDownloadCount_few">正在保存 %1$d 个文件到下载</string>
     <string name="SaveToDownloadCount_many">正在保存 %1$d 个文件到下载</string>
     <string name="SaveToDownloadCount_other">正在保存 %1$d 个文件到下载</string>
-    <string name="AppLinkNotVerifiedMessage">对于 Android 12 及更新的版本，您需要手动添加链接到已验证链接才能在 Nekogram 中打开 t.me 链接。</string>
+    <string name="AppLinkNotVerifiedMessage">对于 Android 12 及更新的版本，您需要手动添加链接到已验证链接才能在 Irongram 中打开 t.me 链接。</string>
     <string name="AppLinkNotVerifiedTitle">应用链接未验证</string>
     <string name="AutoTranslate">自动翻译</string>
     <string name="AutoTranslateAbout">自动翻译其他语言的消息。</string>
@@ -184,14 +184,14 @@
     <string name="TabletMode">平板模式</string>
     <string name="TabletModeAuto">自动</string>
     <string name="DeleteAllFromSelfDone">您的所有消息都已删除</string>
-    <string name="UnknownNekoSettingsOption">没有这样的喵设置选项。</string>
+    <string name="UnknownNekoSettingsOption">没有这样的 Irongram 设置选项。</string>
     <string name="ProviderYouDaoTranslate">有道翻译</string>
     <string name="ProviderBaiduTranslate">百度翻译</string>
     <string name="ProviderSogouTranslate">搜狗翻译</string>
     <string name="Translated">已翻译</string>
     <string name="PasscodeNeeded">您必须先启用锁定码</string>
     <string name="PasscodeNeko">锁定码</string>
-    <string name="PasscodeShowInSettings">在喵设置中显示</string>
+    <string name="PasscodeShowInSettings">在 Irongram 设置中显示</string>
     <string name="PasscodeShowInSettingsAbout">隐藏后，您**只能**通过链接打开此页面：</string>
     <string name="PasscodeSet">设置锁定码</string>
     <string name="PasscodeEdit">更改锁定码</string>
@@ -273,7 +273,7 @@
     <string name="NavigationAnimationBezier">经典</string>
     <string name="NavigationAnimationSpring">自然</string>
     <string name="CloudConfig">云设置</string>
-    <string name="CloudConfigDesc">保存喵设置到 Telegram 云。</string>
+    <string name="CloudConfigDesc">保存 Irongram 设置到 Telegram 云。</string>
     <string name="CloudConfigSyncDate">最后同步：%s，云端：%s</string>
     <string name="CloudConfigSyncDateNever">从未</string>
     <string name="CloudConfigSync">同步到云端</string>
@@ -282,7 +282,7 @@
     <string name="CloudConfigRestoreShort">恢复</string>
     <string name="CloudConfigSyncing">正在同步...</string>
     <string name="CloudConfigAutoSync">自动同步</string>
-    <string name="CloudConfigAutoSyncDesc">修改喵设置后自动同步到云端。</string>
+    <string name="CloudConfigAutoSyncDesc">修改 Irongram 设置后自动同步到云端。</string>
     <string name="CloudConfigSyncFailed">无法将设置同步到云端。</string>
     <string name="CloudConfigRestoreFailed">无法从云端恢复设置。</string>
     <string name="ReducedColors">减少颜色</string>
@@ -342,7 +342,7 @@
     <string name="PassQRNewPassword">用密码保护此二维码</string>
     <string name="ConfirmNewPassword">确认密码</string>
     <string name="PassQRAbout">将您的通行密钥保存为加密的二维码。您可以扫描该二维码在另一台设备上登录。</string>
-    <string name="PassQREncryption">使用 Nekogram 扫描登录。</string>
+    <string name="PassQREncryption">使用 Irongram 扫描登录。</string>
     <string name="InvalidPassQr">通行密钥二维码无效</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">无障碍设置</string>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">Neko Agordoj</string>
+    <string name="NekoSettings">Irongram Agordoj</string>
     <string name="PreferIPv6">Estas prefere konektado tra IPV6</string>
     <string name="MessageMenu">Mesaĝa menuo</string>
     <string name="HidePhone">Kaŝi mian telefonnumeron</string>
@@ -21,7 +21,7 @@
     <string name="Repeat">Ripeti</string>
     <string name="CreateMention">Krei mencion</string>
     <string name="Prpr">Peropero</string>
-    <string name="NekogramRunning">Nekogram funkcias</string>
+    <string name="NekogramRunning">Irongram funkcias</string>
     <string name="EventType">Piktogramoj de flanka menuo</string>
     <string name="DependsOnDate">Dependas de dato</string>
     <string name="Christmas">Kristnasko</string>

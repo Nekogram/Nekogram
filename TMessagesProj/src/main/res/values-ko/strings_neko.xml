@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">네코그램 설정</string>
+    <string name="NekoSettings">Irongram 설정</string>
     <string name="MessageMenu">메세지 메뉴</string>
     <string name="HidePhone">내 번호 숨기기</string>
     <string name="DeleteAllFromSelf">본인 메시지 삭제하기</string>
@@ -18,7 +18,7 @@
     <string name="AddToSavedMessages">메세지 저장</string>
     <string name="CreateMention">멘션 만들기</string>
     <string name="Prpr">페로페로</string>
-    <string name="NekogramRunning">네코그램이 실행 중 입니다</string>
+    <string name="NekogramRunning">Irongram이 실행 중입니다</string>
     <string name="EventType">사이드바 아이콘 세트</string>
     <string name="DependsOnDate">날짜에 따라</string>
     <string name="Christmas">크리스마스</string>
@@ -60,8 +60,8 @@
     <string name="IgnoreBlockedAbout">숨겨진게 아닙니다!  메시지는 계속 볼 수 있지만 텍스트는 스포일러로 변환되고 미디어는 자동으로 다운로드되지 않습니다.</string>
     <string name="Donate">기부하기</string>
     <string name="DonateAbout">개발자 지원하기</string>
-    <string name="TranslationAbout">네코그램의 언어 번역을 도와주세요</string>
-    <string name="Translation">네코그램 번역</string>
+    <string name="TranslationAbout">Irongram을 여러분의 언어로 번역하는 데 도움을 주세요.</string>
+    <string name="Translation">Irongram 번역</string>
     <string name="GooglePlay">구글플레이</string>
     <string name="ResetStickerSize">스티커 사이즈 초기화</string>
     <string name="OfficialChannelUsername">nekoupdates</string>
@@ -111,7 +111,7 @@
     <string name="RegistrationDateNewer">%s 이후</string>
     <string name="RegistrationDateOlder">%s 이전</string>
     <string name="RegistrationDateApproximately">대략 %s</string>
-    <string name="UpdateNekogram">네코그램 업데이트</string>
+    <string name="UpdateNekogram">Irongram 업데이트</string>
     <string name="TranslationTarget">번역 언어</string>
     <string name="TranslationTargetApp">기기 언어 따라가기</string>
     <string name="Translator">번역기</string>
@@ -136,12 +136,12 @@
     <string name="OfficialSite">공식 사이트</string>
     <string name="MutualContact">공통 연락처</string>
     <string name="MutualContactDescription">이 연락처는 공통 연락처 입니다.</string>
-    <string name="InviteTextNeko">안녕, 나는 네코그램을 사용하고 있어요. 한번 사용해 보실래요? 여기에서 다운로드 하세요: %1$s</string>
-    <string name="ShareNekogram">네코그램 공유하기</string>
-    <string name="NekogramVersion">네코그램 %1$s 은 텔레그램 %2$s 기반으로 %3$s 이 제작 하였습니다</string>
+    <string name="InviteTextNeko">안녕하세요. Irongram으로 대화하고 있어요. 함께 사용해 보세요! 여기에서 다운로드하세요: %1$s</string>
+    <string name="ShareNekogram">Irongram 공유하기</string>
+    <string name="NekogramVersion">Irongram %1$s\nTelegram %2$s 기반\n제작: %3$s</string>
     <string name="UpdateInstalling">업데이트 설치 중...</string>
     <string name="UpdateInstallingNotification">업데이트가 완료되면 알림이 표시됩니다.</string>
-    <string name="UpdateInstallingRelaunch">업데이트가 완료되면 네코그램이 다시 시작됩니다.</string>
+    <string name="UpdateInstallingRelaunch">업데이트가 완료되면 Irongram이 다시 시작됩니다.</string>
     <string name="UpdateInstalledNotification">업데이트 설치가 완료되었습니다. 탭하여 앱을 실행하세요.</string>
     <string name="UpdateFailedToInstall">업데이트를 설치하지 못했습니다: %d</string>
     <string name="QRLoginMessage">다른 장치로 QRCode 를 스캔하여 로그인 하기</string>
@@ -160,7 +160,7 @@
     <string name="SaveToDownloadCount_few">%1$d 파일을 다운로드에 저장</string>
     <string name="SaveToDownloadCount_many">%1$d 파일을 다운로드에 저장</string>
     <string name="SaveToDownloadCount_other">%1$d 파일을 다운로드에 저장</string>
-    <string name="AppLinkNotVerifiedMessage">Android 12 및 최신의 경우 Nekogram에서 t.me 링크를 열기 위해 검증된 링크에 수동으로 링크를 추가해야 합니다.</string>
+    <string name="AppLinkNotVerifiedMessage">Android 12 및 최신의 경우 Irongram에서 t.me 링크를 열기 위해 검증된 링크에 수동으로 링크를 추가해야 합니다.</string>
     <string name="AppLinkNotVerifiedTitle">앱 링크가 확인되지 않음</string>
     <string name="AutoTranslate">자동 번역</string>
     <string name="AutoTranslateAbout">다른 언어로 된 메시지를 자동으로 번역합니다.</string>
@@ -178,14 +178,14 @@
     <string name="TabletMode">태블릿 모드</string>
     <string name="TabletModeAuto">자동</string>
     <string name="DeleteAllFromSelfDone">모든 메세지가 삭제 되었습니다</string>
-    <string name="UnknownNekoSettingsOption">그러한 Neko 설정 옵션이 없습니다.</string>
+    <string name="UnknownNekoSettingsOption">그러한 Irongram 설정 옵션이 없습니다.</string>
     <string name="ProviderYouDaoTranslate">유다오 번역</string>
     <string name="ProviderBaiduTranslate">바이두 번역</string>
     <string name="ProviderSogouTranslate">소고우 번역</string>
     <string name="Translated">번역</string>
     <string name="PasscodeNeeded">먼저 암호 잠금을 활성화해야 합니다.</string>
     <string name="PasscodeNeko">암호</string>
-    <string name="PasscodeShowInSettings">네코 세팅에서 보기</string>
+    <string name="PasscodeShowInSettings">Irongram 설정에서 보기</string>
     <string name="PasscodeShowInSettingsAbout">숨긴 후에는 **이 링크로만** 이 페이지를 열 수 있습니다.</string>
     <string name="PasscodeSet">암호설정</string>
     <string name="PasscodeEdit">암호변경</string>
@@ -261,7 +261,7 @@
     <string name="NavigationAnimationBezier">클래식</string>
     <string name="NavigationAnimationSpring">Natural</string>
     <string name="CloudConfig">클라우드 설정</string>
-    <string name="CloudConfigDesc">네코 설정을 텔레그램 클라우드에 저장합니다.</string>
+    <string name="CloudConfigDesc">Irongram 설정을 Telegram 클라우드에 저장합니다.</string>
     <string name="CloudConfigSyncDate">마지막 동기화: %s, 클라우드: %s</string>
     <string name="CloudConfigSyncDateNever">동기화 안함</string>
     <string name="CloudConfigSync">클라우드에 동기화</string>
@@ -270,7 +270,7 @@
     <string name="CloudConfigRestoreShort">복원</string>
     <string name="CloudConfigSyncing">동기화...</string>
     <string name="CloudConfigAutoSync">자동 동기화</string>
-    <string name="CloudConfigAutoSyncDesc">네코 설정을 변경한 후 클라우드에 자동으로 동기화합니다.</string>
+    <string name="CloudConfigAutoSyncDesc">Irongram 설정 변경 후 클라우드에 자동으로 동기화합니다.</string>
     <string name="CloudConfigSyncFailed">설정을 클라우드에 동기화하지 못했습니다.</string>
     <string name="CloudConfigRestoreFailed">클라우드에서 설정을 복원하지 못했습니다.</string>
     <string name="ReducedColors">색상 줄이기</string>

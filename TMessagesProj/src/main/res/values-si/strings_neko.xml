@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">නිකෝ සැකසුම්</string>
+    <string name="NekoSettings">Irongram සැකසුම්</string>
     <string name="PreferIPv6">IPv6 හරහා සම්බන්ධ වීමට කැමති නම්</string>
     <string name="MessageMenu">පණිවිඩ මෙනුව</string>
     <string name="HidePhone">මගේ දුරකථන අංකය හංගන්න</string>
@@ -22,7 +22,7 @@
     <string name="AddToSavedMessages">පණිවිඩය සුරකින්න</string>
     <string name="CreateMention">සඳහන් කිරීමක් කරන්න</string>
     <string name="Prpr">Peropero</string>
-    <string name="NekogramRunning">නෙකෝග්‍රෑම් වැඩ කරමින්</string>
+    <string name="NekogramRunning">Irongram ක්‍රියාත්මක වෙමින් පවතී</string>
     <string name="EventType">පැති තීරුවෙහි නිරූපක කට්ටලය</string>
     <string name="DependsOnDate">දිනය මත රදා පවතී</string>
     <string name="Christmas">නත්තල්</string>
@@ -64,8 +64,8 @@
     <string name="IgnoreBlockedAbout">අයිකන වලාකුළු විදුලි පණිවුඩ මගින් සමමුහුර්ත කර ඇත</string>
     <string name="Donate">පරිත්‍යාග කරන්න</string>
     <string name="DonateAbout">අපගේ සංවර්ධනයට සහාය වන්න.</string>
-    <string name="TranslationAbout">ඔබගේ භාෂාවට නෙකොග්‍රෑම් පරිවර්තනය කිරීමට අපට උදව් කරන්න.</string>
-    <string name="Translation">නෙකෝග්‍රෑම් පරිවර්තනය කරන්න</string>
+    <string name="TranslationAbout">Irongram ඔබගේ භාෂාවට පරිවර්තනය කිරීමට අපට උදව් කරන්න.</string>
+    <string name="Translation">Irongram පරිවර්තනය කරන්න</string>
     <string name="GooglePlay">ගූගල් ප්ලේ</string>
     <string name="ResetStickerSize">ස්ටිකර් විශාලත්වය නැවත සකසන්න</string>
     <string name="RestartAppToTakeEffect">මෙය ක්‍රියාත්මක වීම සදහා ඇප් එක නැවත ක්‍රියාත්මක කරන්න.</string>

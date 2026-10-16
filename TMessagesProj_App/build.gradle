@@ -113,7 +113,7 @@ androidComponents {
             def abi = output.filters.find { it.filterType == FilterConfiguration.FilterType.ABI }?.identifier
             def abiName = abi ?: "universal"
             def baseVersionCode = output.versionCode.get()
-            output.outputFileName.set("Nekogram-${output.versionName.get()}-${baseVersionCode}-${abiName}.apk")
+            output.outputFileName.set("Irongram-${output.versionName.get()}-${baseVersionCode}-${abiName}.apk")
             output.versionCode.set(baseVersionCode * 10)
         }
     }

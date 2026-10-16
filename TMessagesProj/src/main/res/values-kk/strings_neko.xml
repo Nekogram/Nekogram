@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">Neko баптауы</string>
+    <string name="NekoSettings">Irongram баптауы</string>
     <string name="PreferIPv6">IPv6 арқылы қосылу</string>
     <string name="MessageMenu">Хабарлама мәзірі</string>
     <string name="HidePhone">Телефон нөмірімді жасыру</string>
@@ -22,7 +22,7 @@
     <string name="AddToSavedMessages">Хатты сақтау</string>
     <string name="CreateMention">Ескертпе жасау</string>
     <string name="Prpr">Peropero</string>
-    <string name="NekogramRunning">Nekogram қосылулы</string>
+    <string name="NekogramRunning">Irongram қосылулы</string>
     <string name="EventType">Қапталдағы белгіш мәзірі</string>
     <string name="DependsOnDate">Күніне байланысты</string>
     <string name="Christmas">Жаңа жыл</string>
@@ -64,8 +64,8 @@
     <string name="IgnoreBlockedAbout">БҰЛ ШЫНЫМЕН ЖАСЫРМАЙДЫ! Хабарларды әлі де көруге болады, бірақ мәтін Спойлерге түрлендіріледі және медиа автоматты түрде жүктелмейді.</string>
     <string name="Donate">Қолдау</string>
     <string name="DonateAbout">Біздің дамуымызға қолдау көрсету.</string>
-    <string name="TranslationAbout">Nekogram-ды өз тіліңізге аударуға көмектесіңіз.</string>
-    <string name="Translation">Nekogram-ды Аудару</string>
+    <string name="TranslationAbout">Irongram-ды өз тіліңізге аударуға көмектесіңіз.</string>
+    <string name="Translation">Irongram-ды Аудару</string>
     <string name="GooglePlay">Google Play</string>
     <string name="ResetStickerSize">Стикер өлшемін қалпына келтіру</string>
     <string name="RestartAppToTakeEffect">Күшіне ену үшін қолданбаны қайта іске қосыңыз.</string>
@@ -114,7 +114,7 @@
     <string name="RegistrationDateNewer">%s жаңарақ</string>
     <string name="RegistrationDateOlder">%s асқан</string>
     <string name="RegistrationDateApproximately">Шамамен %s</string>
-    <string name="UpdateNekogram">Nekogram - ды жаңарту</string>
+    <string name="UpdateNekogram">Irongram - ды жаңарту</string>
     <string name="TranslationTarget">Мақсатты тіл</string>
     <string name="TranslationTargetApp">Қолданба тілі</string>
     <string name="Translator">Аудармашы</string>
@@ -139,9 +139,9 @@
     <string name="OfficialSite">Ресми сайт</string>
     <string name="MutualContact">Өзара байланыс</string>
     <string name="MutualContactDescription">Бұл байланыс өзара байланыс болып табылады.</string>
-    <string name="InviteTextNeko">Сәлем, мен чаттасу үшін Nekogram пайдаланып жатырмын. Маған қосылыңыз! Оны мына жерден жүктеп алыңыз: %1$s</string>
-    <string name="ShareNekogram">Nekogram-ды бөлісіңіз...</string>
-    <string name="NekogramVersion">Nekogram %1$s\n Telegram негізінде %2$s\n %3$s жасаған</string>
+    <string name="InviteTextNeko">Сәлем, мен чаттасу үшін Irongram пайдаланып жатырмын. Маған қосылыңыз! Оны мына жерден жүктеп алыңыз: %1$s</string>
+    <string name="ShareNekogram">Irongram-ды бөлісіңіз...</string>
+    <string name="NekogramVersion">Irongram %1$s\n Telegram негізінде %2$s\n %3$s жасаған</string>
     <string name="UpdateInstalling">Обновление жасап ватырқ...</string>
     <string name="UpdateInstallingNotification">Обновление жасап ватырқ...</string>
     <string name="UpdateInstallingRelaunch">Жаңарту аяқталған кезде қолданба қайта іске қосылады.</string>
@@ -164,7 +164,7 @@
     <string name="SaveToDownloadCount_few">%1$d файлды жүктеулерге сақтау</string>
     <string name="SaveToDownloadCount_many">%1$d файлды жүктеулерге сақтау</string>
     <string name="SaveToDownloadCount_other">%1$d файлды жүктеулерге сақтау</string>
-    <string name="CloudConfigDesc">Neko параметрлерін Telegram бұлтына сақтаңыз.</string>
+    <string name="CloudConfigDesc">Irongram параметрлерін Telegram бұлтына сақтаңыз.</string>
     <string name="CloudConfigSyncDate">Соңғы синхрондалған: %s, бұлт: %s</string>
     <string name="CloudConfigSyncDateNever">ешқашан</string>
     <string name="CloudConfigSync">Бұлтпен синхрондау</string>
@@ -173,7 +173,7 @@
     <string name="CloudConfigRestoreShort">Қалпына келтіру</string>
     <string name="CloudConfigSyncing">Синхрондалуда...</string>
     <string name="CloudConfigAutoSync">Аутоматты синхрондау</string>
-    <string name="CloudConfigAutoSyncDesc">Neko Параметрлеріне өзгертулер енгізгеннен кейін бұлтпен аутоматты түрде синхрондаңыз.</string>
+    <string name="CloudConfigAutoSyncDesc">Irongram Параметрлеріне өзгертулер енгізгеннен кейін бұлтпен аутоматты түрде синхрондаңыз.</string>
     <string name="CloudConfigSyncFailed">Параметрлерді бұлтпен синхрондау сәтсіз аяқталды.</string>
     <string name="CloudConfigRestoreFailed">Бұлттан параметрлерді қалпына келтіру мүмкін болмады.</string>
     <string name="ReducedColors">Түстерді азайтыңыз</string>

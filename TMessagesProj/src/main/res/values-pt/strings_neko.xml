@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">Configurações Neko</string>
+    <string name="NekoSettings">Configurações Irongram</string>
     <string name="PreferIPv6">Conectar  de preferência no IPv6</string>
     <string name="MessageMenu">Menu de mensagens</string>
     <string name="HidePhone">Ocultar meu número de telefone</string>
@@ -22,7 +22,7 @@
     <string name="AddToSavedMessages">Mensagens salvas</string>
     <string name="CreateMention">Criar menção</string>
     <string name="Prpr">Perópero</string>
-    <string name="NekogramRunning">Nekogram está funcionando</string>
+    <string name="NekogramRunning">Irongram está funcionando</string>
     <string name="EventType">Ícones do menu lateral</string>
     <string name="DependsOnDate">Seguindo o calendário</string>
     <string name="Christmas">Natal</string>
@@ -64,8 +64,8 @@
     <string name="IgnoreBlockedAbout">NÃO ESCONDE REALMENTE! As mensagens ainda estão disponíveis para visualização, mas o texto será convertido para Spoiler e as mídias não serão baixadas automaticamente.</string>
     <string name="Donate">Doar</string>
     <string name="DonateAbout">Apoie nosso desenvolvimento.</string>
-    <string name="TranslationAbout">Ajude-nos a traduzir o Nekogram para o seu idioma.</string>
-    <string name="Translation">Traduzir o Nekogram</string>
+    <string name="TranslationAbout">Ajude-nos a traduzir o Irongram para o seu idioma.</string>
+    <string name="Translation">Traduzir o Irongram</string>
     <string name="GooglePlay">Google Play</string>
     <string name="ResetStickerSize">Redefinir tamanho da figurinha</string>
     <string name="RestartAppToTakeEffect">Reiniciar a aplicação para ter efeito.</string>
@@ -114,7 +114,7 @@
     <string name="RegistrationDateNewer">Mais recente que %s</string>
     <string name="RegistrationDateOlder">Mais antigo do que %s</string>
     <string name="RegistrationDateApproximately">Aproximadamente %s</string>
-    <string name="UpdateNekogram">Atualizar Nekogram</string>
+    <string name="UpdateNekogram">Atualizar Irongram</string>
     <string name="TranslationTarget">Idioma de destino</string>
     <string name="TranslationTargetApp">Seguir app</string>
     <string name="Translator">Tradutor</string>
@@ -140,9 +140,9 @@
     <string name="OfficialSite">Site oficial</string>
     <string name="MutualContact">Contato mútuo</string>
     <string name="MutualContactDescription">Este contato é um contato mútuo.</string>
-    <string name="InviteTextNeko">Estou a usar o Nekogram para conversar. Junta-te a mim! Faz o Download aqui: %1$s</string>
-    <string name="ShareNekogram">Compartilhar Nekogram...</string>
-    <string name="NekogramVersion">Nekogram %1$s\nBaseado no Telegram %2$s\nProjetado por %3$s</string>
+    <string name="InviteTextNeko">Estou a usar o Irongram para conversar. Junta-te a mim! Faz o Download aqui: %1$s</string>
+    <string name="ShareNekogram">Compartilhar Irongram...</string>
+    <string name="NekogramVersion">Irongram %1$s\nBaseado no Telegram %2$s\nProjetado por %3$s</string>
     <string name="UpdateInstalling">Instalando atualização...</string>
     <string name="UpdateInstallingNotification">Uma notificação será exibida quando a atualização for concluída.</string>
     <string name="UpdateInstallingRelaunch">O app irá reiniciar quando a atualização for concluída.</string>
@@ -165,7 +165,7 @@
     <string name="SaveToDownloadCount_few">Salvando arquivos %1$d em downloads</string>
     <string name="SaveToDownloadCount_many">Salvando arquivos %1$d em downloads</string>
     <string name="SaveToDownloadCount_other">Salvando arquivos %1$d em downloads</string>
-    <string name="AppLinkNotVerifiedMessage">Para o Android 12 e mais recentes, é necessário adicionar manualmente ligações verificadas para abrir as ligações t.me no Nekogram.</string>
+    <string name="AppLinkNotVerifiedMessage">Para o Android 12 e mais recentes, é necessário adicionar manualmente ligações verificadas para abrir as ligações t.me no Irongram.</string>
     <string name="AppLinkNotVerifiedTitle">Links de aplicativos não verificados</string>
     <string name="AutoTranslate">Tradução automática</string>
     <string name="AutoTranslateAbout">Traduzir automaticamente mensagens que estejam noutra língua.</string>
@@ -183,14 +183,14 @@
     <string name="TabletMode">Modo Tablet</string>
     <string name="TabletModeAuto">Auto</string>
     <string name="DeleteAllFromSelfDone">Todas as suas mensagens são apagadas</string>
-    <string name="UnknownNekoSettingsOption">Não existe essa opção de Configurações Neko.</string>
+    <string name="UnknownNekoSettingsOption">Não existe essa opção de Configurações Irongram.</string>
     <string name="ProviderYouDaoTranslate">Tradutor YouDao</string>
     <string name="ProviderBaiduTranslate">Tradutor Baidu</string>
     <string name="ProviderSogouTranslate">Tradutor Sogou</string>
     <string name="Translated">traduzido</string>
     <string name="PasscodeNeeded">Tem de activar primeiro o bloqueio do código de acesso</string>
     <string name="PasscodeNeko">Código de acesso</string>
-    <string name="PasscodeShowInSettings">Mostrar nas Configurações Neko</string>
+    <string name="PasscodeShowInSettings">Mostrar nas Configurações Irongram</string>
     <string name="PasscodeShowInSettingsAbout">Depois de se esconder, pode **SOMENTE** abrir esta página por link:</string>
     <string name="PasscodeSet">Definir senha</string>
     <string name="PasscodeEdit">Alterar senha</string>
@@ -270,7 +270,7 @@
     <string name="NavigationAnimationBezier">Clássica</string>
     <string name="NavigationAnimationSpring">Natural</string>
     <string name="CloudConfig">Configurações da Nuvem</string>
-    <string name="CloudConfigDesc">Salve suas configurações do Neko na nuvem do Telegram.</string>
+    <string name="CloudConfigDesc">Salve suas configurações do Irongram na nuvem do Telegram.</string>
     <string name="CloudConfigSyncDate">Última sincronização: %s, nuvem: %s</string>
     <string name="CloudConfigSyncDateNever">nunca</string>
     <string name="CloudConfigSync">Sincronizar com a nuvem</string>
@@ -279,7 +279,7 @@
     <string name="CloudConfigRestoreShort">Restaurar</string>
     <string name="CloudConfigSyncing">Sincronizando...</string>
     <string name="CloudConfigAutoSync">Sincronização automática</string>
-    <string name="CloudConfigAutoSyncDesc">Sincronizar automaticamente com a nuvem após fazer alterações nas configurações do Neko.</string>
+    <string name="CloudConfigAutoSyncDesc">Sincronizar automaticamente com a nuvem após fazer alterações nas configurações do Irongram.</string>
     <string name="CloudConfigSyncFailed">Falha ao sincronizar as configurações com a nuvem.</string>
     <string name="CloudConfigRestoreFailed">Falha ao restaurar as configurações da nuvem.</string>
     <string name="ReducedColors">Reduzir cores</string>

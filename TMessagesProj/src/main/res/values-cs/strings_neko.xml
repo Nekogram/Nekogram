@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">Nastavení Neko</string>
+    <string name="NekoSettings">Nastavení Irongram</string>
     <string name="PreferIPv6">Preferovat připojení přes IPv6</string>
     <string name="MessageMenu">Menu zpráv</string>
     <string name="HidePhone">Skrýt mé telefonní číslo</string>
@@ -22,7 +22,7 @@
     <string name="AddToSavedMessages">Зберегти повідомлення</string>
     <string name="CreateMention">Vytvořit zmínku</string>
     <string name="Prpr">Peropero</string>
-    <string name="NekogramRunning">Nekogram běží</string>
+    <string name="NekogramRunning">Irongram běží</string>
     <string name="EventType">Sada ikon postranního panelu</string>
     <string name="DependsOnDate">Záleží na datu</string>
     <string name="Christmas">Vánoce</string>
@@ -64,8 +64,8 @@
     <string name="IgnoreBlockedAbout">TO NENÍ OPRAVDU SKRÝT! Zprávy jsou stále k dispozici k zobrazení, ale text bude převeden na spoiler a média se nebudou automaticky stahovat.</string>
     <string name="Donate">Podpořit</string>
     <string name="DonateAbout">Podpořte vývoj aplikace.</string>
-    <string name="TranslationAbout">Pomozte nám přeložit Nekogram do vašeho jazyka.</string>
-    <string name="Translation">Přeložte Nekogram</string>
+    <string name="TranslationAbout">Pomozte nám přeložit Irongram do vašeho jazyka.</string>
+    <string name="Translation">Přeložte Irongram</string>
     <string name="GooglePlay">Google Play</string>
     <string name="ResetStickerSize">Resetovat velikost nálepky</string>
     <string name="RestartAppToTakeEffect">Restartujte aplikaci, aby se změny projevily.</string>
@@ -114,7 +114,7 @@
     <string name="RegistrationDateNewer">Novější než %s</string>
     <string name="RegistrationDateOlder">Novější než %s</string>
     <string name="RegistrationDateApproximately">Přibližně %s</string>
-    <string name="UpdateNekogram">Оновити некограм</string>
+    <string name="UpdateNekogram">Aktualizovat Irongram</string>
     <string name="TranslationTarget">Цільова мова</string>
     <string name="TranslationTargetApp">Підписатись на програму</string>
     <string name="Translator">Перекладач</string>
@@ -139,9 +139,9 @@
     <string name="OfficialSite">Oficiální web stránky</string>
     <string name="MutualContact">Vzájemný kontakt</string>
     <string name="MutualContactDescription">Tento kontakt je vzájemný.</string>
-    <string name="InviteTextNeko">TextPozvánkyNeko</string>
-    <string name="ShareNekogram">PodílNekoGram...</string>
-    <string name="NekogramVersion">VerzeNekogram</string>
+    <string name="InviteTextNeko">Ahoj, používám Irongram k chatování. Přidej se! Stáhni si ho zde: %1$s</string>
+    <string name="ShareNekogram">Sdílet Irongram...</string>
+    <string name="NekogramVersion">Irongram %1$s\nZaloženo na Telegramu %2$s\nNavrženo %3$s</string>
     <string name="UpdateInstalling">InstalaceAktualizace</string>
     <string name="UpdateInstallingNotification">UpozorněníNaInstalaciAktualizace</string>
     <string name="UpdateInstallingRelaunch">AktualizaceInstalaceZnovuSpustit.</string>
@@ -163,7 +163,7 @@
     <string name="SaveToDownloadCount_few">Ukládání %1$d souborů ke stažení</string>
     <string name="SaveToDownloadCount_many">Ukládání %1$d souborů ke stažení</string>
     <string name="SaveToDownloadCount_other">Ukládání %1$d souborů ke stažení</string>
-    <string name="AppLinkNotVerifiedMessage">Pro Android 12 a novější musíte ručně přidat odkaz na ověřené odkazy, abyste mohli otevřít odkazy t.me v Nekogramu.</string>
+    <string name="AppLinkNotVerifiedMessage">Pro Android 12 a novější musíte ručně přidat odkaz na ověřené odkazy, abyste mohli otevřít odkazy t.me v Irongramu.</string>
     <string name="AppLinkNotVerifiedTitle">Odkazy na aplikace nebyly ověřeny</string>
     <string name="AutoTranslate">Automatický překlad</string>
     <string name="AutoTranslateAbout">Automaticky překládat zprávy, které jsou v jiném jazyce.</string>
@@ -180,14 +180,14 @@
     <string name="TabletMode">Režim tabletu</string>
     <string name="TabletModeAuto">Automaticky</string>
     <string name="DeleteAllFromSelfDone">Všechny vaše zprávy jsou smazány</string>
-    <string name="UnknownNekoSettingsOption">Taková možnost nastavení Neko neexistuje.</string>
+    <string name="UnknownNekoSettingsOption">Taková možnost nastavení Irongram neexistuje.</string>
     <string name="ProviderYouDaoTranslate">Překladač YouDao</string>
     <string name="ProviderBaiduTranslate">Překladač Baidu</string>
     <string name="ProviderSogouTranslate">Překladač Sogou</string>
     <string name="Translated">přeloženo</string>
     <string name="PasscodeNeeded">Nejprve musíte zapnout blokování kódem</string>
     <string name="PasscodeNeko">Kód</string>
-    <string name="PasscodeShowInSettings">Zobrazit v nastavení Neko</string>
+    <string name="PasscodeShowInSettings">Zobrazit v nastavení Irongram</string>
     <string name="PasscodeShowInSettingsAbout">Po skrytí můžete **POUZE** otevřít tuto stránku odkazem:</string>
     <string name="PasscodeSet">Nastavit kód</string>
     <string name="PasscodeEdit">Změnit kód</string>

@@ -25,7 +25,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Nekogram"
+rootProject.name = "Irongram"
 include ':TMessagesProj'
 include ':TMessagesProj_App'
 //include ':TMessagesProj_AppHuawei'

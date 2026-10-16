@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">Neko Beállítások</string>
+    <string name="NekoSettings">Irongram Beállítások</string>
     <string name="PreferIPv6">IPv6-on keresztül történő csatlakozás előnyben részesítése</string>
     <string name="MessageMenu">Üzenet menü</string>
     <string name="HidePhone">Saját telefonszám elrejtése</string>
@@ -22,7 +22,7 @@
     <string name="AddToSavedMessages">Üzenet mentése</string>
     <string name="CreateMention">Említés Létrehozása</string>
     <string name="Prpr">Nyalifali</string>
-    <string name="NekogramRunning">Nekogram fut</string>
+    <string name="NekogramRunning">Irongram fut</string>
     <string name="EventType">Oldalsáv ikonkészlet</string>
     <string name="DependsOnDate">Dátumtól függ</string>
     <string name="Christmas">Karácsony</string>
@@ -64,8 +64,8 @@
     <string name="IgnoreBlockedAbout">EZ VALÓBAN NEM REJTETT! Az üzenetek továbbra is megtekinthetők, de a szöveg spoilerré konvertálódik, a média pedig nem töltődik le automatikusan.</string>
     <string name="Donate">Támogatás</string>
     <string name="DonateAbout">Fejlesztés támogatása.</string>
-    <string name="TranslationAbout">Segítsen számunkra a Nekogram fordításában.</string>
-    <string name="Translation">Nekogram lefordítása</string>
+    <string name="TranslationAbout">Segítsen számunkra a Irongram fordításában.</string>
+    <string name="Translation">Irongram lefordítása</string>
     <string name="GooglePlay">Google Play</string>
     <string name="ResetStickerSize">Matrica méret visszaállítása</string>
     <string name="RestartAppToTakeEffect">A hatálybalépéshez indítsa újra az alkalmazást.</string>
@@ -114,7 +114,7 @@
     <string name="RegistrationDateNewer">Újabb, mint %s</string>
     <string name="RegistrationDateOlder">Régebbi, mint %s</string>
     <string name="RegistrationDateApproximately">Körülbelül %s</string>
-    <string name="UpdateNekogram">Nekogram frissítése</string>
+    <string name="UpdateNekogram">Irongram frissítése</string>
     <string name="TranslationTarget">Célnyelv</string>
     <string name="TranslationTargetApp">Alkalmazás követése</string>
     <string name="Translator">Fordító</string>
@@ -140,9 +140,9 @@
     <string name="OfficialSite">Hivatalos oldal</string>
     <string name="MutualContact">Közös kapcsolat</string>
     <string name="MutualContactDescription">Ez a kapcsolat egy közös ismerős.</string>
-    <string name="InviteTextNeko">Szia! A Nekogramot használom a csevegéshez. Csatlakozz hozzám! Letölthető itt: %1$s</string>
-    <string name="ShareNekogram">Nekogram megosztása...</string>
-    <string name="NekogramVersion">Nekogram %1$s\na Telegram-on alapul %2$s\nTervezte %3$s</string>
+    <string name="InviteTextNeko">Szia! A Irongramot használom a csevegéshez. Csatlakozz hozzám! Letölthető itt: %1$s</string>
+    <string name="ShareNekogram">Irongram megosztása...</string>
+    <string name="NekogramVersion">Irongram %1$s\na Telegram-on alapul %2$s\nTervezte %3$s</string>
     <string name="UpdateInstalling">Frissítés telepítése...</string>
     <string name="UpdateInstallingNotification">A frissítés befejezésekor értesítés jelenik meg.</string>
     <string name="UpdateInstallingRelaunch">Az alkalmazás újraindul, a frissítés befejeződésekor.</string>
@@ -165,7 +165,7 @@
     <string name="SaveToDownloadCount_few">%1$d fájl mentése a letöltésekhez</string>
     <string name="SaveToDownloadCount_many">%1$d fájl mentése a letöltésekhez</string>
     <string name="SaveToDownloadCount_other">%1$d fájl mentése a letöltésekhez</string>
-    <string name="AppLinkNotVerifiedMessage">Android 12 és újabb verziók esetén manuálisan kell hozzáadnia a hivatkozás hozzárendeléseket, hogy a t.me linkeket meg tudja nyitni a Nekogramban.</string>
+    <string name="AppLinkNotVerifiedMessage">Android 12 és újabb verziók esetén manuálisan kell hozzáadnia a hivatkozás hozzárendeléseket, hogy a t.me linkeket meg tudja nyitni a Irongramban.</string>
     <string name="AppLinkNotVerifiedTitle">Az alkalmazás orientált hivatkozás nincs hozzárendelve</string>
     <string name="AutoTranslate">Automatikus fordítás</string>
     <string name="AutoTranslateAbout">Más nyelvű üzenetek automatikus fordítása.</string>
@@ -183,14 +183,14 @@
     <string name="TabletMode">Tablet üzemmód</string>
     <string name="TabletModeAuto">Automata</string>
     <string name="DeleteAllFromSelfDone">Az összes üzenete törlődik</string>
-    <string name="UnknownNekoSettingsOption">Nincs ilyen Neko Beállítások opció.</string>
+    <string name="UnknownNekoSettingsOption">Nincs ilyen Irongram Beállítások opció.</string>
     <string name="ProviderYouDaoTranslate">YouDao Fordító</string>
     <string name="ProviderBaiduTranslate">Baidu Fordító</string>
     <string name="ProviderSogouTranslate">Sogou Fordító</string>
     <string name="Translated">lefordítva</string>
     <string name="PasscodeNeeded">Először engedélyeznie kell a jelszó zárolást</string>
     <string name="PasscodeNeko">Jelszó</string>
-    <string name="PasscodeShowInSettings">Megjelenítés a Neko beállításaiban</string>
+    <string name="PasscodeShowInSettings">Megjelenítés a Irongram beállításaiban</string>
     <string name="PasscodeShowInSettingsAbout">Az elrejtés után **KIZÁRÓLAG** a linkre kattintva nyithatja meg az oldalt:</string>
     <string name="PasscodeSet">Jelszó beállítása</string>
     <string name="PasscodeEdit">Jelszó módosítása</string>
@@ -269,7 +269,7 @@
     <string name="NavigationAnimationBezier">Klasszikus</string>
     <string name="NavigationAnimationSpring">Természetes</string>
     <string name="CloudConfig">Felhő beállítások</string>
-    <string name="CloudConfigDesc">A Neko beállítások elmentése a Telegram felhőbe.</string>
+    <string name="CloudConfigDesc">A Irongram beállítások elmentése a Telegram felhőbe.</string>
     <string name="CloudConfigSyncDate">Utoljára szinkronizálva: %s, felhő: %s</string>
     <string name="CloudConfigSyncDateNever">soha</string>
     <string name="CloudConfigSync">Szinkronizálás a felhővel</string>
@@ -278,7 +278,7 @@
     <string name="CloudConfigRestoreShort">Visszaállítás</string>
     <string name="CloudConfigSyncing">Szinkronizálás...</string>
     <string name="CloudConfigAutoSync">Automatikus szinkronizálás</string>
-    <string name="CloudConfigAutoSyncDesc">Automatikus szinkronizálás a felhővel a Neko beállítások módosítása után.</string>
+    <string name="CloudConfigAutoSyncDesc">Automatikus szinkronizálás a felhővel a Irongram beállítások módosítása után.</string>
     <string name="CloudConfigSyncFailed">Sikertelen a beállítások szinkronizálása a felhővel.</string>
     <string name="CloudConfigRestoreFailed">A beállításokat nem sikerült visszaállítani a felhőből.</string>
     <string name="ReducedColors">Színek csökkentése</string>

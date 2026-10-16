@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">Ρυθμίσεις Nekogram</string>
+    <string name="NekoSettings">Ρυθμίσεις Irongram</string>
     <string name="PreferIPv6">Προτίμηση σύνδεσης μέσω IPv6</string>
     <string name="MessageMenu">Μενού μηνυμάτων</string>
     <string name="HidePhone">Απόκρυψη του αριθμού μου</string>
@@ -22,7 +22,7 @@
     <string name="AddToSavedMessages">Αποθήκευση Μηνύματος</string>
     <string name="CreateMention">Δημιουργία αναφοράς</string>
     <string name="Prpr">Peropero</string>
-    <string name="NekogramRunning">Το Nekogram εκτελείται</string>
+    <string name="NekogramRunning">Το Irongram εκτελείται</string>
     <string name="EventType">Εικονιδ πλευρικ μπάρας Αρχικής</string>
     <string name="DependsOnDate">Βάσει ημ/νίας</string>
     <string name="Christmas">Χριστούγεννα</string>
@@ -64,8 +64,8 @@
     <string name="IgnoreBlockedAbout">ΔΕΝ ΚΡΥΒΕΤΑΙ ΠΡΑΓΜΑΤΙΚΑ! Τα μηνύματα εξακολουθούν να είναι διαθέσιμα για προβολή, αλλά το κείμενο θα μετατραπεί σε Spoiler και χωρίς λήψη πολυμέσων.</string>
     <string name="Donate">Δωρεά</string>
     <string name="DonateAbout">Υποστηρίξτε την ανάπτυξη της εφαρμογής μας.</string>
-    <string name="TranslationAbout">Βοηθήστε να μεταφράσουμε το Nekogram στη γλώσσα σας.</string>
-    <string name="Translation">Μετάφραση Nekogram</string>
+    <string name="TranslationAbout">Βοηθήστε να μεταφράσουμε το Irongram στη γλώσσα σας.</string>
+    <string name="Translation">Μετάφραση Irongram</string>
     <string name="GooglePlay">Google Play</string>
     <string name="ResetStickerSize">Επαναφ. μεγέθ. αυτοκόλλητου</string>
     <string name="RestartAppToTakeEffect">Επανεκκίνηση για εφαρμογή αλλαγών.</string>
@@ -114,7 +114,7 @@
     <string name="RegistrationDateNewer">Νεότερο από %s</string>
     <string name="RegistrationDateOlder">Παλαιότερο από %s</string>
     <string name="RegistrationDateApproximately">Περίπου %s</string>
-    <string name="UpdateNekogram">Ενημέρωση Nekogram</string>
+    <string name="UpdateNekogram">Ενημέρωση Irongram</string>
     <string name="TranslationTarget">Μετάφραση σε</string>
     <string name="TranslationTargetApp">Γλώσσα εφαρμογής</string>
     <string name="Translator">Μεταφραστής</string>
@@ -140,9 +140,9 @@
     <string name="OfficialSite">Επίσημη ιστοσελίδα</string>
     <string name="MutualContact">Παρόμοια επαφή</string>
     <string name="MutualContactDescription">Αυτή είναι μια παρόμοια επαφή.</string>
-    <string name="InviteTextNeko">Γεια σας, χρησιμοποιώ το Nekogram για συνομιλία. Ελάτε μαζί μου! Κατεβάστε το εδώ: %1$s</string>
-    <string name="ShareNekogram">Κοινοποίηση Nekogram...</string>
-    <string name="NekogramVersion">Nekogram %1$s\nΒασισμένο στο Telegram %2$s\nΣχεδιάστηκε από %3$s</string>
+    <string name="InviteTextNeko">Γεια σας, χρησιμοποιώ το Irongram για συνομιλία. Ελάτε μαζί μου! Κατεβάστε το εδώ: %1$s</string>
+    <string name="ShareNekogram">Κοινοποίηση Irongram...</string>
+    <string name="NekogramVersion">Irongram %1$s\nΒασισμένο στο Telegram %2$s\nΣχεδιάστηκε από %3$s</string>
     <string name="UpdateInstalling">Εγκατάσταση ενημέρωσης...</string>
     <string name="UpdateInstallingNotification">Θα εμφανιστεί μια ειδοποίηση όταν ολοκληρωθεί η ενημέρωση.</string>
     <string name="UpdateInstallingRelaunch">Η εφαρμογή θα επανεκκινηθεί μόλις ολοκληρωθεί η ενημέρωση.</string>
@@ -165,7 +165,7 @@
     <string name="SaveToDownloadCount_few">Αποθήκ. %1$d αρχείων στις λήψεις</string>
     <string name="SaveToDownloadCount_many">Αποθήκ. %1$d αρχείων στις λήψεις</string>
     <string name="SaveToDownloadCount_other">Αποθήκ. %1$d αρχείων στις λήψεις</string>
-    <string name="AppLinkNotVerifiedMessage">Για το Android 12 και νεότερων, πρέπει να προσθέσετε χειροκίνητα το σύνδεσμο στους επαληθευμένους συνδέσμους για άνοιγμα του t.me στο Nekogram.</string>
+    <string name="AppLinkNotVerifiedMessage">Για το Android 12 και νεότερων, πρέπει να προσθέσετε χειροκίνητα το σύνδεσμο στους επαληθευμένους συνδέσμους για άνοιγμα του t.me στο Irongram.</string>
     <string name="AppLinkNotVerifiedTitle">Μη επαληθευμένοι σύνδεσμοι εφαρμογών</string>
     <string name="AutoTranslate">Αυτόματη Μετάφραση</string>
     <string name="AutoTranslateAbout">Αυτόματη μετάφραση μηνυμάτων άλλης γλώσσας χωρίς την παρέμβαση σας.</string>
@@ -183,14 +183,14 @@
     <string name="TabletMode">Λειτουργία tablet</string>
     <string name="TabletModeAuto">Αυτόματα</string>
     <string name="DeleteAllFromSelfDone">Όλα τα μηνύματά σας έχουν διαγραφεί</string>
-    <string name="UnknownNekoSettingsOption">Δεν υπάρχει τέτοια επιλογή Ρυθμίσεων Neko.</string>
+    <string name="UnknownNekoSettingsOption">Δεν υπάρχει τέτοια επιλογή Ρυθμίσεων Irongram.</string>
     <string name="ProviderYouDaoTranslate">YouDao</string>
     <string name="ProviderBaiduTranslate">Baidu</string>
     <string name="ProviderSogouTranslate">Sogou</string>
     <string name="Translated">μεταφράστηκε</string>
     <string name="PasscodeNeeded">Πρώτα ενεργοποιήστε το κλείδωμα με κωδικό</string>
     <string name="PasscodeNeko">Κωδικός</string>
-    <string name="PasscodeShowInSettings">Εμφάνιση στις ρυθμίσεις Neko</string>
+    <string name="PasscodeShowInSettings">Εμφάνιση στις ρυθμίσεις Irongram</string>
     <string name="PasscodeShowInSettingsAbout">Μετά την απόκρυψη, μπορείτε να ανοίξετε αυτή τη σελίδα **ΜΟΝΟ** μέσω συνδέσμου:</string>
     <string name="PasscodeSet">Ορισμός κωδικού</string>
     <string name="PasscodeEdit">Αλλαγή κωδικού</string>
@@ -272,7 +272,7 @@
     <string name="NavigationAnimationBezier">Κλασική</string>
     <string name="NavigationAnimationSpring">Φυσική</string>
     <string name="CloudConfig">Ρυθμίσεις Cloud</string>
-    <string name="CloudConfigDesc">Αποθήκευση ρυθμίσεων Neko στο Telegram cloud.</string>
+    <string name="CloudConfigDesc">Αποθήκευση ρυθμίσεων Irongram στο Telegram cloud.</string>
     <string name="CloudConfigSyncDate">Τελευταίος συγχρονισμός: %s, cloud: %s</string>
     <string name="CloudConfigSyncDateNever">ποτέ</string>
     <string name="CloudConfigSync">Συγχρονισμός στο cloud</string>
@@ -281,7 +281,7 @@
     <string name="CloudConfigRestoreShort">Επαναφορά</string>
     <string name="CloudConfigSyncing">Συγχρονισμός...</string>
     <string name="CloudConfigAutoSync">Αυτόματος συγχρονισμός</string>
-    <string name="CloudConfigAutoSyncDesc">Συγχρονισμός στο cloud αυτόματα μετά τις αλλαγές στις ρυθμίσεις του Neko.</string>
+    <string name="CloudConfigAutoSyncDesc">Συγχρονισμός στο cloud αυτόματα μετά τις αλλαγές στις ρυθμίσεις του Irongram.</string>
     <string name="CloudConfigSyncFailed">Αποτυχία συγχρονισμού ρυθμίσεων στο cloud.</string>
     <string name="CloudConfigRestoreFailed">Αποτυχία επαναφοράς ρυθμίσεων από το cloud.</string>
     <string name="ReducedColors">Μείωση χρωμάτων</string>

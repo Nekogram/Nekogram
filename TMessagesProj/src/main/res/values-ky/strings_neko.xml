@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">Неко</string>
+    <string name="NekoSettings">Irongram жөндөөлөрү</string>
     <string name="MessageMenu">Чаттарды</string>
     <string name="HidePhone">Телефон номеримди жашыруу</string>
     <string name="DeleteAllFromSelf">Өз билдирүүлөрүңүздү жок кылыңыз</string>

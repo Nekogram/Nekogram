@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">Neko-Einstellungen</string>
+    <string name="NekoSettings">Irongram-Einstellungen</string>
     <string name="PreferIPv6">Verbindung über IPv6 bevorzugen</string>
     <string name="MessageMenu">Nachrichten-Menü</string>
     <string name="HidePhone">Meine Telefonnummer ausblenden</string>
@@ -22,7 +22,7 @@
     <string name="AddToSavedMessages">Zu Gespeichertes hinzufügen</string>
     <string name="CreateMention">Erwähnung erstellen</string>
     <string name="Prpr">ペロペロ</string>
-    <string name="NekogramRunning">Nekogram wird ausgeführt</string>
+    <string name="NekogramRunning">Irongram wird ausgeführt</string>
     <string name="EventType">Symbol-Set Seitenleiste</string>
     <string name="DependsOnDate">Abhängig vom Datum</string>
     <string name="Christmas">Weihnachten</string>
@@ -64,8 +64,8 @@
     <string name="IgnoreBlockedAbout">ES IST NICHT WIRKLICH VERSTECKT! Nachrichten sind immer noch verfügbar, aber Text wird in Spoiler konvertiert und Medien werden nicht automatisch heruntergeladen.</string>
     <string name="Donate">Spenden</string>
     <string name="DonateAbout">Unterstützen Sie unsere Entwicklung.</string>
-    <string name="TranslationAbout">Helfen Sie uns, Nekogram in Ihre Sprache zu übersetzen.</string>
-    <string name="Translation">Nekogram übersetzen</string>
+    <string name="TranslationAbout">Helfen Sie uns, Irongram in Ihre Sprache zu übersetzen.</string>
+    <string name="Translation">Irongram übersetzen</string>
     <string name="GooglePlay">Google Play</string>
     <string name="ResetStickerSize">Stickergröße zurücksetzen</string>
     <string name="RestartAppToTakeEffect">App neu starten, um Änderungen wirksam zu machen.</string>
@@ -114,7 +114,7 @@
     <string name="RegistrationDateNewer">Neuer als %s</string>
     <string name="RegistrationDateOlder">Älter als %s</string>
     <string name="RegistrationDateApproximately">Ungefähr %s</string>
-    <string name="UpdateNekogram">Nekogram aktualisieren</string>
+    <string name="UpdateNekogram">Irongram aktualisieren</string>
     <string name="TranslationTarget">Zielsprache</string>
     <string name="TranslationTargetApp">System folgen</string>
     <string name="Translator">Übersetzer</string>
@@ -140,12 +140,12 @@
     <string name="OfficialSite">Offizielle Webseite</string>
     <string name="MutualContact">Gegenseitiger Kontakt</string>
     <string name="MutualContactDescription">Dieser Kontakt ist ein gegenseitiger Kontakt.</string>
-    <string name="InviteTextNeko">Hey, ich benutze Nekogram um zu chatten. Mach mit! Lade es hier herunter: %1$s</string>
-    <string name="ShareNekogram">Nekogram teilen...</string>
-    <string name="NekogramVersion">Nekogram %1$s\nBasierend auf Telegram %2$s\nEntwickelt von %3$s</string>
+    <string name="InviteTextNeko">Hey, ich benutze Irongram um zu chatten. Mach mit! Lade es hier herunter: %1$s</string>
+    <string name="ShareNekogram">Irongram teilen...</string>
+    <string name="NekogramVersion">Irongram %1$s\nBasierend auf Telegram %2$s\nEntwickelt von %3$s</string>
     <string name="UpdateInstalling">Update wird installiert...</string>
     <string name="UpdateInstallingNotification">Wenn die Aktualisierung abgeschlossen ist, wird eine Benachrichtigung angezeigt.</string>
-    <string name="UpdateInstallingRelaunch">Nekogram wird neu gestartet, sobald das Update abgeschlossen ist.</string>
+    <string name="UpdateInstallingRelaunch">Irongram wird neu gestartet, sobald das Update abgeschlossen ist.</string>
     <string name="UpdateInstalledNotification">Installation der Aktualisierung beendet, zum Starten der Anwendung tippen.</string>
     <string name="UpdateFailedToInstall">Update konnte nicht installiert werden: %d</string>
     <string name="QRLoginMessage">Scanne den QRCode mit einem anderen Gerät, um dich anzumelden.</string>
@@ -165,7 +165,7 @@
     <string name="SaveToDownloadCount_few">%1$d Dateien werden in Downloads gespeichert</string>
     <string name="SaveToDownloadCount_many">%1$d Dateien werden in Downloads gespeichert</string>
     <string name="SaveToDownloadCount_other">%1$d Dateien werden in Downloads gespeichert </string>
-    <string name="AppLinkNotVerifiedMessage">Bei Android 12 und neuer mußt du manuell einen Link zu verifizierten Links hinzufügen, um t.me Links in Nekogram zu öffnen.</string>
+    <string name="AppLinkNotVerifiedMessage">Bei Android 12 und neuer mußt du manuell einen Link zu verifizierten Links hinzufügen, um t.me Links in Irongram zu öffnen.</string>
     <string name="AppLinkNotVerifiedTitle">App-Links nicht überprüft</string>
     <string name="AutoTranslate">Automatisch übersetzen</string>
     <string name="AutoTranslateAbout">Nachrichten in einer anderen Sprache automatisch übersetzen.</string>
@@ -183,14 +183,14 @@
     <string name="TabletMode">Tabletbetrieb</string>
     <string name="TabletModeAuto">Automatisch</string>
     <string name="DeleteAllFromSelfDone">Alle deine Nachrichten sind gelöscht</string>
-    <string name="UnknownNekoSettingsOption">Es gibt keine solche Neko-Einstellungsoption.</string>
+    <string name="UnknownNekoSettingsOption">Es gibt keine solche Irongram-Einstellungsoption.</string>
     <string name="ProviderYouDaoTranslate">YouDao Übersetzer</string>
     <string name="ProviderBaiduTranslate">Baidu Übersetzer</string>
     <string name="ProviderSogouTranslate">Sogou Übersetzer</string>
     <string name="Translated">übersetzt</string>
     <string name="PasscodeNeeded">Du mußt zuerst die Pincodesperre aktivieren</string>
     <string name="PasscodeNeko">Pincode</string>
-    <string name="PasscodeShowInSettings">In Neko-Einstellungen anzeigen</string>
+    <string name="PasscodeShowInSettings">In Irongram-Einstellungen anzeigen</string>
     <string name="PasscodeShowInSettingsAbout">Nach dem Ausblenden kannst du diese Seite **NUR** per Link öffnen:</string>
     <string name="PasscodeSet">Pincode festlegen</string>
     <string name="PasscodeEdit">Pincode ändern</string>
@@ -271,7 +271,7 @@
     <string name="NavigationAnimationBezier">Klassisch</string>
     <string name="NavigationAnimationSpring">Natürlich</string>
     <string name="CloudConfig">Cloudeinstellungen</string>
-    <string name="CloudConfigDesc">Deine Nekoeinstellungen in der Telegramcloud sichern.</string>
+    <string name="CloudConfigDesc">Deine Irongrameinstellungen in der Telegramcloud sichern.</string>
     <string name="CloudConfigSyncDate">Zuletzt synchronisiert: %s, Cloud: %s</string>
     <string name="CloudConfigSyncDateNever">niemals</string>
     <string name="CloudConfigSync">Mit der Cloud synchronisieren</string>
@@ -280,7 +280,7 @@
     <string name="CloudConfigRestoreShort">Wiederherstellen</string>
     <string name="CloudConfigSyncing">Synchronisieren...</string>
     <string name="CloudConfigAutoSync">Automatisch synchronisieren</string>
-    <string name="CloudConfigAutoSyncDesc">Automatisch mit der Cloud synchronisieren, nachdem die Nekoeinstellungen geändert wurden.</string>
+    <string name="CloudConfigAutoSyncDesc">Automatisch mit der Cloud synchronisieren, nachdem die Irongrameinstellungen geändert wurden.</string>
     <string name="CloudConfigSyncFailed">Synchronisierung der Einstellungen mit der Cloud fehlgeschlagen.</string>
     <string name="CloudConfigRestoreFailed">Wiederherstellen der Einstellungen aus der Cloud fehlgeschlagen.</string>
     <string name="ReducedColors">Reduzierte Farben</string>

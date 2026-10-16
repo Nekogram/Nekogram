@@ -360,7 +360,7 @@ public class SessionCell extends FrameLayout {
             iconId = R.drawable.device_desktop_osx;
             colorKey = Theme.key_avatar_backgroundCyan;
             colorKey2 = Theme.key_avatar_background2Cyan;
-        } else if (session.app_name.contains("Nekogram")) {
+        } else if ((session.app_name.contains("Irongram") || session.app_name.contains("Nekogram"))) {
             iconId = R.drawable.notification;
             colorKey = Theme.key_avatar_backgroundBlue;
             colorKey2 = Theme.key_avatar_background2Blue;

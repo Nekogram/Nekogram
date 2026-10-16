@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">Neko Instillinger</string>
+    <string name="NekoSettings">Irongram Instillinger</string>
     <string name="PreferIPv6">Foretrekk tilkobling via IPv6</string>
     <string name="MessageMenu">Meldingsmeny</string>
     <string name="HidePhone">Skjul mitt telefonnummer</string>
@@ -22,7 +22,7 @@
     <string name="AddToSavedMessages">Lagre melding</string>
     <string name="CreateMention">Opprett Omtale</string>
     <string name="Prpr">Peropero</string>
-    <string name="NekogramRunning">Nekogram kjører</string>
+    <string name="NekogramRunning">Irongram kjører</string>
     <string name="EventType">Sidefelt ikon sett</string>
     <string name="DependsOnDate">Avhenger av dato</string>
     <string name="Christmas">Jul</string>
@@ -64,8 +64,8 @@
     <string name="IgnoreBlockedAbout">DET ER EGENTLIG IKKE SKJULT! Meldinger er fortsatt tilgjengelig å vise, men tekst vil bli konvertert til Spoiler og media vil ikke automatisk lastes ned.</string>
     <string name="Donate">Donere</string>
     <string name="DonateAbout">Støtte til utvikling.</string>
-    <string name="TranslationAbout">Hjelp oss å oversette Nekogram til ditt språk.</string>
-    <string name="Translation">Oversett Nekogram</string>
+    <string name="TranslationAbout">Hjelp oss å oversette Irongram til ditt språk.</string>
+    <string name="Translation">Oversett Irongram</string>
     <string name="GooglePlay">Google Play</string>
     <string name="ResetStickerSize">Tilbakestill klistremerke</string>
     <string name="RestartAppToTakeEffect">Start appen på nytt for å tre i kraft.</string>
@@ -114,7 +114,7 @@
     <string name="RegistrationDateNewer">Nyere enn %s</string>
     <string name="RegistrationDateOlder">Eldre enn %s</string>
     <string name="RegistrationDateApproximately">Omtrent %s</string>
-    <string name="UpdateNekogram">Oppdater Nekogram</string>
+    <string name="UpdateNekogram">Oppdater Irongram</string>
     <string name="TranslationTarget">Målspråk</string>
     <string name="TranslationTargetApp">Følg appen</string>
     <string name="Translator">Oversetter</string>
@@ -140,8 +140,8 @@
     <string name="OfficialSite">Offisiell nettside</string>
     <string name="MutualContact">Gjensidig kontakt</string>
     <string name="MutualContactDescription">Denne kontakten er en gjensidig kontakt.</string>
-    <string name="InviteTextNeko">Hei, jeg chatter med Nekogram. Bli med meg! Last den ned her: %1$s</string>
-    <string name="ShareNekogram">Del Nekogram...</string>
+    <string name="InviteTextNeko">Hei, jeg chatter med Irongram. Bli med meg! Last den ned her: %1$s</string>
+    <string name="ShareNekogram">Del Irongram...</string>
     <string name="UpdateInstalling">Installerer oppdatering...</string>
     <string name="DatacenterStatusShort">Datasenter</string>
     <!-- Accessibility -->

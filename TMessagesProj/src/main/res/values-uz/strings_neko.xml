@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">Neko sozlamalari</string>
+    <string name="NekoSettings">Irongram sozlamalari</string>
     <string name="PreferIPv6">IPv6 orqali ulanish afzalroq</string>
     <string name="MessageMenu">Xabarlar menyusi</string>
     <string name="HidePhone">Telefon raqamimni yashirish</string>
@@ -22,7 +22,7 @@
     <string name="AddToSavedMessages">Xabarni saqlash</string>
     <string name="CreateMention">Eslatma yaratish</string>
     <string name="Prpr">Biroq</string>
-    <string name="NekogramRunning">Nekogram ishlamoqda</string>
+    <string name="NekogramRunning">Irongram ishlamoqda</string>
     <string name="EventType">Yon panel piktogramma to\'plami</string>
     <string name="DependsOnDate">Sanaga bog\'liq</string>
     <string name="Christmas">Yangi yil</string>
@@ -64,8 +64,8 @@
     <string name="IgnoreBlockedAbout">Xabar haqiqatdan ham YASHIRILMAYDI! Xabarlar hali ham koʻrish mumkin, lekin matn spoylerga oʻzgartiriladi va media avtomatik yuklab olinmaydi.</string>
     <string name="Donate">Dasturchini qo\'llab-quvvatlash</string>
     <string name="DonateAbout">Loyihamizni qo\'llab-quvvatlang.</string>
-    <string name="TranslationAbout">Nekogramni o\'z tilingizga tarjima qilishga yordam bering.</string>
-    <string name="Translation">Nekogramni tarjima qilish</string>
+    <string name="TranslationAbout">Irongramni o\'z tilingizga tarjima qilishga yordam bering.</string>
+    <string name="Translation">Irongramni tarjima qilish</string>
     <string name="GooglePlay">Google Play</string>
     <string name="ResetStickerSize">Stiker hajmini qayta o\'rnatish</string>
     <string name="RestartAppToTakeEffect">Ilovani qayta ishga tushiring.</string>
@@ -114,7 +114,7 @@
     <string name="RegistrationDateNewer">%s dan yangiroq</string>
     <string name="RegistrationDateOlder">%s dan eskiroq</string>
     <string name="RegistrationDateApproximately">Taxminan %s</string>
-    <string name="UpdateNekogram">Nekogramni yangilash</string>
+    <string name="UpdateNekogram">Irongramni yangilash</string>
     <string name="TranslationTarget">Maqsadli til</string>
     <string name="TranslationTargetApp">Tarjima tili</string>
     <string name="Translator">Tarjimon</string>
@@ -140,9 +140,9 @@
     <string name="OfficialSite">Rasmiy sayt</string>
     <string name="MutualContact">O\'zaro kantaktlar</string>
     <string name="MutualContactDescription">Ushbu kantakt o\'zaro kantakt.</string>
-    <string name="InviteTextNeko">Salom, Men chat uchun Nekogramdan foydalanayapman. Menga qo\'shil! Bu yerdan yuklab ol: %1$s</string>
-    <string name="ShareNekogram">Nekogramni yuborish...</string>
-    <string name="NekogramVersion">Nekogram %1$s\nTelegram %2$s asosida\nDizayner %3$s</string>
+    <string name="InviteTextNeko">Salom, Men chat uchun Irongramdan foydalanayapman. Menga qo\'shil! Bu yerdan yuklab ol: %1$s</string>
+    <string name="ShareNekogram">Irongramni yuborish...</string>
+    <string name="NekogramVersion">Irongram %1$s\nTelegram %2$s asosida\nDizayner %3$s</string>
     <string name="UpdateInstalling">Yangilanish o\'rnatilmoqda...</string>
     <string name="UpdateInstallingNotification">Yangilanish o\'rnatilib bo\'lgach xabar paydo bo\'ladi.</string>
     <string name="UpdateInstallingRelaunch">Yangilanishlar amalga kirishi uchun qayta ishga tushiriladi.</string>
@@ -165,7 +165,7 @@
     <string name="SaveToDownloadCount_few">%1$d fayllari saqlanmoqda</string>
     <string name="SaveToDownloadCount_many">%1$d fayllari saqlanmoqda</string>
     <string name="SaveToDownloadCount_other">%1$d fayllari saqlanmoqda</string>
-    <string name="AppLinkNotVerifiedMessage">Android 12 va undan yangiroq versiyalar uchun Nekogram\'da t.me havolalarini ochish uchun tasdiqlangan havolalarga havolani qo\'lda qo\'shishingiz kerak.</string>
+    <string name="AppLinkNotVerifiedMessage">Android 12 va undan yangiroq versiyalar uchun Irongram\'da t.me havolalarini ochish uchun tasdiqlangan havolalarga havolani qo\'lda qo\'shishingiz kerak.</string>
     <string name="AppLinkNotVerifiedTitle">Dastur havolalari tasdiqlanmagan</string>
     <string name="AutoTranslate">Avtomatik tarjima</string>
     <string name="AutoTranslateAbout">Boshqa tildagi xabarlarni avtomatik tarjima qilish.</string>
@@ -183,14 +183,14 @@
     <string name="TabletMode">Ekran rejimi</string>
     <string name="TabletModeAuto">Avto</string>
     <string name="DeleteAllFromSelfDone">Barcha xabarlaringiz o\'chirib tashlandi</string>
-    <string name="UnknownNekoSettingsOption">Boshqa Neko sozlamalari mavjud emas.</string>
+    <string name="UnknownNekoSettingsOption">Boshqa Irongram sozlamalari mavjud emas.</string>
     <string name="ProviderYouDaoTranslate">YouDao Tarjimon</string>
     <string name="ProviderBaiduTranslate">Baidu Tarjimon</string>
     <string name="ProviderSogouTranslate">Sogou Tarjimon</string>
     <string name="Translated">tarjima qilindi</string>
     <string name="PasscodeNeeded">Avval parolli qulflashni yoqishingiz kerak</string>
     <string name="PasscodeNeko">Parol</string>
-    <string name="PasscodeShowInSettings">Neko sozlamalarida ko\'rsatish</string>
+    <string name="PasscodeShowInSettings">Irongram sozlamalarida ko\'rsatish</string>
     <string name="PasscodeShowInSettingsAbout">Yashirgandan keyin siz **FAQAT** ushbu sahifani havola orqali ochishingiz mumkin:</string>
     <string name="PasscodeSet">Parol o\'rnatish</string>
     <string name="PasscodeEdit">Parolni almashtirish</string>
@@ -269,7 +269,7 @@
     <string name="NavigationAnimationBezier">Klassik</string>
     <string name="NavigationAnimationSpring">Tabiiy</string>
     <string name="CloudConfig">Bulut Sozlamalari</string>
-    <string name="CloudConfigDesc">Neko sozlamalarini Telegram bulutga saqlash.</string>
+    <string name="CloudConfigDesc">Irongram sozlamalarini Telegram bulutga saqlash.</string>
     <string name="CloudConfigSyncDate">Sinxronlandi: %s, bulutga: %s</string>
     <string name="CloudConfigSyncDateNever">hech qachon</string>
     <string name="CloudConfigSync">Bulutga sinxronlash</string>
@@ -278,7 +278,7 @@
     <string name="CloudConfigRestoreShort">Tiklash</string>
     <string name="CloudConfigSyncing">Sinxronlanmoqda...</string>
     <string name="CloudConfigAutoSync">Avto sinxronlash</string>
-    <string name="CloudConfigAutoSyncDesc">Neko sozlamalarini o\'zgartirgach bulutga avtomatik sinxronlash.</string>
+    <string name="CloudConfigAutoSyncDesc">Irongram sozlamalarini o\'zgartirgach bulutga avtomatik sinxronlash.</string>
     <string name="CloudConfigSyncFailed">Sozlamalarni bulutga sinxronlashda xatolik.</string>
     <string name="CloudConfigRestoreFailed">Sozlamalarni bulutdan tiklashda xatolik.</string>
     <string name="ReducedColors">Ranglarni kamaytirish</string>

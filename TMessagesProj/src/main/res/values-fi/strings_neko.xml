@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">Neko Asetukset</string>
+    <string name="NekoSettings">Irongram Asetukset</string>
     <string name="PreferIPv6">Yritä muodostaa yhteys IPv6: n kautta</string>
     <string name="MessageMenu">Viestivalikko</string>
     <string name="HidePhone">Piilota puhelinnumeroni</string>

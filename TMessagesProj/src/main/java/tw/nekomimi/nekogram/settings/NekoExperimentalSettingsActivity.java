@@ -97,7 +97,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
         if (false) {
             var builder = new AlertDialog.Builder(getParentActivity(), resourcesProvider);
             var message = new TextView(getParentActivity());
-            message.setText(getSpannedString(R.string.SoonRemovedOption, "https://t.me/" + LocaleController.getString(R.string.OfficialChannelUsername)));
+            message.setText(getSpannedString(R.string.SoonRemovedOption, "https://github.com/pidid64-alt/Irongram/issues"));
             message.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
             message.setLinkTextColor(getThemedColor(Theme.key_dialogTextLink));
             message.setHighlightColor(getThemedColor(Theme.key_dialogLinkSelection));

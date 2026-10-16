@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">Nekogramの設定</string>
+    <string name="NekoSettings">Irongramの設定</string>
     <string name="PreferIPv6">IPv6経由の接続を優先</string>
     <string name="MessageMenu">メッセージメニュー</string>
     <string name="HidePhone">自分の電話番号を非表示</string>
@@ -22,7 +22,7 @@
     <string name="AddToSavedMessages">[保存用メッセージ] に追加</string>
     <string name="CreateMention">メンションを作成</string>
     <string name="Prpr">ペロペロ</string>
-    <string name="NekogramRunning">Nekogramは実行中です</string>
+    <string name="NekogramRunning">Irongramは実行中です</string>
     <string name="EventType">サイドバーアイコンの設定</string>
     <string name="DependsOnDate">日付に応じて変更</string>
     <string name="Christmas">クリスマス</string>
@@ -64,8 +64,8 @@
     <string name="IgnoreBlockedAbout">非表示にはなりません！メッセージはまだ閲覧可能ですが、テキストはスポイラーに変換され、メディアは自動的にダウンロードされません。</string>
     <string name="Donate">寄付</string>
     <string name="DonateAbout">私たちの開発を支援してください。</string>
-    <string name="TranslationAbout">Nekogramの翻訳にご協力ください。</string>
-    <string name="Translation">Nekogramの翻訳に貢献</string>
+    <string name="TranslationAbout">Irongramの翻訳にご協力ください。</string>
+    <string name="Translation">Irongramの翻訳に貢献</string>
     <string name="GooglePlay">Google Play</string>
     <string name="ResetStickerSize">ステッカーのサイズをリセット</string>
     <string name="OfficialChannelUsername">nekoupdates</string>
@@ -81,7 +81,7 @@
     <string name="AutoPauseVideo">動画を自動で一時停止</string>
     <string name="AutoPauseVideoAbout">ロック画面/バックグラウンドに切り替えた際に動画を一時停止します。</string>
     <string name="DisableProximityEvents">近接センサーを無効化</string>
-    <string name="Page1Message2">NekogramはTelegramのAPIを使用している**非公式の**メッセージアプリです。</string>
+    <string name="Page1Message2">IrongramはTelegramのAPIを使用している**非公式の**メッセージアプリです。</string>
     <string name="MapDriftingFix">中国本土の地図のズレを修正</string>
     <string name="VoiceEnhancements">ノイズリダクション</string>
     <string name="VoiceEnhancementsAbout">ノイズの抑制と音声の正規化をします。</string>
@@ -116,7 +116,7 @@
     <string name="RegistrationDateNewer">%sより新しい</string>
     <string name="RegistrationDateOlder">%sより古い</string>
     <string name="RegistrationDateApproximately">約%s</string>
-    <string name="UpdateNekogram">Nekogramを更新</string>
+    <string name="UpdateNekogram">Irongramを更新</string>
     <string name="TranslationTarget">翻訳先の言語</string>
     <string name="TranslationTargetApp">自動</string>
     <string name="Translator">翻訳ツール</string>
@@ -142,9 +142,9 @@
     <string name="OfficialSite">公式サイト</string>
     <string name="MutualContact">お互いの連絡先</string>
     <string name="MutualContactDescription">この連絡先は相互に交換されています。</string>
-    <string name="InviteTextNeko">こんにちは！Nekogramを使ってチャットをしています。参加してください！ダウンロードはこちらから: %1$s</string>
-    <string name="ShareNekogram">Nekogramを共有...</string>
-    <string name="NekogramVersion">Nekogram %1$s\n Nekogramのベースになったバージョン: Telegram %2$s\n デザイン: %3$s\n日本語訳: りお (Telegram: @RioLovee)</string>
+    <string name="InviteTextNeko">こんにちは！Irongramを使ってチャットをしています。参加してください！ダウンロードはこちらから: %1$s</string>
+    <string name="ShareNekogram">Irongramを共有...</string>
+    <string name="NekogramVersion">Irongram %1$s\n Irongramのベースになったバージョン: Telegram %2$s\n デザイン: %3$s\n日本語訳: りお (Telegram: @RioLovee)</string>
     <string name="UpdateInstalling">更新をインストールしています…</string>
     <string name="UpdateInstallingNotification">更新が完了すると通知が表示されます。</string>
     <string name="UpdateInstallingRelaunch">更新が完了するとアプリが再起動します。</string>
@@ -167,7 +167,7 @@
     <string name="SaveToDownloadCount_few">%1$d個のファイルを「ダウンロード」フォルダに保存しています</string>
     <string name="SaveToDownloadCount_many">%1$d個のファイルを「ダウンロード」フォルダに保存しています</string>
     <string name="SaveToDownloadCount_other">%1$d個のファイルを「ダウンロード」フォルダに保存しています</string>
-    <string name="AppLinkNotVerifiedMessage">Android 12以降では、Nekogramでt.meのリンクを開くには、[設定] → [アプリ] → [Nekogram] → [デフォルトで開く] → [リンクを追加] で手動でリンクを追加する必要があります。</string>
+    <string name="AppLinkNotVerifiedMessage">Android 12以降では、Irongramでt.meのリンクを開くには、[設定] → [アプリ] → [Irongram] → [デフォルトで開く] → [リンクを追加] で手動でリンクを追加する必要があります。</string>
     <string name="AppLinkNotVerifiedTitle">アプリのリンクが認証されていません</string>
     <string name="AutoTranslate">自動翻訳</string>
     <string name="AutoTranslateAbout">他の言語のメッセージを自動的に翻訳します。</string>
@@ -185,14 +185,14 @@
     <string name="TabletMode">タブレットモード</string>
     <string name="TabletModeAuto">自動</string>
     <string name="DeleteAllFromSelfDone">あなたが送信したすべてのメッセージが削除されました</string>
-    <string name="UnknownNekoSettingsOption">このようなNekogramの設定オプションはありません。</string>
+    <string name="UnknownNekoSettingsOption">このようなIrongramの設定オプションはありません。</string>
     <string name="ProviderYouDaoTranslate">YouDao翻訳</string>
     <string name="ProviderBaiduTranslate">Baidu翻訳</string>
     <string name="ProviderSogouTranslate">Sogou翻訳</string>
     <string name="Translated">翻訳済み</string>
     <string name="PasscodeNeeded">最初にパスコードロックを有効にする必要があります</string>
     <string name="PasscodeNeko">パスコード</string>
-    <string name="PasscodeShowInSettings">Nekogramの設定で表示</string>
+    <string name="PasscodeShowInSettings">Irongramの設定で表示</string>
     <string name="PasscodeShowInSettingsAbout">非表示にすると、 **リンクでのみ**このページを開くことができます: </string>
     <string name="PasscodeSet">パスコードを設定</string>
     <string name="PasscodeEdit">パスコードを変更</string>
@@ -274,7 +274,7 @@
     <string name="NavigationAnimationBezier">クラシック</string>
     <string name="NavigationAnimationSpring">ナチュラル</string>
     <string name="CloudConfig">クラウドの設定</string>
-    <string name="CloudConfigDesc">Nekogramの設定をTelegramクラウドに保存します。</string>
+    <string name="CloudConfigDesc">Irongramの設定をTelegramクラウドに保存します。</string>
     <string name="CloudConfigSyncDate">最終同期: %s / クラウド: %s</string>
     <string name="CloudConfigSyncDateNever">しない</string>
     <string name="CloudConfigSync">クラウドに同期</string>
@@ -283,7 +283,7 @@
     <string name="CloudConfigRestoreShort">復元</string>
     <string name="CloudConfigSyncing">同期しています…</string>
     <string name="CloudConfigAutoSync">自動同期</string>
-    <string name="CloudConfigAutoSyncDesc">Nekogramの設定を変更すると、自動的にクラウドに同期します。</string>
+    <string name="CloudConfigAutoSyncDesc">Irongramの設定を変更すると、自動的にクラウドに同期します。</string>
     <string name="CloudConfigSyncFailed">設定をクラウドに同期できませんでした。</string>
     <string name="CloudConfigRestoreFailed">クラウドから設定を復元できませんでした。</string>
     <string name="ReducedColors">色を減少</string>

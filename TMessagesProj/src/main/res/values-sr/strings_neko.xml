@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">Neko подешавања</string>
+    <string name="NekoSettings">Irongram подешавања</string>
     <string name="PreferIPv6">Преферирај повезивање путем IPv6</string>
     <string name="MessageMenu">Мени порука</string>
     <string name="HidePhone">Сакриј мој број телефона</string>
@@ -22,7 +22,7 @@
     <string name="AddToSavedMessages">Сачувај поруку</string>
     <string name="CreateMention">Направи спомињање</string>
     <string name="Prpr">Пероперо</string>
-    <string name="NekogramRunning">Nekogram је покренут</string>
+    <string name="NekogramRunning">Irongram је покренут</string>
     <string name="EventType">Пакет икона на бочној траци</string>
     <string name="DependsOnDate">Зависно од датума</string>
     <string name="Christmas">Божић</string>
@@ -64,8 +64,8 @@
     <string name="IgnoreBlockedAbout">ТО НИЈЕ ЗАИСТА СКРИВЕНО! Поруке су и даље доступне за преглед, али текст ће бити конвертован у спојлер и медији се неће аутоматски преузимати.</string>
     <string name="Donate">Донација</string>
     <string name="DonateAbout">Подржите наш развој.</string>
-    <string name="TranslationAbout">Помозите нам да преведемо Nekogram на ваш језик.</string>
-    <string name="Translation">Преведи Nekogram</string>
+    <string name="TranslationAbout">Помозите нам да преведемо Irongram на ваш језик.</string>
+    <string name="Translation">Преведи Irongram</string>
     <string name="GooglePlay">Google Play</string>
     <string name="ResetStickerSize">Ресетуј величину налепница</string>
     <string name="RestartAppToTakeEffect">Рестартујте апликацију да би промене ступиле на снагу.</string>
@@ -114,7 +114,7 @@
     <string name="RegistrationDateNewer">Новији од %s</string>
     <string name="RegistrationDateOlder">Старији од %s</string>
     <string name="RegistrationDateApproximately">Приближно %s</string>
-    <string name="UpdateNekogram">Ажурирај Nekogram</string>
+    <string name="UpdateNekogram">Ажурирај Irongram</string>
     <string name="TranslationTarget">Циљни језик</string>
     <string name="TranslationTargetApp">Прати апликацију</string>
     <string name="Translator">Преводилац</string>
@@ -140,9 +140,9 @@
     <string name="OfficialSite">Званични сајт</string>
     <string name="MutualContact">Заједнички контакт</string>
     <string name="MutualContactDescription">Овај контакт је заједнички контакт.</string>
-    <string name="InviteTextNeko">Хеј, користим Nekogram за ћаскање. Придружите ми се! Преузмите га овде: %1$s</string>
-    <string name="ShareNekogram">Дели Nekogram...</string>
-    <string name="NekogramVersion">Nekogram %1$s\nЗаснован на Telegram %2$s\nДизајнирао %3$s</string>
+    <string name="InviteTextNeko">Хеј, користим Irongram за ћаскање. Придружите ми се! Преузмите га овде: %1$s</string>
+    <string name="ShareNekogram">Дели Irongram...</string>
+    <string name="NekogramVersion">Irongram %1$s\nЗаснован на Telegram %2$s\nДизајнирао %3$s</string>
     <string name="UpdateInstalling">Инсталирање ажурирања...</string>
     <string name="UpdateInstallingNotification">Обавештење ће се приказати када се ажурирање заврши.</string>
     <string name="UpdateInstallingRelaunch">Апликација ће се рестартовати када се ажурирање заврши.</string>
@@ -165,7 +165,7 @@
     <string name="SaveToDownloadCount_few">Чување %1$d датотека у преузимања</string>
     <string name="SaveToDownloadCount_many">Чување %1$d датотека у преузимања</string>
     <string name="SaveToDownloadCount_other">Чување %1$d датотека у преузимања</string>
-    <string name="AppLinkNotVerifiedMessage">За Android 12 и новије верзије, морате ручно да додате везу у верификоване везе да бисте отварали t.me везе у апликацији Nekogram.</string>
+    <string name="AppLinkNotVerifiedMessage">За Android 12 и новије верзије, морате ручно да додате везу у верификоване везе да бисте отварали t.me везе у апликацији Irongram.</string>
     <string name="AppLinkNotVerifiedTitle">Везе апликације нису верификоване</string>
     <string name="AutoTranslate">Аутоматски преведи</string>
     <string name="AutoTranslateAbout">Аутоматско превођење порука које су на другом језику.</string>
@@ -183,14 +183,14 @@
     <string name="TabletMode">Режим таблета</string>
     <string name="TabletModeAuto">Аутоматски</string>
     <string name="DeleteAllFromSelfDone">Све ваше поруке су избрисане</string>
-    <string name="UnknownNekoSettingsOption">Не постоји таква опција у Neko подешавањима.</string>
+    <string name="UnknownNekoSettingsOption">Не постоји таква опција у Irongram подешавањима.</string>
     <string name="ProviderYouDaoTranslate">YouDao преводилац</string>
     <string name="ProviderBaiduTranslate">Baidu преводилац</string>
     <string name="ProviderSogouTranslate">Sogou преводилац</string>
     <string name="Translated">преведено</string>
     <string name="PasscodeNeeded">Прво морате да омогућите закључавање кодом</string>
     <string name="PasscodeNeko">Кôд</string>
-    <string name="PasscodeShowInSettings">Прикажи у Neko подешавањима</string>
+    <string name="PasscodeShowInSettings">Прикажи у Irongram подешавањима</string>
     <string name="PasscodeShowInSettingsAbout">Након сакривања, можете отворити ову страницу **САМО** путем везе:</string>
     <string name="PasscodeSet">Подеси кôд</string>
     <string name="PasscodeEdit">Промени кôд</string>
@@ -270,7 +270,7 @@
     <string name="NavigationAnimationBezier">Класична</string>
     <string name="NavigationAnimationSpring">Природна</string>
     <string name="CloudConfig">Подешавања облака</string>
-    <string name="CloudConfigDesc">Сачувајте ваша Neko подешавања у Telegram облак.</string>
+    <string name="CloudConfigDesc">Сачувајте ваша Irongram подешавања у Telegram облак.</string>
     <string name="CloudConfigSyncDate">Последња синхронизација: %s, облак: %s</string>
     <string name="CloudConfigSyncDateNever">никада</string>
     <string name="CloudConfigSync">Снхронизуј са облаком</string>
@@ -279,7 +279,7 @@
     <string name="CloudConfigRestoreShort">Врати</string>
     <string name="CloudConfigSyncing">Синхронизација...</string>
     <string name="CloudConfigAutoSync">Аутоматска синхронизација</string>
-    <string name="CloudConfigAutoSyncDesc">Аутоматскa синхронизaција са облаком након што извршите промене у Neko подешавањима.</string>
+    <string name="CloudConfigAutoSyncDesc">Аутоматскa синхронизaција са облаком након што извршите промене у Irongram подешавањима.</string>
     <string name="CloudConfigSyncFailed">Није успела синхронизација подешавања са облаком.</string>
     <string name="CloudConfigRestoreFailed">Није успело враћање подешавања из облака.</string>
     <string name="ReducedColors">Смањи боје</string>

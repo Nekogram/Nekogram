@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">喵設定</string>
+    <string name="NekoSettings">Irongram 設定</string>
     <string name="PreferIPv6">優先透過 IPv6 連線</string>
     <string name="MessageMenu">訊息選單</string>
     <string name="HidePhone">隱藏您的手機號碼</string>
@@ -22,7 +22,7 @@
     <string name="AddToSavedMessages">拿去自嗨</string>
     <string name="CreateMention">提及使用者</string>
     <string name="Prpr">ペロペロ</string>
-    <string name="NekogramRunning">貓貓奔跑中</string>
+    <string name="NekogramRunning">Irongram 正在執行</string>
     <string name="EventType">抽屜圖示集</string>
     <string name="DependsOnDate">根據日期變換</string>
     <string name="Christmas">聖誕節</string>
@@ -64,8 +64,8 @@
     <string name="IgnoreBlockedAbout">不是真的隱藏啦！訊息依然可查看，但訊息會帶有防劇透遮罩，影片和圖片也不會自動下載。</string>
     <string name="Donate">捐贈</string>
     <string name="DonateAbout">支援我們的開發。</string>
-    <string name="TranslationAbout">幫助我們將 Nekogram 翻譯成您的語言。</string>
-    <string name="Translation">翻譯 Nekogram</string>
+    <string name="TranslationAbout">幫助我們將 Irongram 翻譯成您的語言。</string>
+    <string name="Translation">翻譯 Irongram</string>
     <string name="GooglePlay">Google Play</string>
     <string name="ResetStickerSize">重設貼圖大小</string>
     <string name="RestartAppToTakeEffect">重新啟動應用程式即可生效。</string>
@@ -80,7 +80,7 @@
     <string name="AutoPauseVideo">自動暫停影片</string>
     <string name="AutoPauseVideoAbout">當鎖定螢幕/切換到背景時</string>
     <string name="DisableProximityEvents">關閉「接近事件」（靠耳時會熄螢幕、切聲音到聽筒）</string>
-    <string name="Page1Message2">Nekogram 是使用 Telegram API\n的**非官方**應用</string>
+    <string name="Page1Message2">Irongram 是使用 Telegram API\n的**非官方**應用</string>
     <string name="MapDriftingFix">中國大陸地圖漂移修復</string>
     <string name="VoiceEnhancements">語音增強功能</string>
     <string name="VoiceEnhancementsAbout">雜訊抑制和語音歸一化</string>
@@ -115,7 +115,7 @@
     <string name="RegistrationDateNewer">晚於 %s</string>
     <string name="RegistrationDateOlder">早於 %s</string>
     <string name="RegistrationDateApproximately">大約 %s</string>
-    <string name="UpdateNekogram">更新 Nekogram</string>
+    <string name="UpdateNekogram">更新 Irongram</string>
     <string name="TranslationTarget">目標語言</string>
     <string name="TranslationTargetApp">跟隨應用</string>
     <string name="Translator">翻譯</string>
@@ -141,13 +141,13 @@
     <string name="OfficialSite">官方網站</string>
     <string name="MutualContact">相互聯繫</string>
     <string name="MutualContactDescription">此連絡人是相互聯繫人。</string>
-    <string name="InviteTextNeko">嘿，我正在使用Nekogram聊天。加入我！在這裡下載： %1$s</string>
-    <string name="ShareNekogram">分享 Nekogram...</string>
-    <string name="NekogramVersion">Nekogram %1$s\n基於 Telegram %2$s\n由 %3$s 設計。</string>
+    <string name="InviteTextNeko">嘿，我正在使用Irongram聊天。加入我！在這裡下載： %1$s</string>
+    <string name="ShareNekogram">分享 Irongram...</string>
+    <string name="NekogramVersion">Irongram %1$s\n基於 Telegram %2$s\n由 %3$s 設計。</string>
     <string name="UpdateInstalling">安裝更新...</string>
     <string name="UpdateInstallingNotification">更新完成後將顯示通知</string>
     <string name="UpdateInstallingRelaunch">更新完成後, 應用程序將重新啟動</string>
-    <string name="UpdateInstalledNotification">更新完成, 點擊打開Nekogram</string>
+    <string name="UpdateInstalledNotification">更新完成, 點擊打開Irongram</string>
     <string name="UpdateFailedToInstall">更新失敗: %d</string>
     <string name="QRLoginMessage">掃描 QRCode，登入另一台設備。</string>
     <string name="QRLoginTitle">使用 QRCode 登入</string>
@@ -166,7 +166,7 @@
     <string name="SaveToDownloadCount_few">正在儲存%1$d到Downloads</string>
     <string name="SaveToDownloadCount_many">正在儲存%1$d到Downloads</string>
     <string name="SaveToDownloadCount_other">正在儲存%1$d到Downloads</string>
-    <string name="AppLinkNotVerifiedMessage">在安卓12或更高的版本, 你需要手動加入連結來在Nekogram中打開 t.me 之類的連結</string>
+    <string name="AppLinkNotVerifiedMessage">在安卓12或更高的版本, 你需要手動加入連結來在Irongram中打開 t.me 之類的連結</string>
     <string name="AppLinkNotVerifiedTitle">應用連結未經驗證</string>
     <string name="AutoTranslate">自動翻譯</string>
     <string name="AutoTranslateAbout">自動翻譯另一種語言的訊息。</string>
@@ -184,14 +184,14 @@
     <string name="TabletMode">平板電腦模式</string>
     <string name="TabletModeAuto">自動</string>
     <string name="DeleteAllFromSelfDone">您的所有訊息都已刪除</string>
-    <string name="UnknownNekoSettingsOption">沒有這樣的喵設定選項。</string>
+    <string name="UnknownNekoSettingsOption">沒有這樣的 Irongram 設定選項。</string>
     <string name="ProviderYouDaoTranslate">有道翻譯</string>
     <string name="ProviderBaiduTranslate">百度翻譯</string>
     <string name="ProviderSogouTranslate">搜狗翻譯</string>
     <string name="Translated">已翻譯</string>
     <string name="PasscodeNeeded">您必須先啟用密碼鎖定</string>
     <string name="PasscodeNeko">密碼</string>
-    <string name="PasscodeShowInSettings">在喵設定中顯示</string>
+    <string name="PasscodeShowInSettings">在 Irongram 設定中顯示</string>
     <string name="PasscodeShowInSettingsAbout">隱藏之後, 你**只能**透過這個連結打開這個頁面:</string>
     <string name="PasscodeSet">設定密碼</string>
     <string name="PasscodeEdit">更改密碼</string>
@@ -273,7 +273,7 @@
     <string name="NavigationAnimationBezier">經典</string>
     <string name="NavigationAnimationSpring">自然</string>
     <string name="CloudConfig">雲設定</string>
-    <string name="CloudConfigDesc">將您的喵設定儲存到 Telegram 雲端。</string>
+    <string name="CloudConfigDesc">將您的 Irongram 設定儲存到 Telegram 雲端。</string>
     <string name="CloudConfigSyncDate">上次同步：%s，雲端：%s</string>
     <string name="CloudConfigSyncDateNever">絕不</string>
     <string name="CloudConfigSync">同步至雲端</string>
@@ -282,7 +282,7 @@
     <string name="CloudConfigRestoreShort">恢復</string>
     <string name="CloudConfigSyncing">正在同步...</string>
     <string name="CloudConfigAutoSync">自動同步</string>
-    <string name="CloudConfigAutoSyncDesc">更改喵設定後自動同步到雲端。</string>
+    <string name="CloudConfigAutoSyncDesc">更改 Irongram 設定後自動同步到雲端。</string>
     <string name="CloudConfigSyncFailed">無法將設定同步到雲端。</string>
     <string name="CloudConfigRestoreFailed">無法從雲端恢復設定。</string>
     <string name="ReducedColors">減少顏色</string>

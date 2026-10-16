@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">Neko Parametrləri</string>
+    <string name="NekoSettings">Irongram Parametrləri</string>
     <string name="PreferIPv6">IPv6 vasitəsilə qoşulmağı üstün tutun</string>
     <string name="MessageMenu">Mesajlar Menyusu</string>
     <string name="HidePhone">Mənim nömrəmi gizlət</string>
@@ -22,7 +22,7 @@
     <string name="AddToSavedMessages">Mesajı yadda saxla</string>
     <string name="CreateMention">Başlıq yarat</string>
     <string name="Prpr">Bununla belə</string>
-    <string name="NekogramRunning">Nekogram işləyir</string>
+    <string name="NekogramRunning">Irongram işləyir</string>
     <string name="EventType">Yan çubuğu ikona dəsti</string>
     <string name="DependsOnDate">Tarixdən asılı</string>
     <string name="Christmas">Milad</string>
@@ -63,8 +63,8 @@
     <string name="IgnoreBlockedAbout">ƏSLINDƏ, GIZLƏDILMIR! Mesajlar hələ də görünə bilər, lakin yazılar Spoiler-ə çevriləcək və media avtomatik yüklənməyəcək.</string>
     <string name="Donate">İanə vermək</string>
     <string name="DonateAbout">Bizim inkişafımıza dəstək ol.</string>
-    <string name="TranslationAbout">Nekogram-ı sənin dilə tərcümə etməyə kömək et.</string>
-    <string name="Translation">Nekogram-ı Tərcümə et</string>
+    <string name="TranslationAbout">Irongram-ı sənin dilə tərcümə etməyə kömək et.</string>
+    <string name="Translation">Irongram-ı Tərcümə et</string>
     <string name="GooglePlay">Google Play</string>
     <string name="ResetStickerSize">Stiker ölçüsünü sıfırla</string>
     <!-- Accessibility -->

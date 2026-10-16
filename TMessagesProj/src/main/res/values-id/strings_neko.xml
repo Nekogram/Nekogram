@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">Pengaturan Neko</string>
+    <string name="NekoSettings">Pengaturan Irongram</string>
     <string name="PreferIPv6">Lebih suka terhubung melalui IPv6</string>
     <string name="MessageMenu">Menu pesan</string>
     <string name="HidePhone">Sembunyikan nomor telepon saya</string>
@@ -22,7 +22,7 @@
     <string name="AddToSavedMessages">Simpan Pesan</string>
     <string name="CreateMention">Buat sebutan</string>
     <string name="Prpr">Peropero</string>
-    <string name="NekogramRunning">Nekogram sedang berjalan</string>
+    <string name="NekogramRunning">Irongram sedang berjalan</string>
     <string name="EventType">Set ikon bilah sisi</string>
     <string name="DependsOnDate">Berdasarkan tanggal</string>
     <string name="Christmas">Natal</string>
@@ -64,8 +64,8 @@
     <string name="IgnoreBlockedAbout">ITU TIDAK BENAR-BENAR TERSEMBUNYI! Pesan masih tersedia untuk dilihat, tetapi teks akan dikonversi ke Spoiler dan media tidak akan mengunduh secara otomatis.</string>
     <string name="Donate">Donasi</string>
     <string name="DonateAbout">Dukung perkembangan Kami.</string>
-    <string name="TranslationAbout">Bantu Kami menerjemahkan Nekogram ke bahasa Anda.</string>
-    <string name="Translation">Terjemahkan Nekogram</string>
+    <string name="TranslationAbout">Bantu Kami menerjemahkan Irongram ke bahasa Anda.</string>
+    <string name="Translation">Terjemahkan Irongram</string>
     <string name="GooglePlay">Google Play</string>
     <string name="ResetStickerSize">Setel ulang ukuran stiker</string>
     <string name="RestartAppToTakeEffect">Mulai ulang aplikasi untuk menerapkan.</string>
@@ -114,7 +114,7 @@
     <string name="RegistrationDateNewer">Lebih baru dari %s</string>
     <string name="RegistrationDateOlder">Lebih tua dari %s</string>
     <string name="RegistrationDateApproximately">Sekitar %s</string>
-    <string name="UpdateNekogram">Perbarui Nekogram</string>
+    <string name="UpdateNekogram">Perbarui Irongram</string>
     <string name="TranslationTarget">Bahasa tujuan</string>
     <string name="TranslationTargetApp">Mengikuti aplikasi</string>
     <string name="Translator">Penerjemah</string>
@@ -140,9 +140,9 @@
     <string name="OfficialSite">Situs resmi</string>
     <string name="MutualContact">Kontak timbal balik</string>
     <string name="MutualContactDescription">Anda saling menyimpan nomor dengan kontak ini.</string>
-    <string name="InviteTextNeko">Hai, saya menggunakan Nekogram untuk mengobrol. Ayo ikut! Unduh di sini: %1$s</string>
-    <string name="ShareNekogram">Bagikan Nekogram...</string>
-    <string name="NekogramVersion">Nekogram %1$s\nBerdasarkan Telegram %2$s\nDibuat oleh %3$s</string>
+    <string name="InviteTextNeko">Hai, saya menggunakan Irongram untuk mengobrol. Ayo ikut! Unduh di sini: %1$s</string>
+    <string name="ShareNekogram">Bagikan Irongram...</string>
+    <string name="NekogramVersion">Irongram %1$s\nBerdasarkan Telegram %2$s\nDibuat oleh %3$s</string>
     <string name="UpdateInstalling">Memasang Pembaruan...</string>
     <string name="UpdateInstallingNotification">Notifikasi pemberitahuan akan ditampilkan ketika pembaruan selesai.</string>
     <string name="UpdateInstallingRelaunch">Aplikasi akan memulai ulang ketika pembaruan selesai.</string>
@@ -165,7 +165,7 @@
     <string name="SaveToDownloadCount_few">Menyimpan berkas %1$d ke Unduhan</string>
     <string name="SaveToDownloadCount_many">Menyimpan berkas %1$d ke Unduhan</string>
     <string name="SaveToDownloadCount_other">Menyimpan berkas %1$d ke Unduhan</string>
-    <string name="AppLinkNotVerifiedMessage">Untuk Android 12 dan lebih baru, Anda perlu menambahkan tautan secara manual ke tautan terverifikasi untuk membuka tautan t.me di Nekogram.</string>
+    <string name="AppLinkNotVerifiedMessage">Untuk Android 12 dan lebih baru, Anda perlu menambahkan tautan secara manual ke tautan terverifikasi untuk membuka tautan t.me di Irongram.</string>
     <string name="AppLinkNotVerifiedTitle">Tautan aplikasi tidak terverifikasi</string>
     <string name="AutoTranslate">Terjemahkan otomatis</string>
     <string name="AutoTranslateAbout">Terjemahkan pesan bahasa lain secara otomatis.</string>
@@ -183,14 +183,14 @@
     <string name="TabletMode">Mode tablet</string>
     <string name="TabletModeAuto">Otomatis</string>
     <string name="DeleteAllFromSelfDone">Semua pesan Anda telah dihapus</string>
-    <string name="UnknownNekoSettingsOption">There is no such Neko Settings option.</string>
+    <string name="UnknownNekoSettingsOption">There is no such Irongram Settings option.</string>
     <string name="ProviderYouDaoTranslate">Penerjemah YouDao</string>
     <string name="ProviderBaiduTranslate">Penerjemah Baidu</string>
     <string name="ProviderSogouTranslate">Penerjemah Sogou</string>
     <string name="Translated">diterjemahkan</string>
     <string name="PasscodeNeeded">Anda harus mengaktifkan sandi terlebih dahulu</string>
     <string name="PasscodeNeko">Sandi</string>
-    <string name="PasscodeShowInSettings">Tampilkan di Pengaturan Neko</string>
+    <string name="PasscodeShowInSettings">Tampilkan di Pengaturan Irongram</string>
     <string name="PasscodeShowInSettingsAbout">Setelah disembunyikan, Anda dapat **HANYA** membuka halaman ini dengan tautan:</string>
     <string name="PasscodeSet">Atur sandi</string>
     <string name="PasscodeEdit">Ganti sandi</string>
@@ -272,7 +272,7 @@
     <string name="NavigationAnimationBezier">Klasik</string>
     <string name="NavigationAnimationSpring">Natural</string>
     <string name="CloudConfig">Pengaturan cloud</string>
-    <string name="CloudConfigDesc">Simpan pengaturan Neko Anda ke Telegram cloud.</string>
+    <string name="CloudConfigDesc">Simpan pengaturan Irongram Anda ke Telegram cloud.</string>
     <string name="CloudConfigSyncDate">Terakhir disinkronkan: %s, cloud: %s</string>
     <string name="CloudConfigSyncDateNever">tidak pernah</string>
     <string name="CloudConfigSync">Sinkronkan ke cloud</string>
@@ -281,7 +281,7 @@
     <string name="CloudConfigRestoreShort">Pulihkan</string>
     <string name="CloudConfigSyncing">Menyinkronkan...</string>
     <string name="CloudConfigAutoSync">Sinkronkan otomatis</string>
-    <string name="CloudConfigAutoSyncDesc">Otomatis sinkronkan ke cloud setelah membuat perubahan pada pengaturan Neko.</string>
+    <string name="CloudConfigAutoSyncDesc">Otomatis sinkronkan ke cloud setelah membuat perubahan pada pengaturan Irongram.</string>
     <string name="CloudConfigSyncFailed">Gagal menyinkronkan pengaturan ke cloud.</string>
     <string name="CloudConfigRestoreFailed">Gagal memulihkan pengaturan dari cloud.</string>
     <string name="ReducedColors">Kurangi warna</string>

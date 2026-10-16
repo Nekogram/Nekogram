@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">Neko Instellingen</string>
+    <string name="NekoSettings">Irongram Instellingen</string>
     <string name="MessageMenu">Menu berichten</string>
     <string name="HidePhone">Mijn telefoonnummer verbergen</string>
     <string name="DeleteAllFromSelf">Eigen berichten verwijderen</string>
@@ -21,7 +21,7 @@
     <string name="AddToSavedMessages">Bewaar bericht</string>
     <string name="CreateMention">Maak vermelding</string>
     <string name="Prpr">Peropero</string>
-    <string name="NekogramRunning">Nekogram wordt uitgevoerd</string>
+    <string name="NekogramRunning">Irongram wordt uitgevoerd</string>
     <string name="EventType">Zijbalk pictogrammen set</string>
     <string name="DependsOnDate">Afhankelijk van datum</string>
     <string name="Christmas">Kerst</string>
@@ -63,8 +63,8 @@
     <string name="IgnoreBlockedAbout">ZE ZIJN NIET ECHT VERBORGEN! Berichten zijn nog steeds beschikbaar, maar tekst wordt omgezet in spoilers en media wordt niet automatisch gedownload.</string>
     <string name="Donate">Doneren</string>
     <string name="DonateAbout">Steun de ontwikkeling.</string>
-    <string name="TranslationAbout">Help ons om Nekogram naar jouw taal te vertalen.</string>
-    <string name="Translation">Vertaal Nekogram</string>
+    <string name="TranslationAbout">Help ons om Irongram naar jouw taal te vertalen.</string>
+    <string name="Translation">Vertaal Irongram</string>
     <string name="GooglePlay">Google Play</string>
     <string name="ResetStickerSize">Stickergrootte opnieuw instellen</string>
     <string name="RestartAppToTakeEffect">Start de app opnieuw om de wijzigingen door te voeren.</string>
@@ -113,7 +113,7 @@
     <string name="RegistrationDateNewer">Nieuwer dan %s</string>
     <string name="RegistrationDateOlder">Ouder dan %s</string>
     <string name="RegistrationDateApproximately">Ongeveer %s</string>
-    <string name="UpdateNekogram">Nekogram bijwerken</string>
+    <string name="UpdateNekogram">Irongram bijwerken</string>
     <string name="TranslationTarget">Doeltaal</string>
     <string name="TranslationTargetApp">Systeem volgen</string>
     <string name="Translator">Vertaler</string>
@@ -133,14 +133,14 @@
     <string name="RestrictionReason">Reden voor beperking</string>
     <string name="MaxRecentStickers">Max. aantal recente stickers</string>
     <string name="DisableJumpToNextChannel">Schakel \"Ga naar het volgende kanaal\" uit</string>
-    <string name="UnknownNekoSettingsOption">Er is geen soortgelijke Neko-instelling.</string>
+    <string name="UnknownNekoSettingsOption">Er is geen soortgelijke Irongram-instelling.</string>
     <string name="ProviderYouDaoTranslate">YouDao Vertaler</string>
     <string name="ProviderBaiduTranslate">Baidu Vertaler</string>
     <string name="ProviderSogouTranslate">Sogou Vertaler</string>
     <string name="Translated">vertaald</string>
     <string name="PasscodeNeeded">Je moet eerst de toegangscode vergrendeling inschakelen</string>
     <string name="PasscodeNeko">Toegangscode</string>
-    <string name="PasscodeShowInSettings">Weergeven in Neko-instellingen</string>
+    <string name="PasscodeShowInSettings">Weergeven in Irongram-instellingen</string>
     <string name="PasscodeShowInSettingsAbout">Na het verbergen kan je deze pagina **ALLEEN** openen via een link:</string>
     <string name="PasscodeSet">Stel toegangscode in</string>
     <string name="PasscodeEdit">Toegangscode wijzigen</string>

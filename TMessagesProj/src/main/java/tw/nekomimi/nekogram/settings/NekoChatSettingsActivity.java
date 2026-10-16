@@ -133,7 +133,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity {
 
         items.add(UItem.asHeader(LocaleController.getString(R.string.Markdown)));
         items.add(UItem.asCheck(markdownEnableRow, LocaleController.getString(R.string.MarkdownEnableByDefault)).slug("markdownEnable").setChecked(!NekoConfig.disableMarkdownByDefault));
-        items.add(TextSettingsCellFactory.of(markdownParserRow, LocaleController.getString(R.string.MarkdownParser), NekoConfig.newMarkdownParser ? "Nekogram" : "Telegram").slug("markdownParser"));
+        items.add(TextSettingsCellFactory.of(markdownParserRow, LocaleController.getString(R.string.MarkdownParser), NekoConfig.newMarkdownParser ? "Irongram" : "Telegram").slug("markdownParser"));
         if (NekoConfig.newMarkdownParser) {
             items.add(UItem.asCheck(markdownParseLinksRow, LocaleController.getString(R.string.MarkdownParseLinks)).slug("markdownParseLinks").setChecked(NekoConfig.markdownParseLinks));
         }
@@ -382,7 +382,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity {
             updateStickerCell();
         } else if (id == markdownParserRow) {
             ArrayList<String> arrayList = new ArrayList<>();
-            arrayList.add("Nekogram");
+            arrayList.add("Irongram");
             arrayList.add("Telegram");
             boolean oldParser = NekoConfig.newMarkdownParser;
             showPopup(arrayList, NekoConfig.newMarkdownParser ? 0 : 1, item, view, i -> {

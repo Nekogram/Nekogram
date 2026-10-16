@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">Neko বিশদ</string>
+    <string name="NekoSettings">Irongram বিশদ</string>
     <string name="PreferIPv6">IPv6 এর মাধ্যমে ছন্দের কানেকশন</string>
     <string name="MessageMenu">মেসেজ মেন্যু</string>
     <string name="HidePhone">আমার ফোন নাম্বার লুকিয়ে রাখুন</string>
@@ -19,7 +19,7 @@
     <string name="NoCaptionForwardShort">কোন ক্যাপশন নেই</string>
     <string name="Repeat">পুনরাবৃত্তি</string>
     <string name="CreateMention">মেনশন তৈরি করুন</string>
-    <string name="NekogramRunning">Nekogram চলমান আছে</string>
+    <string name="NekogramRunning">Irongram চলমান আছে</string>
     <string name="EventType">সাইডবার আইকন সেট</string>
     <string name="DependsOnDate">তারিখের উপর নির্ভর করে</string>
     <string name="Christmas">ক্রিস্টমাস</string>

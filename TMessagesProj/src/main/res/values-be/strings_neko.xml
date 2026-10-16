@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">Налады Neko</string>
+    <string name="NekoSettings">Налады Irongram</string>
     <string name="PreferIPv6">Аддаваць перавагу падключэнню праз IPv6</string>
     <string name="MessageMenu">Чат</string>
     <string name="HidePhone">Схаваць мой нумар тэлефона</string>
@@ -22,7 +22,7 @@
     <string name="AddToSavedMessages">Захаваць паведамленне</string>
     <string name="CreateMention">Стварыць згадванне</string>
     <string name="Prpr">Peropero</string>
-    <string name="NekogramRunning">Nekogram запушчаны</string>
+    <string name="NekogramRunning">Irongram запушчаны</string>
     <string name="EventType">Іконкі бакавога меню</string>
     <string name="DependsOnDate">Залежыць ад даты</string>
     <string name="Christmas">Каляды</string>
@@ -62,10 +62,10 @@
     <string name="OfficialChannel">Афіцыйны канал</string>
     <string name="About">Пра праект</string>
     <string name="IgnoreBlockedAbout">ГЭТА НЕ САПРАЎДНАЕ ХАВАННЕ! Паведамленні па-ранейшаму даступныя для прагляду, але тэкст будзе ператвораны ў спойлер, а медыя не будуць загружацца аўтаматычна.</string>
-    <string name="Donate">Падтрымаць Nekogram</string>
+    <string name="Donate">Падтрымаць Irongram</string>
     <string name="DonateAbout">Падтрымайце распрацоўку праекту.</string>
-    <string name="TranslationAbout">Дапамыжыце перакласці Nekogram на вашу мову.</string>
-    <string name="Translation">Перакласці Nekogram</string>
+    <string name="TranslationAbout">Дапамыжыце перакласці Irongram на вашу мову.</string>
+    <string name="Translation">Перакласці Irongram</string>
     <string name="GooglePlay">Google Play</string>
     <string name="ResetStickerSize">Скінуць памер стыкера</string>
     <string name="RestartAppToTakeEffect">Перазапусціце праграму для прыстасавання налад.</string>
@@ -114,7 +114,7 @@
     <string name="RegistrationDateNewer">Навейшы за %s</string>
     <string name="RegistrationDateOlder">Старэй за %s</string>
     <string name="RegistrationDateApproximately">Прыблізна %s</string>
-    <string name="UpdateNekogram">Абнавіць Nekogram</string>
+    <string name="UpdateNekogram">Абнавіць Irongram</string>
     <string name="TranslationTarget">Мова перакладу</string>
     <string name="TranslationTargetApp">Як у праграме</string>
     <string name="Translator">Перакладчык</string>
@@ -140,9 +140,9 @@
     <string name="OfficialSite">Афіцыйны сайт</string>
     <string name="MutualContact">Агульны кантакт</string>
     <string name="MutualContactDescription">Гэты кантакт з\'яўляецца агульным кантактам</string>
-    <string name="InviteTextNeko">Прывітанне, я выкарыстоўваю Nekogram для размоў. Яднайся да мяне! Спампаваць Яго можна тут: %1$s</string>
-    <string name="ShareNekogram">Падзяліцца Nekogram...</string>
-    <string name="NekogramVersion">Nekogram %1$s\nЗаснована на Telegram
+    <string name="InviteTextNeko">Прывітанне, я выкарыстоўваю Irongram для размоў. Яднайся да мяне! Спампаваць Яго можна тут: %1$s</string>
+    <string name="ShareNekogram">Падзяліцца Irongram...</string>
+    <string name="NekogramVersion">Irongram %1$s\nЗаснована на Telegram
 %2$s\nРаспрацавана %3$s</string>
     <string name="UpdateInstalling">Устаноўка абнаўлення...</string>
     <string name="UpdateInstallingNotification">Пасля ўстаноўкі абнаўлення з\'явіцца паведамленне.</string>
@@ -166,7 +166,7 @@
     <string name="SaveToDownloadCount_few">Захаванне %1$d файлаў у спампоўкі</string>
     <string name="SaveToDownloadCount_many">Захаванне %1$d файлаў у спампоўкі</string>
     <string name="SaveToDownloadCount_other">Захаванне %1$d файлаў у спампоўкі</string>
-    <string name="AppLinkNotVerifiedMessage">Для Android 12 і пазнейшых версій вам неабходна самастойна дадаць спасылку к пацверджаным спасылкам, каб адкрываць спасылкі t.me у Nekogram.</string>
+    <string name="AppLinkNotVerifiedMessage">Для Android 12 і пазнейшых версій вам неабходна самастойна дадаць спасылку к пацверджаным спасылкам, каб адкрываць спасылкі t.me у Irongram.</string>
     <string name="AppLinkNotVerifiedTitle">Спасылкі праграмы не пацверджаны</string>
     <string name="AutoTranslate">Аўта пераклад</string>
     <string name="AutoTranslateAbout">Аўтаматычна перакладаць іншамоўныя паведамленні.</string>
@@ -184,14 +184,14 @@
     <string name="TabletMode">Рэжым планшэту</string>
     <string name="TabletModeAuto">Аўтаматычна</string>
     <string name="DeleteAllFromSelfDone">Усе вашы паведамленні выдалены</string>
-    <string name="UnknownNekoSettingsOption">Такой опцыі ў наладах Neko няма.</string>
+    <string name="UnknownNekoSettingsOption">Такой опцыі ў наладах Irongram няма.</string>
     <string name="ProviderYouDaoTranslate">YouDao Translator</string>
     <string name="ProviderBaiduTranslate">Baidu Translate</string>
     <string name="ProviderSogouTranslate">Sogou Translate</string>
     <string name="Translated">перакладзена</string>
     <string name="PasscodeNeeded">Спачатку неабходна ўключыць блакіроўку паролям</string>
     <string name="PasscodeNeko">Пароль</string>
-    <string name="PasscodeShowInSettings">Паказаць у наладах Neko</string>
+    <string name="PasscodeShowInSettings">Паказаць у наладах Irongram</string>
     <string name="PasscodeShowInSettingsAbout">Пасля хавання, вы можаце адкрыць гэтую старонку **ТОЛЬКІ** па спасылцы:</string>
     <string name="PasscodeSet">Устанавіць пароль</string>
     <string name="PasscodeEdit">Змяніць пароль</string>
@@ -271,7 +271,7 @@
     <string name="NavigationAnimationBezier">Класічна</string>
     <string name="NavigationAnimationSpring">Натуральны</string>
     <string name="CloudConfig">Налады воблачнага сховішча</string>
-    <string name="CloudConfigDesc">Захаваць вашы налады Neko у воблачным сховішчы Telegram.</string>
+    <string name="CloudConfigDesc">Захаваць вашы налады Irongram у воблачным сховішчы Telegram.</string>
     <string name="CloudConfigSyncDate">Апошняя сінхранізацыя: %s, у воблаку: %s</string>
     <string name="CloudConfigSyncDateNever">ніколі</string>
     <string name="CloudConfigSync">Захаваць у воблака</string>
@@ -280,7 +280,7 @@
     <string name="CloudConfigRestoreShort">Аднавіць</string>
     <string name="CloudConfigSyncing">Сінхранізацыя...</string>
     <string name="CloudConfigAutoSync">Аўтасінхранізацыя</string>
-    <string name="CloudConfigAutoSyncDesc">Аўтаматычная сінхранізацыя з воблакам пасля змены налад Neko.</string>
+    <string name="CloudConfigAutoSyncDesc">Аўтаматычная сінхранізацыя з воблакам пасля змены налад Irongram.</string>
     <string name="CloudConfigSyncFailed">Не атрымалася сінхранізаваць налады з воблакам.</string>
     <string name="CloudConfigRestoreFailed">Не ўдалося аднавіць налады з воблака.</string>
     <string name="ReducedColors">Паменшыць колькасць колераў</string>

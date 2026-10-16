@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">Cài đặt Neko</string>
+    <string name="NekoSettings">Cài đặt Irongram</string>
     <string name="PreferIPv6">Ưu tiên kết nối qua IPv6</string>
     <string name="MessageMenu">Menu tin nhắn</string>
     <string name="HidePhone">Ẩn số điện thoại của tôi</string>
@@ -22,7 +22,7 @@
     <string name="AddToSavedMessages">Lưu tin nhắn</string>
     <string name="CreateMention">Tạo đề cập đến</string>
     <string name="Prpr">Biểu cảm dễ thương</string>
-    <string name="NekogramRunning">Nekogram đang chạy</string>
+    <string name="NekogramRunning">Irongram đang chạy</string>
     <string name="EventType">Bộ biểu tượng thanh bên</string>
     <string name="DependsOnDate">Phụ thuộc từng ngày</string>
     <string name="Christmas">Giáng sinh</string>
@@ -64,8 +64,8 @@
     <string name="IgnoreBlockedAbout">NÓ KHÔNG THỰC SỰ ẨN! Tin nhắn vẫn có sẵn để xem, nhưng văn bản sẽ được chuyển đổi thành Spoiler và phương tiện sẽ không tự động tải xuống.</string>
     <string name="Donate">Ủng hộ</string>
     <string name="DonateAbout">Hỗ trợ sự phát triển của chúng tôi.</string>
-    <string name="TranslationAbout">Hãy giúp chúng tôi dịch Nekogram sang ngôn ngữ của bạn.</string>
-    <string name="Translation">Dịch Nekogram</string>
+    <string name="TranslationAbout">Hãy giúp chúng tôi dịch Irongram sang ngôn ngữ của bạn.</string>
+    <string name="Translation">Dịch Irongram</string>
     <string name="GooglePlay">Cửa hàng Google</string>
     <string name="ResetStickerSize">Đặt lại kích thước nhãn dán</string>
     <string name="RestartAppToTakeEffect">Khởi động lại ứng dụng để có hiệu lực.</string>
@@ -114,7 +114,7 @@
     <string name="RegistrationDateNewer">Mới hơn %s</string>
     <string name="RegistrationDateOlder">Cũ hơn %s</string>
     <string name="RegistrationDateApproximately">Khoảng %s</string>
-    <string name="UpdateNekogram">Cập nhật Nekogram</string>
+    <string name="UpdateNekogram">Cập nhật Irongram</string>
     <string name="TranslationTarget">Ngôn ngữ chỉ định</string>
     <string name="TranslationTargetApp">Dựa theo ứng dụng</string>
     <string name="Translator">Công cụ dịch</string>
@@ -140,9 +140,9 @@
     <string name="OfficialSite">Trang web chính thức</string>
     <string name="MutualContact">Liên hệ lẫn nhau</string>
     <string name="MutualContactDescription">Liên hệ này là liên hệ lẫn nhau.</string>
-    <string name="InviteTextNeko">Này, tôi đang dùng Nekogram để trò chuyện. Tham gia cùng tôi! Tải xuống tại đây: %1$s</string>
-    <string name="ShareNekogram">Chia sẻ Nekogram...</string>
-    <string name="NekogramVersion">Nekogram %1$s\nDựa trên Telegram%2$s\n Được thiết kế bởi %3$s</string>
+    <string name="InviteTextNeko">Này, tôi đang dùng Irongram để trò chuyện. Tham gia cùng tôi! Tải xuống tại đây: %1$s</string>
+    <string name="ShareNekogram">Chia sẻ Irongram...</string>
+    <string name="NekogramVersion">Irongram %1$s\nDựa trên Telegram%2$s\n Được thiết kế bởi %3$s</string>
     <string name="UpdateInstalling">Đang cài đặt bản cập nhật...</string>
     <string name="UpdateInstallingNotification">Một thông báo sẽ được hiển thị khi bản cập nhật hoàn tất.</string>
     <string name="UpdateInstallingRelaunch">Ứng dụng sẽ khởi chạy lại khi cập nhật hoàn tất.</string>
@@ -165,7 +165,7 @@
     <string name="SaveToDownloadCount_few">Đang lưu %1$d tệp để tải xuống</string>
     <string name="SaveToDownloadCount_many">Đang lưu %1$d tệp để tải xuống</string>
     <string name="SaveToDownloadCount_other">Đang lưu %1$d tệp để tải xuống</string>
-    <string name="AppLinkNotVerifiedMessage">Đối với Android 12 trở lên, bạn cần thêm liên kết vào các liên kết đã xác minh theo cách thủ công để mở liên kết t.me trong Nekogram.</string>
+    <string name="AppLinkNotVerifiedMessage">Đối với Android 12 trở lên, bạn cần thêm liên kết vào các liên kết đã xác minh theo cách thủ công để mở liên kết t.me trong Irongram.</string>
     <string name="AppLinkNotVerifiedTitle">Liên kết ứng dụng chưa được xác minh</string>
     <string name="AutoTranslate">Tự động dịch</string>
     <string name="AutoTranslateAbout">Tự động dịch các tin nhắn bằng ngôn ngữ khác.</string>
@@ -183,14 +183,14 @@
     <string name="TabletMode">Chế độ máy tính bảng</string>
     <string name="TabletModeAuto">Tự động</string>
     <string name="DeleteAllFromSelfDone">Đã xoá toàn bộ tin nhắn</string>
-    <string name="UnknownNekoSettingsOption">Không có tùy chọn Cài đặt Neko như vậy.</string>
+    <string name="UnknownNekoSettingsOption">Không có tùy chọn Cài đặt Irongram như vậy.</string>
     <string name="ProviderYouDaoTranslate">Trình dịch YouDao</string>
     <string name="ProviderBaiduTranslate">Baidu Dịch</string>
     <string name="ProviderSogouTranslate">Sogou Dịch</string>
     <string name="Translated">đã dịch</string>
     <string name="PasscodeNeeded">Bạn phải bật khóa mật mã trước tiên</string>
     <string name="PasscodeNeko">Mật mã</string>
-    <string name="PasscodeShowInSettings">Hiện trong Cài đặt Neko</string>
+    <string name="PasscodeShowInSettings">Hiện trong Cài đặt Irongram</string>
     <string name="PasscodeShowInSettingsAbout">Sau khi ẩn, bạn có thể **chỉ** mở trang này bằng liên kết:</string>
     <string name="PasscodeSet">Thiết lập mật mã</string>
     <string name="PasscodeEdit">Đổi mật mã</string>
@@ -272,7 +272,7 @@
     <string name="NavigationAnimationBezier">Cổ điển</string>
     <string name="NavigationAnimationSpring">Tự nhiên</string>
     <string name="CloudConfig">Cài đặt đám mây</string>
-    <string name="CloudConfigDesc">Lưu Cài đặt Neko của bạn vào đám mây Telegram.</string>
+    <string name="CloudConfigDesc">Lưu Cài đặt Irongram của bạn vào đám mây Telegram.</string>
     <string name="CloudConfigSyncDate">Lần cuối đồng bộ: %s, đám mây: %s</string>
     <string name="CloudConfigSyncDateNever">không bao giờ</string>
     <string name="CloudConfigSync">Đồng bộ lên đám mây</string>
@@ -281,7 +281,7 @@
     <string name="CloudConfigRestoreShort">Khôi phục</string>
     <string name="CloudConfigSyncing">Đang đồng bộ...</string>
     <string name="CloudConfigAutoSync">Tự động đồng bộ</string>
-    <string name="CloudConfigAutoSyncDesc">Tự động đồng bộ với đám mây sau khi thực hiện thay đổi với Cài đặt Neko.</string>
+    <string name="CloudConfigAutoSyncDesc">Tự động đồng bộ với đám mây sau khi thực hiện thay đổi với Cài đặt Irongram.</string>
     <string name="CloudConfigSyncFailed">Không thể đồng bộ cài đặt với đám mây.</string>
     <string name="CloudConfigRestoreFailed">Không thể khôi phục cài đặt từ đám mây.</string>
     <string name="ReducedColors">Giảm màu sắc</string>
@@ -341,7 +341,7 @@
     <string name="PassQRNewPassword">Bảo vệ mã QR này bằng mật khẩu</string>
     <string name="ConfirmNewPassword">Xác nhận mật khẩu</string>
     <string name="PassQRAbout">Lưu mật khẩu của bạn dưới dạng mã QR được mã hóa. Bạn có thể quét mã này để đăng nhập trên một thiết bị khác.</string>
-    <string name="PassQREncryption">Quét bằng Nekogram để đăng nhập.</string>
+    <string name="PassQREncryption">Quét bằng Irongram để đăng nhập.</string>
     <string name="InvalidPassQr">Mã QR khóa truy cập không hợp lệ</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Cài đặt trợ năng</string>
