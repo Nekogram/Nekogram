@@ -32475,9 +32475,9 @@ public class ChatActivity extends BaseFragment implements
                         cell.setSubtext(getString(R.string.WelcomeMessageRevertInfo));
                         cell.setItemHeight(64);
                         cell.textView.setTranslationY(-dp(5));
-                        cell.subtextView.getCurrentView().setSingleLine(false);
-                        cell.subtextView.getCurrentView().setMaxLines(2);
-                        cell.subtextView.getCurrentView().setTextSize(TypedValue.COMPLEX_UNIT_DIP, 11);
+                        cell.subtextView.setSingleLine(false);
+                        cell.subtextView.setMaxLines(2);
+                        cell.subtextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 11);
                         cell.setColors(getThemedColor(Theme.key_text_RedRegular), getThemedColor(Theme.key_text_RedRegular));
                         cell.setSubtextColor(getThemedColor(Theme.key_text_RedRegular));
                         cell.setSelectorColor(Theme.multAlpha(getThemedColor(Theme.key_text_RedRegular), .12f));

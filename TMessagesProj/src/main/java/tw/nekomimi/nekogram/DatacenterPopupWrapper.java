@@ -99,24 +99,24 @@ public class DatacenterPopupWrapper {
         var datacenterInfo = (DatacenterInfo) item.getTag();
         int colorKey;
         if (datacenterInfo.checking) {
-            item.setSubtext(LocaleController.getString(R.string.Checking), animated);
+            item.setAnimatedSubtext(LocaleController.getString(R.string.Checking), animated);
             colorKey = Theme.key_windowBackgroundWhiteGrayText2;
         } else if (datacenterInfo.available) {
             if (datacenterInfo.ping >= 1000) {
-                item.setSubtext(LocaleController.formatString(R.string.Ping, datacenterInfo.ping), animated);
+                item.setAnimatedSubtext(LocaleController.formatString(R.string.Ping, datacenterInfo.ping), animated);
                 colorKey = Theme.key_text_RedRegular;
             } else if (datacenterInfo.ping != 0) {
-                item.setSubtext(LocaleController.formatString(R.string.Ping, datacenterInfo.ping), animated);
+                item.setAnimatedSubtext(LocaleController.formatString(R.string.Ping, datacenterInfo.ping), animated);
                 colorKey = Theme.key_windowBackgroundWhiteGreenText;
             } else {
-                item.setSubtext(LocaleController.getString(R.string.Available), animated);
+                item.setAnimatedSubtext(LocaleController.getString(R.string.Available), animated);
                 colorKey = Theme.key_windowBackgroundWhiteGreenText;
             }
         } else {
-            item.setSubtext(LocaleController.getString(R.string.Unavailable), animated);
+            item.setAnimatedSubtext(LocaleController.getString(R.string.Unavailable), animated);
             colorKey = Theme.key_text_RedRegular;
         }
-        item.setSubtextColor(Theme.getColor(colorKey, resourcesProvider));
+        item.setAnimatedSubtextColor(Theme.getColor(colorKey, resourcesProvider));
     }
 
     private static class DatacenterInfo {
