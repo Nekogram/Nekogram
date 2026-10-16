@@ -69,6 +69,8 @@ jobs:
           echo "${{ secrets.KEYSTORE_JKS }}" | base64 --decode > keystore.jks
 
       - name: Configure Secrets
+        env:
+          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
         run: |
           echo "apiId=${{ secrets.API_ID }}" >> local.properties
           echo "apiHash=${{ secrets.API_HASH }}" >> local.properties
@@ -77,7 +79,41 @@ jobs:
           echo "sentryDsn=${{ secrets.SENTRY_DSN }}" >> local.properties
           echo "mapsApiKey=${{ secrets.MAPS_API_KEY }}" >> local.properties
 
-          echo "${{ secrets.GOOGLE_SERVICES_JSON }}" | base64 --decode > TMessagesProj_App/google-services.json
+          python3 - <<'PY'
+          import base64
+          import json
+          import os
+          from pathlib import Path
+
+          value = os.environ.get("GOOGLE_SERVICES_JSON", "")
+          if not value.strip():
+              raise SystemExit("::error title=Missing secret::Set the Actions secret GOOGLE_SERVICES_JSON.")
+
+          try:
+              config = json.loads(value)
+              contents = value
+          except json.JSONDecodeError:
+              try:
+                  decoded = base64.b64decode(value)
+                  contents = decoded.decode("utf-8-sig")
+                  config = json.loads(contents)
+              except Exception:
+                  raise SystemExit("::error title=Invalid secret::GOOGLE_SERVICES_JSON must be valid JSON or Base64 of google-services.json.") from None
+
+          if not isinstance(config, dict):
+              raise SystemExit("::error title=Invalid Google Services JSON::Expected a JSON object at the document root.")
+
+          packages = {
+              client.get("client_info", {}).get("android_client_info", {}).get("package_name")
+              for client in config.get("client", [])
+              if isinstance(client, dict)
+          }
+          if "tw.nekomimi.nekogram" not in packages:
+              raise SystemExit("::error title=Wrong Firebase app::No client for Android package tw.nekomimi.nekogram was found.")
+
+          Path("TMessagesProj_App/google-services.json").write_text(contents, encoding="utf-8")
+          print("Google Services JSON validated for tw.nekomimi.nekogram.")
+          PY
           echo "${{ secrets.SENTRY_PROPERTIES }}" | base64 --decode > sentry.properties
 
       - name: Build with Gradle
