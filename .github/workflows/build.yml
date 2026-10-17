@@ -12,6 +12,8 @@ on:
 
 jobs:
   build:
+    # The Google Services config is stored in this GitHub environment.
+    environment: GOOGLE_SERVICES_JSON
     # GitHub-hosted runner; no separate Blacksmith runner pool is required.
     runs-on: ubuntu-24.04
     permissions:
