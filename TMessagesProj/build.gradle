@@ -168,10 +168,10 @@ android {
             buildConfigField("boolean", "DEBUG_VERSION", "false")
             buildConfigField("boolean", "DEBUG_PRIVATE_VERSION", "false")
 
-            buildConfigField("int","API_ID", "${localProperties.get("apiId", 0)}")
+            buildConfigField("int","API_ID", "${localProperties.get("apiId", 0) ?: 0}")
             buildConfigField("String","API_HASH", "\"${localProperties.get("apiHash")}\"")
             buildConfigField("String","SENTRY_DSN", "\"${localProperties.get("sentryDsn")}\"")
-            buildConfigField("long","HELPER_BOT_ID", "${localProperties.get("helperBotId", 0)}")
+            buildConfigField("long","HELPER_BOT_ID", "${localProperties.get("helperBotId", 0) ?: 0}")
             buildConfigField("String","HELPER_BOT_USERNAME", "\"${localProperties.get("helperBotUsername")}\"")
         }
 
@@ -183,10 +183,10 @@ android {
             buildConfigField("boolean", "DEBUG_VERSION", "false")
             buildConfigField("boolean", "DEBUG_PRIVATE_VERSION", "false")
 
-            buildConfigField("int","API_ID", "${localProperties.get("apiId", 0)}")
+            buildConfigField("int","API_ID", "${localProperties.get("apiId", 0) ?: 0}")
             buildConfigField("String","API_HASH", "\"${localProperties.get("apiHash")}\"")
             buildConfigField("String","SENTRY_DSN", "\"${localProperties.get("sentryDsn")}\"")
-            buildConfigField("long","HELPER_BOT_ID", "${localProperties.get("helperBotId", 0)}")
+            buildConfigField("long","HELPER_BOT_ID", "${localProperties.get("helperBotId", 0) ?: 0}")
             buildConfigField("String","HELPER_BOT_USERNAME", "\"${localProperties.get("helperBotUsername")}\"")
         }
     }

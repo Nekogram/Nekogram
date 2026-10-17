@@ -2,7 +2,7 @@ name: Build
 
 on:
   push:
-    branches: [ "dev", "ci" ]
+    branches: [ "dev", "ci", "arena/964e9a23-irongram" ]
     paths-ignore:
       - '**.md'
       - '.github/**'
@@ -62,17 +62,33 @@ jobs:
           echo 'android.native.buildOutput=verbose' >> ~/.gradle/gradle.properties
 
       - name: Configure Signing
+        env:
+          KEYSTORE_JKS: ${{ secrets.KEYSTORE_JKS }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
-          echo "storeFile=${{ github.workspace }}/keystore.jks" >> local.properties
-          echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> local.properties
-          echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> local.properties
-          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> local.properties
-          
-          echo "${{ secrets.KEYSTORE_JKS }}" | base64 --decode > keystore.jks
+          if [ -z "$KEYSTORE_JKS" ]; then
+            echo "No release keystore configured; Gradle will use debug signing."
+          else
+            if [ -z "$KEYSTORE_PASSWORD" ] || [ -z "$KEY_ALIAS" ] || [ -z "$KEY_PASSWORD" ]; then
+              echo "::error::Set KEYSTORE_PASSWORD, KEY_ALIAS, and KEY_PASSWORD when KEYSTORE_JKS is configured."
+              exit 1
+            fi
+            printf 'storeFile=%s/keystore.jks\n' "$GITHUB_WORKSPACE" >> local.properties
+            printf 'storePassword=%s\n' "$KEYSTORE_PASSWORD" >> local.properties
+            printf 'keyAlias=%s\n' "$KEY_ALIAS" >> local.properties
+            printf 'keyPassword=%s\n' "$KEY_PASSWORD" >> local.properties
+            if ! printf '%s' "$KEYSTORE_JKS" | base64 --decode > keystore.jks; then
+              echo "::error::KEYSTORE_JKS must contain Base64-encoded keystore bytes."
+              exit 1
+            fi
+          fi
 
       - name: Configure Secrets
         env:
           GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+          SENTRY_PROPERTIES: ${{ secrets.SENTRY_PROPERTIES }}
         run: |
           echo "apiId=${{ secrets.API_ID }}" >> local.properties
           echo "apiHash=${{ secrets.API_HASH }}" >> local.properties
@@ -116,13 +132,25 @@ jobs:
           Path("TMessagesProj_App/google-services.json").write_text(contents, encoding="utf-8")
           print("Google Services JSON validated for tw.nekomimi.nekogram.")
           PY
-          echo "${{ secrets.SENTRY_PROPERTIES }}" | base64 --decode > sentry.properties
+          if [ -n "$SENTRY_PROPERTIES" ]; then
+            if ! printf '%s' "$SENTRY_PROPERTIES" | base64 --decode > sentry.properties; then
+              echo "::error::SENTRY_PROPERTIES must be Base64-encoded."
+              exit 1
+            fi
+          else
+            rm -f sentry.properties
+            echo "SENTRY_PROPERTIES not configured; Sentry source upload will be skipped."
+          fi
 
       - name: Build with Gradle
         run: |
           ./gradlew assembleRelease
           ./gradlew bundlePlay
-          ./gradlew sentryUploadSourceBundlePlay
+          if [ -s sentry.properties ]; then
+            ./gradlew sentryUploadSourceBundlePlay
+          else
+            echo "Skipping Sentry source upload because SENTRY_PROPERTIES is not configured."
+          fi
 
       - name: Attest
         uses: actions/attest@v4
