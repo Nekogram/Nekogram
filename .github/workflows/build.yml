@@ -88,10 +88,20 @@ jobs:
       - name: Configure Secrets
         env:
           GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+          API_ID: ${{ secrets.API_ID }}
+          API_HASH: ${{ secrets.API_HASH }}
           SENTRY_PROPERTIES: ${{ secrets.SENTRY_PROPERTIES }}
         run: |
-          echo "apiId=${{ secrets.API_ID }}" >> local.properties
-          echo "apiHash=${{ secrets.API_HASH }}" >> local.properties
+          if [ -z "$API_ID" ] || [ -z "$API_HASH" ]; then
+            echo "::error::Set API_ID and API_HASH secrets in the configured GitHub environment."
+            exit 1
+          fi
+          if ! [[ "$API_ID" =~ ^[0-9]+$ ]]; then
+            echo "::error::API_ID must be numeric."
+            exit 1
+          fi
+          printf 'apiId=%s\n' "$API_ID" >> local.properties
+          printf 'apiHash=%s\n' "$API_HASH" >> local.properties
           echo "helperBotId=${{ secrets.HELPER_BOT_ID }}" >> local.properties
           echo "helperBotUsername=${{ secrets.HELPER_BOT_USERNAME }}" >> local.properties
           echo "sentryDsn=${{ secrets.SENTRY_DSN }}" >> local.properties
