@@ -275,7 +275,7 @@
     <string name="NavigationAnimationSpring">طبيعي</string>
     <string name="CloudConfig">إعدادات السحابة</string>
     <string name="CloudConfigDesc">احفظ إعدادات Irongram الخاصة بك في سحابة Telegram.</string>
-    <string name="CloudConfigSyncDate">آخر مزامنة: %s, السحابة: %s</string>
+    <string name="CloudConfigSyncDate">آخر مزامنة: %1$s, السحابة: %2$s</string>
     <string name="CloudConfigSyncDateNever">أبداً</string>
     <string name="CloudConfigSync">المزامنة مع السحابة</string>
     <string name="CloudConfigSyncShort">مزامنة</string>

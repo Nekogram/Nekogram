@@ -273,7 +273,7 @@
     <string name="NavigationAnimationSpring">Natural</string>
     <string name="CloudConfig">Pengaturan cloud</string>
     <string name="CloudConfigDesc">Simpan pengaturan Irongram Anda ke Telegram cloud.</string>
-    <string name="CloudConfigSyncDate">Terakhir disinkronkan: %s, cloud: %s</string>
+    <string name="CloudConfigSyncDate">Terakhir disinkronkan: %1$s, cloud: %2$s</string>
     <string name="CloudConfigSyncDateNever">tidak pernah</string>
     <string name="CloudConfigSync">Sinkronkan ke cloud</string>
     <string name="CloudConfigSyncShort">Sinkronisasi</string>

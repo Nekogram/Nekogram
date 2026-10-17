@@ -280,7 +280,7 @@
     <string name="NavigationAnimationSpring">Natural</string>
     <string name="CloudConfig">Cloud Settings</string>
     <string name="CloudConfigDesc">Save your Irongram Settings to Telegram cloud.</string>
-    <string name="CloudConfigSyncDate">Last synced: %s, cloud: %s</string>
+    <string name="CloudConfigSyncDate">Last synced: %1$s, cloud: %2$s</string>
     <string name="CloudConfigSyncDateNever">never</string>
     <string name="CloudConfigSync">Sync to cloud</string>
     <string name="CloudConfigSyncShort">Sync</string>

@@ -270,7 +270,7 @@
     <string name="NavigationAnimationSpring">Tabiiy</string>
     <string name="CloudConfig">Bulut Sozlamalari</string>
     <string name="CloudConfigDesc">Irongram sozlamalarini Telegram bulutga saqlash.</string>
-    <string name="CloudConfigSyncDate">Sinxronlandi: %s, bulutga: %s</string>
+    <string name="CloudConfigSyncDate">Sinxronlandi: %1$s, bulutga: %2$s</string>
     <string name="CloudConfigSyncDateNever">hech qachon</string>
     <string name="CloudConfigSync">Bulutga sinxronlash</string>
     <string name="CloudConfigSyncShort">Sinxronlash</string>

@@ -274,7 +274,7 @@
     <string name="NavigationAnimationSpring">自然</string>
     <string name="CloudConfig">雲設定</string>
     <string name="CloudConfigDesc">將您的 Irongram 設定儲存到 Telegram 雲端。</string>
-    <string name="CloudConfigSyncDate">上次同步：%s，雲端：%s</string>
+    <string name="CloudConfigSyncDate">上次同步：%1$s，雲端：%2$s</string>
     <string name="CloudConfigSyncDateNever">絕不</string>
     <string name="CloudConfigSync">同步至雲端</string>
     <string name="CloudConfigSyncShort">同步</string>

@@ -273,7 +273,7 @@
     <string name="NavigationAnimationSpring">Φυσική</string>
     <string name="CloudConfig">Ρυθμίσεις Cloud</string>
     <string name="CloudConfigDesc">Αποθήκευση ρυθμίσεων Irongram στο Telegram cloud.</string>
-    <string name="CloudConfigSyncDate">Τελευταίος συγχρονισμός: %s, cloud: %s</string>
+    <string name="CloudConfigSyncDate">Τελευταίος συγχρονισμός: %1$s, cloud: %2$s</string>
     <string name="CloudConfigSyncDateNever">ποτέ</string>
     <string name="CloudConfigSync">Συγχρονισμός στο cloud</string>
     <string name="CloudConfigSyncShort">Συγχρονισμός</string>

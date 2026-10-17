@@ -273,7 +273,7 @@
     <string name="NavigationAnimationSpring">Doğal</string>
     <string name="CloudConfig">Bulut Ayarları</string>
     <string name="CloudConfigDesc">Irongram Ayarlarınızı Telegram bulutuna kaydedin.</string>
-    <string name="CloudConfigSyncDate">Son senkronize edillme: %s, bulut: %s</string>
+    <string name="CloudConfigSyncDate">Son senkronize edillme: %1$s, bulut: %2$s</string>
     <string name="CloudConfigSyncDateNever">asla</string>
     <string name="CloudConfigSync">Bulut\'a senkronize edin</string>
     <string name="CloudConfigSyncShort">Senkronize et</string>

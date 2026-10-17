@@ -271,7 +271,7 @@
     <string name="NavigationAnimationSpring">เป็นธรรมชาติ</string>
     <string name="CloudConfig">การตั้งค่าคลาวด์</string>
     <string name="CloudConfigDesc">บันทึกการตั้งค่า Irongram ของคุณไปยังคลาวด์ Telegram</string>
-    <string name="CloudConfigSyncDate">ซิงค์ล่าสุด: %s, คลาวด์: %s</string>
+    <string name="CloudConfigSyncDate">ซิงค์ล่าสุด: %1$s, คลาวด์: %2$s</string>
     <string name="CloudConfigSyncDateNever">ไม่เคย</string>
     <string name="CloudConfigSync">ซิงค์ไปยังคลาวด์</string>
     <string name="CloudConfigSyncShort">ซิงค์</string>

@@ -275,7 +275,7 @@
     <string name="NavigationAnimationSpring">ナチュラル</string>
     <string name="CloudConfig">クラウドの設定</string>
     <string name="CloudConfigDesc">Irongramの設定をTelegramクラウドに保存します。</string>
-    <string name="CloudConfigSyncDate">最終同期: %s / クラウド: %s</string>
+    <string name="CloudConfigSyncDate">最終同期: %1$s / クラウド: %2$s</string>
     <string name="CloudConfigSyncDateNever">しない</string>
     <string name="CloudConfigSync">クラウドに同期</string>
     <string name="CloudConfigSyncShort">同期</string>

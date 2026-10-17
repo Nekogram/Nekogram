@@ -277,7 +277,7 @@
     <string name="NavigationAnimationSpring">Обычная</string>
     <string name="CloudConfig">Облачные настройки</string>
     <string name="CloudConfigDesc">Сохранить ваши настройки Irongram в облачном хранилище Telegram.</string>
-    <string name="CloudConfigSyncDate">Последняя синхронизация: %s, в облаке: %s</string>
+    <string name="CloudConfigSyncDate">Последняя синхронизация: %1$s, в облаке: %2$s</string>
     <string name="CloudConfigSyncDateNever">никогда</string>
     <string name="CloudConfigSync">Синхронизировать с облаком</string>
     <string name="CloudConfigSyncShort">Синхронизировать</string>

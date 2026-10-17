@@ -270,7 +270,7 @@
     <string name="NavigationAnimationSpring">Természetes</string>
     <string name="CloudConfig">Felhő beállítások</string>
     <string name="CloudConfigDesc">A Irongram beállítások elmentése a Telegram felhőbe.</string>
-    <string name="CloudConfigSyncDate">Utoljára szinkronizálva: %s, felhő: %s</string>
+    <string name="CloudConfigSyncDate">Utoljára szinkronizálva: %1$s, felhő: %2$s</string>
     <string name="CloudConfigSyncDateNever">soha</string>
     <string name="CloudConfigSync">Szinkronizálás a felhővel</string>
     <string name="CloudConfigSyncShort">Szinkronizálás</string>

@@ -273,7 +273,7 @@
     <string name="NavigationAnimationSpring">Naturale</string>
     <string name="CloudConfig">Impostazioni Cloud</string>
     <string name="CloudConfigDesc">Salva le tue impostazioni di Irongram su cloud di Telegram.</string>
-    <string name="CloudConfigSyncDate">Ultima sincronizzazione: %s, cloud: %s</string>
+    <string name="CloudConfigSyncDate">Ultima sincronizzazione: %1$s, cloud: %2$s</string>
     <string name="CloudConfigSyncDateNever">mai</string>
     <string name="CloudConfigSync">Sincronizza con il cloud</string>
     <string name="CloudConfigSyncShort">Sincronizza</string>

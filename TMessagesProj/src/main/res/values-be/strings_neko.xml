@@ -272,7 +272,7 @@
     <string name="NavigationAnimationSpring">Натуральны</string>
     <string name="CloudConfig">Налады воблачнага сховішча</string>
     <string name="CloudConfigDesc">Захаваць вашы налады Irongram у воблачным сховішчы Telegram.</string>
-    <string name="CloudConfigSyncDate">Апошняя сінхранізацыя: %s, у воблаку: %s</string>
+    <string name="CloudConfigSyncDate">Апошняя сінхранізацыя: %1$s, у воблаку: %2$s</string>
     <string name="CloudConfigSyncDateNever">ніколі</string>
     <string name="CloudConfigSync">Захаваць у воблака</string>
     <string name="CloudConfigSyncShort">Сінхранізаваць</string>

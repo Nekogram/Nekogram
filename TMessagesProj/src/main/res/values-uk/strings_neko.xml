@@ -273,7 +273,7 @@
     <string name="NavigationAnimationSpring">Природна</string>
     <string name="CloudConfig">Налаштування хмарного сховища</string>
     <string name="CloudConfigDesc">Зберігайте ваші налаштування Irongram у хмарному сховищі Telegram.</string>
-    <string name="CloudConfigSyncDate">Остання синхронізація %s, хмара: %s</string>
+    <string name="CloudConfigSyncDate">Остання синхронізація %1$s, хмара: %2$s</string>
     <string name="CloudConfigSyncDateNever">ніколи</string>
     <string name="CloudConfigSync">Зберегти до хмари</string>
     <string name="CloudConfigSyncShort">Зберегти</string>

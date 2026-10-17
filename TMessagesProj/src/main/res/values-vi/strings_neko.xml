@@ -273,7 +273,7 @@
     <string name="NavigationAnimationSpring">Tự nhiên</string>
     <string name="CloudConfig">Cài đặt đám mây</string>
     <string name="CloudConfigDesc">Lưu Cài đặt Irongram của bạn vào đám mây Telegram.</string>
-    <string name="CloudConfigSyncDate">Lần cuối đồng bộ: %s, đám mây: %s</string>
+    <string name="CloudConfigSyncDate">Lần cuối đồng bộ: %1$s, đám mây: %2$s</string>
     <string name="CloudConfigSyncDateNever">không bao giờ</string>
     <string name="CloudConfigSync">Đồng bộ lên đám mây</string>
     <string name="CloudConfigSyncShort">Đồng bộ</string>

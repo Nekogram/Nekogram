@@ -271,7 +271,7 @@
     <string name="NavigationAnimationSpring">Природна</string>
     <string name="CloudConfig">Подешавања облака</string>
     <string name="CloudConfigDesc">Сачувајте ваша Irongram подешавања у Telegram облак.</string>
-    <string name="CloudConfigSyncDate">Последња синхронизација: %s, облак: %s</string>
+    <string name="CloudConfigSyncDate">Последња синхронизација: %1$s, облак: %2$s</string>
     <string name="CloudConfigSyncDateNever">никада</string>
     <string name="CloudConfigSync">Снхронизуј са облаком</string>
     <string name="CloudConfigSyncShort">Синхронизуј</string>

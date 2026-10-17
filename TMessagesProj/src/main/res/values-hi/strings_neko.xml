@@ -272,7 +272,7 @@
     <string name="NavigationAnimationSpring">प्राकृतिक</string>
     <string name="CloudConfig">क्लाउड सेटिंग्स</string>
     <string name="CloudConfigDesc">अपनी Irongram सेटिंग्स को Telegram क्लाउड में सहेजें।</string>
-    <string name="CloudConfigSyncDate">अंतिम बार समन्वयित: %s, क्लाउड: %s</string>
+    <string name="CloudConfigSyncDate">अंतिम बार समन्वयित: %1$s, क्लाउड: %2$s</string>
     <string name="CloudConfigSyncDateNever">कभी नहीं</string>
     <string name="CloudConfigSync">क्लाउड से सिंक करें</string>
     <string name="CloudConfigSyncShort">क्लाउड कॉन्फ़िगरेशन सिंक संक्षिप्त</string>

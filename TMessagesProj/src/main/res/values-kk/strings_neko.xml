@@ -165,7 +165,7 @@
     <string name="SaveToDownloadCount_many">%1$d файлды жүктеулерге сақтау</string>
     <string name="SaveToDownloadCount_other">%1$d файлды жүктеулерге сақтау</string>
     <string name="CloudConfigDesc">Irongram параметрлерін Telegram бұлтына сақтаңыз.</string>
-    <string name="CloudConfigSyncDate">Соңғы синхрондалған: %s, бұлт: %s</string>
+    <string name="CloudConfigSyncDate">Соңғы синхрондалған: %1$s, бұлт: %2$s</string>
     <string name="CloudConfigSyncDateNever">ешқашан</string>
     <string name="CloudConfigSync">Бұлтпен синхрондау</string>
     <string name="CloudConfigSyncShort">Синхрондау</string>

@@ -262,7 +262,7 @@
     <string name="NavigationAnimationSpring">Natural</string>
     <string name="CloudConfig">클라우드 설정</string>
     <string name="CloudConfigDesc">Irongram 설정을 Telegram 클라우드에 저장합니다.</string>
-    <string name="CloudConfigSyncDate">마지막 동기화: %s, 클라우드: %s</string>
+    <string name="CloudConfigSyncDate">마지막 동기화: %1$s, 클라우드: %2$s</string>
     <string name="CloudConfigSyncDateNever">동기화 안함</string>
     <string name="CloudConfigSync">클라우드에 동기화</string>
     <string name="CloudConfigSyncShort">동기화</string>

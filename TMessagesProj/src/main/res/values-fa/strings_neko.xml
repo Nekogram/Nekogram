@@ -271,7 +271,7 @@
     <string name="NavigationAnimationSpring">عادی</string>
     <string name="CloudConfig">تنظیمات ابری</string>
     <string name="CloudConfigDesc">تنظیمات Irongram خود را در ابر تلگرام ذخیره کنید.</string>
-    <string name="CloudConfigSyncDate">آخرین همگام سازی: %s، ابر: %s</string>
+    <string name="CloudConfigSyncDate">آخرین همگام سازی: %1$s، ابر: %2$s</string>
     <string name="CloudConfigSyncDateNever">هرگز</string>
     <string name="CloudConfigSync">همگام سازی با ابر</string>
     <string name="CloudConfigSyncShort">همگام‌سازی</string>
