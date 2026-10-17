@@ -14,9 +14,15 @@ dependencies {
     baselineProfile project(':baselineprofile')
 }
 
+def sentryPropertiesFile = rootProject.file('sentry.properties')
+def sentryUploadConfigured = sentryPropertiesFile.isFile() && sentryPropertiesFile.length() > 0
+
 sentry {
-    uploadNativeSymbols = true
-    includeSourceContext = true
+    includeProguardMapping = sentryUploadConfigured
+    autoUploadProguardMapping = sentryUploadConfigured
+    uploadNativeSymbols = sentryUploadConfigured
+    autoUploadNativeSymbols = sentryUploadConfigured
+    includeSourceContext = sentryUploadConfigured
     additionalSourceDirsForSourceContext = [ '../TMessagesProj/src/main/java' ]
     autoInstallation {
         enabled = false
