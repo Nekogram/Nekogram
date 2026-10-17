@@ -4,9 +4,19 @@ import java.nio.file.Paths
 
 plugins {
     id 'com.android.library'
+    id 'com.chaquo.python'
     id 'org.telegram.build-plugin'
     id 'tw.nekomimi.nekogram.tl-readers'
     id 'idea'
+}
+
+chaquopy {
+    defaultConfig {
+        version = "3.11"
+        pip {
+            install "packaging==26.3"
+        }
+    }
 }
 
 tlReaders {
@@ -135,6 +145,9 @@ android {
     }
 
     defaultConfig {
+        ndk {
+            abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+        }
         vectorDrawables.generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi']
 
         externalNativeBuild {

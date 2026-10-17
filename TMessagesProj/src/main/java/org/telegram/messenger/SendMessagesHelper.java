@@ -130,6 +130,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.plugins.IrongramPluginsController;
 
 public class SendMessagesHelper extends BaseController implements NotificationCenter.NotificationCenterDelegate {
 
@@ -4417,6 +4418,9 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     }
 
     public void sendMessage(SendMessageParams sendMessageParams) {
+        if (!IrongramPluginsController.getInstance().onSendMessage(currentAccount, sendMessageParams)) {
+            return;
+        }
         final SendMessageChatArguments sendMessageChatArguments = sendMessageParams.sendMessageChatArguments != null ?
                 sendMessageParams.sendMessageChatArguments : SendMessageChatArguments.EMPTY;
         String message = sendMessageParams.message;

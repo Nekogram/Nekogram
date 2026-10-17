@@ -53,6 +53,7 @@ import java.util.concurrent.CountDownLatch;
 import tw.nekomimi.nekogram.FirebaseFix;
 import tw.nekomimi.nekogram.helpers.AnalyticsHelper;
 import tw.nekomimi.nekogram.helpers.CronetHelper;
+import tw.nekomimi.nekogram.plugins.IrongramPluginsController;
 
 public class ApplicationLoader extends Application {
 
@@ -283,6 +284,7 @@ public class ApplicationLoader extends Application {
             DownloadController.getInstance(a);
         }
         BillingController.getInstance().startConnection();
+        IrongramPluginsController.getInstance().loadEnabledPlugins();
     }
 
     public ApplicationLoader() {

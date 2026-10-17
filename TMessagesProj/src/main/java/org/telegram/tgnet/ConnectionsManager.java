@@ -49,6 +49,7 @@ import org.telegram.ui.LoginActivity;
 
 import tw.nekomimi.nekogram.ErrorDatabase;
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.plugins.IrongramPluginsController;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -395,6 +396,9 @@ public class ConnectionsManager extends BaseController {
     }
 
     private void sendRequestInternal(TLObject object, RequestDelegate onComplete, RequestDelegateTimestamp onCompleteTimestamp, QuickAckDelegate onQuickAck, WriteToSocketDelegate onWriteToSocket, int flags, int datacenterId, int connectionType, boolean immediate, int requestToken) {
+        if (!IrongramPluginsController.getInstance().onPreRequest(currentAccount, object)) {
+            return;
+        }
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d("send request " + object + " with token = " + requestToken);
         }
@@ -463,6 +467,7 @@ public class ConnectionsManager extends BaseController {
                     final TLObject finalResponse = resp;
                     final TLRPC.TL_error finalError = error;
                     Utilities.stageQueue.postRunnable(() -> {
+                        IrongramPluginsController.getInstance().onPostRequest(currentAccount, object, finalResponse, finalError);
                         if (onComplete != null) {
                             onComplete.run(finalResponse, finalError);
                         } else if (onCompleteTimestamp != null) {

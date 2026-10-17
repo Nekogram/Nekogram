@@ -140,6 +140,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.plugins.IrongramPluginsController;
 import me.vkryl.core.BitwiseUtils;
 
 public class MessagesController extends BaseController implements NotificationCenter.NotificationCenterDelegate {
@@ -17888,6 +17889,9 @@ public class MessagesController extends BaseController implements NotificationCe
                 return;
             }
         }
+        if (!IrongramPluginsController.getInstance().onUpdates(currentAccount, updates)) {
+            return;
+        }
         ArrayList<Long> needGetChannelsDiff = null;
         boolean needGetDiff = false;
         boolean needReceivedQueue = false;
@@ -18426,6 +18430,13 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public boolean processUpdateArray(ArrayList<TLRPC.Update> updates, ArrayList<TLRPC.User> usersArr, ArrayList<TLRPC.Chat> chatsArr, boolean fromGetDifference, int date) {
+        for (int i = 0; i < updates.size(); ) {
+            if (!IrongramPluginsController.getInstance().onUpdate(currentAccount, updates.get(i))) {
+                updates.remove(i);
+            } else {
+                i++;
+            }
+        }
         if (updates.isEmpty()) {
             if (usersArr != null || chatsArr != null) {
                 AndroidUtilities.runOnUIThread(() -> {
