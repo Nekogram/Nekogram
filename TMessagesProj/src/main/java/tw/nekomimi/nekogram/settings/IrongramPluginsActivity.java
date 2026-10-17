@@ -138,20 +138,31 @@ public final class IrongramPluginsActivity extends BaseNekoSettingsActivity {
                     .append(": ").append(entry.error);
         }
 
-        CharSequence enableAction = LocaleController.getString(
-                entry.enabled ? R.string.DisablePlugin : R.string.EnablePlugin
-        );
-        CharSequence removeAction = LocaleController.getString(R.string.RemovePlugin);
+        CharSequence[] actions = entry.enabled
+                ? new CharSequence[]{
+                        LocaleController.getString(R.string.PluginSettings),
+                        LocaleController.getString(R.string.DisablePlugin),
+                        LocaleController.getString(R.string.RemovePlugin)
+                }
+                : new CharSequence[]{
+                        LocaleController.getString(R.string.EnablePlugin),
+                        LocaleController.getString(R.string.RemovePlugin)
+                };
         new AlertDialog.Builder(getParentActivity(), resourcesProvider)
                 .setTitle(metadata.name)
                 .setMessage(details.toString())
-                .setItems(new CharSequence[]{enableAction, removeAction}, (dialog, which) -> {
-                    if (which == 0) {
-                        if (entry.enabled) {
+                .setItems(actions, (dialog, which) -> {
+                    if (entry.enabled) {
+                        if (which == 0) {
+                            dialog.dismiss();
+                            presentFragment(new IrongramPluginSettingsActivity(metadata));
+                        } else if (which == 1) {
                             setPluginEnabled(metadata, false);
-                        } else {
-                            confirmEnable(metadata);
+                        } else if (which == 2) {
+                            confirmRemove(metadata);
                         }
+                    } else if (which == 0) {
+                        confirmEnable(metadata);
                     } else if (which == 1) {
                         confirmRemove(metadata);
                     }

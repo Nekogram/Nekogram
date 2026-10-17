@@ -53,8 +53,15 @@ class ExampleRewriter(BasePlugin):
   dependency extras are not supported. Requirements share one app-wide library directory, so
   incompatible versions can prevent a plugin from enabling. Network access is required the first
   time a dependency is installed.
-- Basic `ui.settings` declaration classes are included so plugins can import and define settings.
-  Persistent values work, but Irongram does not currently render plugin-defined settings screens.
+- For enabled plugins, `create_settings()` is rendered in a per-plugin settings screen for the
+  built-in `Header`, `Divider`, `Switch`, `Selector`, `Input`, `EditText`, and `Text` declarations.
+  Switch, selector, and text input values are stored through `BasePlugin.set_setting()` and
+  `on_change` callbacks are invoked after saving. `Text.on_click` is invoked on tap, and
+  `Text.create_sub_fragment` opens a nested settings page.
+- `Custom` declarations (including existing `UItem`, Android `View`, and
+  `SimpleSettingFactory` values) are shown as unsupported rows; custom Java/Android view factories
+  are not executed. `EditText` supports multiline input and `max_length`; custom input masks and
+  long-click callbacks are not implemented.
 
 ## Not yet compatible
 
@@ -62,9 +69,10 @@ This is **not full AyuGram/exteraGram compatibility yet**. In particular:
 
 - Arbitrary Xposed-style Java method hooking (`hook_method`, `MethodHook`, `MethodReplacement`) is
   not implemented. Calling `BasePlugin.hook_method` raises `NotImplementedError`.
-- Plugin menu injection, custom plugin settings screens, application lifecycle events, and the
-  exteraGram convenience modules (client, Android, dialog, bulletin, reflection helpers, etc.) are
-  not implemented.
+- Plugin menu injection, custom Android-view settings factories, application lifecycle events,
+  and the exteraGram convenience modules (client, Android, dialog, bulletin, reflection helpers,
+  etc.) are not implemented. The supported built-in settings controls are a limited subset of the
+  exteraGram settings API.
 - `.elyx` / `.eaf` structured plugin formats and app/SDK version constraints are not implemented.
 
 The compatibility boundary is also shown in the Plugins screen. Do not describe this build as

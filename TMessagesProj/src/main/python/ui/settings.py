@@ -1,7 +1,7 @@
-"""Data-only compatibility models for plugin settings declarations.
+"""Compatibility models for Python plugin settings declarations.
 
-Irongram currently stores BasePlugin settings helpers but does not render plugin-defined
-settings screens. These classes keep imports and create_settings declarations loadable.
+Irongram renders the built-in text, switch, selector, input, and header controls. Custom
+Android views and setting factories remain accepted as declarations but are not rendered.
 """
 
 
