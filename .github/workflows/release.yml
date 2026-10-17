@@ -4,6 +4,11 @@ on:
     tags:
       - "v*"
   workflow_dispatch:
+    inputs:
+      tag_name:
+        description: Release tag to create for the selected commit (for example, v1.2.3)
+        required: true
+        type: string
 
 jobs:
   build:
@@ -31,6 +36,8 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v3
         with:
+          tag_name: ${{ inputs.tag_name || github.ref_name }}
+          target_commitish: ${{ github.sha }}
           files: |
             apk/**/*.apk
             bundle/**/*.aab
