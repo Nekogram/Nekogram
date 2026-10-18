@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -26,9 +27,9 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.TextDetailSettingsCell;
-import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.BulletinFactory;
+import org.telegram.ui.Components.ItemOptions;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.UItem;
 import org.telegram.ui.Components.UniversalAdapter;
@@ -362,7 +363,11 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
     protected void onItemClick(UItem item, View view, int position, float x, float y) {
         var id = item.id;
         if (id == dcRow) {
-            AlertsCreator.createSimplePopup(this, new DatacenterPopupWrapper(this, null, resourcesProvider).windowLayout, view, Math.round(x), Math.round(y));
+            var options = ItemOptions.makeOptions(this, view)
+                    .setScrimViewBackground(listView.getClipBackground(view))
+                    .setGravity(Gravity.LEFT);
+            DatacenterPopupWrapper.fillDcItems(options, null, resourcesProvider);
+            options.show();
         } else if (id == filePathRow) {
             if (!noforwards) {
                 Intent intent = new Intent(Intent.ACTION_SEND);
