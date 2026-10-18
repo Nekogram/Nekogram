@@ -8,6 +8,9 @@
 
 package org.telegram.SQLite;
 
+import android.widget.Toast;
+
+import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ApplicationLoader;
@@ -15,6 +18,7 @@ import org.telegram.messenger.ApplicationLoader;
 public class SQLiteDatabase {
 
 	private final long sqliteHandle;
+	private final Thread openThread;
 
 	private boolean isOpen;
     private boolean inTransaction;
@@ -26,6 +30,14 @@ public class SQLiteDatabase {
 	public SQLiteDatabase(String fileName) throws SQLiteException {
 		sqliteHandle = opendb(fileName, ApplicationLoader.getFilesDirFixed().getPath());
 		isOpen = true;
+		openThread = Thread.currentThread();
+	}
+
+	public void checkThread() {
+		if (BuildVars.LOGS_ENABLED && Thread.currentThread() != openThread) {
+			FileLog.e(new RuntimeException("SQLite operation on wrong thread"));
+			AndroidUtilities.runOnUIThread(() -> Toast.makeText(ApplicationLoader.applicationContext, "SQLite operation on wrong thread, check logs!!!", Toast.LENGTH_LONG).show());
+		}
 	}
 
 	public boolean tableExists(String tableName) throws SQLiteException {
@@ -35,10 +47,12 @@ public class SQLiteDatabase {
 	}
 
     public SQLitePreparedStatement executeFast(String sql) throws SQLiteException {
+		checkThread();
         return new SQLitePreparedStatement(this, sql);
     }
 
 	public Integer executeInt(String sql, Object... args) throws SQLiteException {
+		checkThread();
 		checkOpened();
 		SQLiteCursor cursor = queryFinalized(sql, args);
 		try {
@@ -66,6 +80,7 @@ public class SQLiteDatabase {
 	}
 
 	public SQLiteCursor queryFinalized(String sql, Object... args) throws SQLiteException {
+		checkThread();
 		checkOpened();
 		return new SQLitePreparedStatement(this, sql).query(args);
 	}
