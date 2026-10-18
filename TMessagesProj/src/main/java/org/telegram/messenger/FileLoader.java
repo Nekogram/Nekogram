@@ -1425,7 +1425,7 @@ public class FileLoader extends BaseController {
             return new File("");
         }
         if (documentId != 0) {
-            String path = getInstance(UserConfig.selectedAccount).getFileDatabase().getPath(documentId, dcId, type, useFileDatabaseQueue);
+            String path = getFileDatabase().getPath(documentId, dcId, type, useFileDatabaseQueue);
             if (path != null) {
                 return new File(path);
             }
