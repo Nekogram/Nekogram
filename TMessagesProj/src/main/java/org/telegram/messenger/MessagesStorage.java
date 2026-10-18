@@ -328,6 +328,7 @@ public class MessagesStorage extends BaseController {
             database.executeFast("PRAGMA temp_store = MEMORY").stepThis().dispose();
             database.executeFast("PRAGMA journal_mode = WAL").stepThis().dispose();
             database.executeFast("PRAGMA journal_size_limit = 10485760").stepThis().dispose();
+            database.executeFast("PRAGMA synchronous = NORMAL").stepThis().dispose();
 
             if (createTable) {
                 if (BuildVars.LOGS_ENABLED) {
@@ -441,6 +442,7 @@ public class MessagesStorage extends BaseController {
                 database.executeFast("PRAGMA temp_store = MEMORY").stepThis().dispose();
                 database.executeFast("PRAGMA journal_mode = WAL").stepThis().dispose();
                 database.executeFast("PRAGMA journal_size_limit = 10485760").stepThis().dispose();
+                database.executeFast("PRAGMA synchronous = NORMAL").stepThis().dispose();
             } catch (SQLiteException e) {
                 FileLog.e(new Exception(e));
                 restored = false;
