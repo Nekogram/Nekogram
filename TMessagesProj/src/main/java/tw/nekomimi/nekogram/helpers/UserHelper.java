@@ -8,15 +8,18 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BaseController;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.UserConfig;
+import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.Vector;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ChatActivity;
 import org.telegram.ui.ProfileActivity;
 import org.telegram.ui.TopicsFragment;
 
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.function.Consumer;
 
@@ -95,7 +98,68 @@ public class UserHelper extends BaseController {
             callback.accept(user);
             return;
         }
-        searchUser(userId, callback, null, false);
+        searchDatabaseUser(userId, callback);
+    }
+
+    private void searchDatabaseUser(long userId, Consumer<TLRPC.User> callback) {
+        getMessagesStorage().getStorageQueue().postRunnable(() -> {
+            var dbUser = getMessagesStorage().getUser(userId);
+            AndroidUtilities.runOnUIThread(() -> {
+                if (dbUser == null) {
+                    searchUser(userId, callback, null, false);
+                    return;
+                }
+                validateUserAccessHash(userId, dbUser.access_hash, success -> {
+                    if (success) {
+                        callback.accept(getMessagesController().getUser(userId));
+                        return;
+                    }
+                    var username = UserObject.getPublicUsername(dbUser);
+                    if (username == null) {
+                        searchUserFallback(userId, dbUser, callback);
+                        return;
+                    }
+                    resolvePeer(username, resolved -> {
+                        var user = getMessagesController().getUser(userId);
+                        if (user != null) {
+                            callback.accept(user);
+                            return;
+                        }
+                        dbUser.username = null;
+                        searchUserFallback(userId, dbUser, callback);
+                    });
+                });
+            });
+        });
+    }
+
+    private void validateUserAccessHash(long userId, long accessHash, Consumer<Boolean> callback) {
+        var req = new TLRPC.TL_users_getUsers();
+        var inputUser = new TLRPC.TL_inputUser();
+        inputUser.user_id = userId;
+        inputUser.access_hash = accessHash;
+        req.id.add(inputUser);
+        getConnectionsManager().sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
+            if (response instanceof Vector<?> res && !res.objects.isEmpty()) {
+                //noinspection unchecked
+                var users = (ArrayList<TLRPC.User>) res.objects;
+                getMessagesController().putUsers(users, false);
+                getMessagesStorage().putUsersAndChats(users, null, true, true);
+                callback.accept(true);
+            } else {
+                callback.accept(false);
+            }
+        }));
+    }
+
+    private void searchUserFallback(long userId, TLRPC.User fallback, Consumer<TLRPC.User> callback) {
+        searchUser(userId, user -> {
+            if (user == null) {
+                callback.accept(fallback);
+            } else {
+                callback.accept(user);
+            }
+        }, null, false);
     }
 
     public void searchChat(long chatId, Consumer<TLRPC.Chat> callback) {
