@@ -8,14 +8,11 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.ActionBarMenuSubItem;
-import org.telegram.ui.ActionBar.ActionBarPopupWindow;
-import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.ItemOptions;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.LinkSpanDrawable;
-import org.telegram.ui.Components.PopupSwipeBackLayout;
 import org.telegram.utils.proxy.ProxySettings;
 
 import java.util.ArrayList;
@@ -31,22 +28,16 @@ public class DatacenterPopupWrapper {
         }
     }};
 
-    public ActionBarPopupWindow.ActionBarPopupWindowLayout windowLayout;
-
-    public DatacenterPopupWrapper(BaseFragment fragment, PopupSwipeBackLayout swipeBackLayout, Theme.ResourcesProvider resourcesProvider) {
-        var context = fragment.getParentActivity();
-        windowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(context, swipeBackLayout != null ? 0 : R.drawable.popup_fixed_alert4, resourcesProvider, ActionBarPopupWindow.ActionBarPopupWindowLayout.FLAG_USE_SWIPEBACK);
-        windowLayout.setFitItems(true);
-
-        if (swipeBackLayout != null) {
-            var backItem = ActionBarMenuItem.addItem(windowLayout, R.drawable.msg_arrow_back, LocaleController.getString(R.string.Back), false, resourcesProvider);
-            backItem.setOnClickListener(view -> swipeBackLayout.closeForeground());
-
-            ActionBarMenuItem.addColoredGap(windowLayout, resourcesProvider);
+    public static void fillDcItems(ItemOptions options, Runnable closeSwipeBack, Theme.ResourcesProvider resourcesProvider) {
+        if (closeSwipeBack != null) {
+            options.add(R.drawable.msg_arrow_back, LocaleController.getString(R.string.Back), closeSwipeBack);
+            options.addGap();
         }
 
         for (var datacenterInfo : datacenterInfos) {
-            var item = ActionBarMenuItem.addItem(windowLayout, 0, UserHelper.formatDCString(datacenterInfo.id), false, resourcesProvider);
+            options.add(UserHelper.formatDCString(datacenterInfo.id), () -> {
+            });
+            var item = options.getLast();
             item.setTag(datacenterInfo);
             item.setOnClickListener(view -> {
                 if (datacenterInfo.checking) {
@@ -58,19 +49,19 @@ public class DatacenterPopupWrapper {
             checkDatacenter(item, false, resourcesProvider);
         }
 
-        ActionBarMenuItem.addColoredGap(windowLayout, resourcesProvider);
+        options.addGap();
 
-        var textView = new LinkSpanDrawable.LinksTextView(context);
+        var textView = new LinkSpanDrawable.LinksTextView(options.getContext());
         textView.setTag(R.id.fit_width_tag, 1);
         textView.setPadding(AndroidUtilities.dp(13), 0, AndroidUtilities.dp(13), AndroidUtilities.dp(8));
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
         textView.setTextColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuItem));
         textView.setLinkTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteLinkText));
         textView.setText(BaseNekoSettingsActivity.getSpannedString(R.string.DatacenterStatusAbout, "https://core.telegram.org/api/datacenter"));
-        windowLayout.addView(textView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 0, 0, 8, 0, 0));
+        options.addView(textView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 0, 0, 8, 0, 0));
     }
 
-    private void checkDatacenter(ActionBarMenuSubItem item, boolean force, Theme.ResourcesProvider resourcesProvider) {
+    private static void checkDatacenter(ActionBarMenuSubItem item, boolean force, Theme.ResourcesProvider resourcesProvider) {
         var datacenterInfo = (DatacenterInfo) item.getTag();
         if (datacenterInfo.checking) {
             return;
@@ -95,7 +86,7 @@ public class DatacenterPopupWrapper {
         }));
     }
 
-    public void updateStatus(ActionBarMenuSubItem item, Theme.ResourcesProvider resourcesProvider, boolean animated) {
+    private static void updateStatus(ActionBarMenuSubItem item, Theme.ResourcesProvider resourcesProvider, boolean animated) {
         var datacenterInfo = (DatacenterInfo) item.getTag();
         int colorKey;
         if (datacenterInfo.checking) {

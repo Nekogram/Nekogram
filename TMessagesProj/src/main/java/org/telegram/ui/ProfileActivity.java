@@ -5563,19 +5563,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
 
                 @Override
-                public boolean performLongClick(float x, float y) {
-                    if (this.equals(nameTextView[1])) {
-                        PopupHelper.showCopyPopup(ProfileActivity.this, LocaleController.getString(R.string.Copy), nameTextView[1], x, y, () -> {
-                            AndroidUtilities.addToClipboard(nameTextView[1].getText());
-                            BulletinFactory.of(ProfileActivity.this).createCopyBulletin(LocaleController.formatString(R.string.TextCopied)).show();
-                        });
-                        performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-                        return true;
-                    }
-                    return false;
-                }
-
-                @Override
                 protected void onDraw(Canvas canvas) {
                     final int wasRightDrawableX = getRightDrawableX();
                     super.onDraw(canvas);
@@ -5599,8 +5586,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             nameTextView[a].setAlpha(a == 0 ? 0.0f : 1.0f);
             if (a == 1) {
                 nameTextView[a].setScrollNonFitText(true);
-                nameTextView[a].setLongClickable(true);
                 nameTextView[a].setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+                nameTextView[a].setOnLongClickListener(v -> {
+                    PopupHelper.showCopyPopup(this, nameTextView[1], () -> {
+                        AndroidUtilities.addToClipboard(nameTextView[1].getText());
+                        BulletinFactory.of(this).createCopyBulletin(LocaleController.formatString(R.string.TextCopied)).show();
+                    });
+                    return true;
+                });
             }
             nameTextView[a].setFocusable(a == 0);
             nameTextView[a].setEllipsizeByGradient(true);
@@ -5674,19 +5667,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         checkPhotoDescriptionAlpha();
         avatarContainer2.addView(animatedStatusView);
 
-        idTextView = new SimpleTextViewSwitcher(context) {
-            @Override
-            public boolean performLongClick(float x, float y) {
-                long id = idTextView.getTag(R.id.id_copy) != null ? (long) idTextView.getTag(R.id.id_copy) : 0;
-                int dc = idTextView.getTag(R.id.id_dc) != null ? (int) idTextView.getTag(R.id.id_dc) : 0;
-                if (id != 0 || dc != 0) {
-                    PopupHelper.showIdPopup(ProfileActivity.this, idTextView, id, dc, did, userId, x, y);
-                    performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-                    return true;
-                }
-                return false;
-            }
-        };
+        idTextView = new SimpleTextViewSwitcher(context);
         idTextView.setVisibility(NekoConfig.idType == NekoConfig.ID_TYPE_HIDDEN ? View.GONE : View.VISIBLE);
         idTextView.setFactory(() -> {
             SimpleTextView view = new SimpleTextView(context);
@@ -5700,8 +5681,16 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         idTextView.setTag(1.0f);
         idTextView.setInAnimation(context, R.anim.alpha_in);
         idTextView.setOutAnimation(context, R.anim.alpha_out);
-        idTextView.setLongClickable(true);
         idTextView.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+        idTextView.setOnLongClickListener(v -> {
+            long id = idTextView.getTag(R.id.id_copy) != null ? (long) idTextView.getTag(R.id.id_copy) : 0;
+            int dc = idTextView.getTag(R.id.id_dc) != null ? (int) idTextView.getTag(R.id.id_dc) : 0;
+            if (id != 0 || dc != 0) {
+                PopupHelper.showIdPopup(this, idTextView, id, dc, did, userId);
+                return true;
+            }
+            return false;
+        });
         avatarContainer2.addView(idTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 109 - 4, -2, 4, 0));
 
         ratingView = new StarRatingView(context);

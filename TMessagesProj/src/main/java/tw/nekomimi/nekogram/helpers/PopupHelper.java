@@ -17,15 +17,12 @@ import androidx.annotation.StringRes;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
-import org.telegram.ui.ActionBar.ActionBarMenuItem;
-import org.telegram.ui.ActionBar.ActionBarMenuSubItem;
-import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
+import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.RadioColorCell;
-import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.ItemOptions;
 import org.telegram.ui.Components.LayoutHelper;
@@ -82,27 +79,26 @@ public class PopupHelper {
         }
     }
 
-    public static void showIdPopup(BaseFragment fragment, View anchorView, long id, int dc, long did, long userId, float x, float y) {
-        Context context = fragment.getParentActivity();
-        ActionBarPopupWindow.ActionBarPopupWindowLayout popupLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(context, R.drawable.popup_fixed_alert4, fragment.getResourceProvider(), ActionBarPopupWindow.ActionBarPopupWindowLayout.FLAG_USE_SWIPEBACK);
-        popupLayout.setFitItems(true);
-        ActionBarPopupWindow popupWindow = AlertsCreator.createSimplePopup(fragment, popupLayout, anchorView, x, y);
+    public static void showIdPopup(BaseFragment fragment, View anchorView, long id, int dc, long did, long userId) {
+        var options = ItemOptions.makeOptions(fragment, anchorView, true);
+        options.setBlur(false, true);
+        options.setGravity(Gravity.LEFT);
+        options.setDrawScrim(false);
         if (id != 0) {
-            ActionBarMenuItem.addItem(popupLayout, R.drawable.msg_copy, LocaleController.getString(R.string.CopyID), false, fragment.getResourceProvider()).setOnClickListener(v -> {
-                popupWindow.dismiss();
+            options.add(R.drawable.msg_copy, LocaleController.getString(R.string.CopyID), () -> {
                 AndroidUtilities.addToClipboard(String.valueOf(id));
                 BulletinFactory.of(fragment).createCopyBulletin(LocaleController.formatString(R.string.TextCopied)).show();
             });
         }
         if (dc != 0) {
-            var dcPopupWrapper = new DatacenterPopupWrapper(fragment, popupLayout.getSwipeBack(), fragment.getResourceProvider());
-            int swipeBackIndex = popupLayout.addViewToSwipeBack(dcPopupWrapper.windowLayout);
-            ActionBarMenuSubItem subItem = ActionBarMenuItem.addItem(popupLayout, R.drawable.msg_satellite, LocaleController.getString(R.string.DatacenterStatusShort), false, fragment.getResourceProvider());
-            subItem.setSubtext(UserHelper.formatDCString(dc));
-            subItem.setOnClickListener(v -> popupLayout.getSwipeBack().openForeground(swipeBackIndex));
+            var swipeBack = options.makeSwipeback();
+            DatacenterPopupWrapper.fillDcItems(swipeBack, options::closeSwipeback, fragment.getResourceProvider());
+            options.add(R.drawable.msg_satellite, LocaleController.getString(R.string.DatacenterStatusShort), UserHelper.formatDCString(dc), () -> options.openSwipeback(swipeBack));
         }
         if (userId != 0) {
-            ActionBarMenuSubItem subItem = ActionBarMenuItem.addItem(popupLayout, R.drawable.msg_calendar, LocaleController.getString(R.string.RegistrationDate), false, fragment.getResourceProvider());
+            options.add(R.drawable.msg_calendar, LocaleController.getString(R.string.RegistrationDate), null);
+            var subItem = options.getLast();
+            subItem.setClickable(false);
             var regDate = RegDateHelper.getRegDate(userId);
             subItem.setAnimatedSubtext(regDate != null ? RegDateHelper.formatRegDate(regDate, null) : LocaleController.getString(R.string.Loading), false);
             if (regDate == null) {
@@ -110,9 +106,7 @@ public class PopupHelper {
             }
         }
         if (did != 0) {
-            ActionBarMenuSubItem subItem = ActionBarMenuItem.addItem(popupLayout, R.drawable.msg_stories_caption, LocaleController.getString(R.string.ViewAsJson), false, fragment.getResourceProvider());
-            subItem.setOnClickListener(v -> {
-                popupWindow.dismiss();
+            options.add(R.drawable.msg_stories_caption, LocaleController.getString(R.string.ViewAsJson), () -> {
                 var messagesController = fragment.getMessagesController();
                 var peer = did > 0 ? messagesController.getUser(did) : messagesController.getChat(-did);
                 var peerFull = did > 0 ? messagesController.getUserFull(did) : messagesController.getChatFull(-did);
@@ -126,19 +120,16 @@ public class PopupHelper {
                 }
             });
         }
-        popupLayout.setParentWindow(popupWindow);
+        options.show();
     }
 
-    public static void showCopyPopup(BaseFragment fragment, CharSequence title, View anchorView, float x, float y, Runnable callback) {
-        Context context = fragment.getParentActivity();
-        ActionBarPopupWindow.ActionBarPopupWindowLayout popupLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(context, R.drawable.popup_fixed_alert4, fragment.getResourceProvider());
-        popupLayout.setFitItems(true);
-        ActionBarPopupWindow popupWindow = AlertsCreator.createSimplePopup(fragment, popupLayout, anchorView, x, y);
-        ActionBarMenuItem.addItem(popupLayout, R.drawable.msg_copy, title, false, fragment.getResourceProvider()).setOnClickListener(v -> {
-            popupWindow.dismiss();
-            callback.run();
-        });
-        popupLayout.setParentWindow(popupWindow);
+    public static void showCopyPopup(BaseFragment fragment, SimpleTextView anchorView, Runnable callback) {
+        var options = ItemOptions.makeOptions(fragment, anchorView);
+        options.setBlur(false, true);
+        options.setGravity(Gravity.LEFT);
+        options.setDrawScrim(false);
+        options.add(R.drawable.msg_copy, LocaleController.getString(R.string.Copy), callback);
+        options.show();
     }
 
     private static final Set<String> TELEGRAM_PACKAGES = Set.of("org.telegram.messenger", "org.telegram.messenger.web", "org.telegram.messenger.beta");

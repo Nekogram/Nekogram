@@ -377,7 +377,7 @@ public class ItemOptions {
 
         ActionBarMenuSubItem subItem = new ActionBarMenuSubItem(context, false, false, resourcesProvider);
         subItem.setPadding(dp(18), 0, dp(18), 0);
-        if (iconResId != 0 || iconDrawable != null) {
+        if (true || iconResId != 0 || iconDrawable != null) {
             subItem.setTextAndIcon(text, iconResId, iconDrawable);
         } else {
             subItem.setText(text);
