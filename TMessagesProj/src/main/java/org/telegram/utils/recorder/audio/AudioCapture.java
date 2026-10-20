@@ -15,6 +15,8 @@ import java.io.File;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
+import tw.nekomimi.nekogram.helpers.VoiceEnhancementsHelper;
+
 final class AudioCapture {
 
     interface Callback {
@@ -134,6 +136,9 @@ final class AudioCapture {
             );
             if (audioRecord.getState() != AudioRecord.STATE_INITIALIZED) {
                 throw new IllegalStateException("Unable to initialize AudioRecord");
+            }
+            if (noiseSuppression == AudioRecordingSession.NoiseSuppression.SYSTEM) {
+                VoiceEnhancementsHelper.initVoiceEnhancements(audioRecord.getAudioSessionId());
             }
             audioRecord.startRecording();
             if (audioRecord.getRecordingState() != AudioRecord.RECORDSTATE_RECORDING) {
@@ -259,6 +264,9 @@ final class AudioCapture {
                     }
                 } finally {
                     audioRecord.release();
+                    if (noiseSuppression == AudioRecordingSession.NoiseSuppression.SYSTEM) {
+                        VoiceEnhancementsHelper.releaseVoiceEnhancements();
+                    }
                     audioRecord = null;
                 }
             }
