@@ -326,7 +326,7 @@ public class Browser {
 
             final boolean inappBrowser = (
                 allowInAppBrowser && BubbleActivity.instance == null &&
-                (uri != null && MessagesController.getInstance(currentAccount).isWebBrowserOpenInApp(uri.toString())) &&
+                uri != null && MessagesController.getInstance(currentAccount).isWebBrowserOpenInApp(uri.toString()) &&
                 TextUtils.isEmpty(browserPackage) &&
                 (uri.getScheme() == null || "https".equals(uri.getScheme()) || "http".equals(uri.getScheme()) || "tonsite".equals(uri.getScheme()))
                 ||
@@ -386,16 +386,6 @@ public class Browser {
         intent.putExtra(LaunchActivity.EXTRA_FORCE_REQUEST, forceRequest);
         activity.onNewIntent(intent, progress);
         return true;
-    }
-
-    public static boolean isInstantViewOpen() {
-        BaseFragment fragment = LaunchActivity.getSafeLastFragment();
-        if (fragment != null && fragment.getParentLayout() instanceof ActionBarLayout) {
-            BaseFragment sheetFragment = ((ActionBarLayout) fragment.getParentLayout()).getSheetFragment();
-            if (sheetFragment != null && sheetFragment.getArticleViewer() != null)
-                return true;
-        }
-        return fragment != null && fragment.getArticleViewer() != null;
     }
 
     public static boolean openInTelegramBrowser(Context context, String url, Browser.Progress progress) {

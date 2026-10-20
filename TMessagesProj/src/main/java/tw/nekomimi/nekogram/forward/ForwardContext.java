@@ -89,6 +89,7 @@ public interface ForwardContext {
         public boolean noQuote = false;
         public boolean noCaption = false;
         public boolean notify = true;
+        public boolean forceDocument = false;
         public int scheduleDate = 0;
         public int scheduleRepeatPeriod = 0;
     }

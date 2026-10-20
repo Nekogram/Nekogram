@@ -17,13 +17,17 @@ public class SendItemOptions {
     private final ItemOptions itemOptions;
 
     public SendItemOptions(ViewGroup containerView, View anchorView, ForwardContext forwardContext, boolean showSchedule, boolean showNotify, Runnable callback, Theme.ResourcesProvider resourcesProvider) {
-        this(containerView, anchorView, forwardContext, showSchedule, showNotify, -1, callback, resourcesProvider);
+        this(containerView, anchorView, forwardContext, showSchedule, showNotify, false, false, -1, callback, resourcesProvider);
     }
 
-    public SendItemOptions(ViewGroup containerView, View anchorView, ForwardContext forwardContext, boolean showSchedule, boolean showNotify, long dialogId, Runnable callback, Theme.ResourcesProvider resourcesProvider) {
+    public SendItemOptions(ViewGroup containerView, View anchorView, ForwardContext forwardContext, boolean showSchedule, boolean showNotify, boolean canSendDocs, boolean multipleMedia, long dialogId, Runnable callback, Theme.ResourcesProvider resourcesProvider) {
         itemOptions = ItemOptions.makeOptions(containerView, resourcesProvider, anchorView);
 
         var forwardParams = forwardContext.getForwardParams();
+        itemOptions.addIf(canSendDocs, R.drawable.msg_sendfile, LocaleController.getString(multipleMedia ? R.string.SendAsFiles : R.string.SendAsFile), () -> {
+            forwardParams.forceDocument = true;
+            callback.run();
+        });
         if (forwardContext.getForwardingMessages() != null) {
             var showSendersNameView = itemOptions.addChecked();
             showSendersNameView.setTextAndIcon(LocaleController.getString(R.string.ShowSendersName), 0);
