@@ -70,7 +70,9 @@ public final class AudioRecordingSession {
         /** Records microphone PCM without software noise suppression. */
         DISABLED,
         /** Applies the bundled RNNoise model to 48 kHz mono PCM. */
-        RNNOISE
+        RNNOISE,
+        /** Applies system voice enhancements. */
+        SYSTEM
     }
 
     /** Receives lifecycle, waveform and playback events used by the host UI. */

@@ -14,6 +14,8 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 /** Bridges the standalone recorder to Telegram's existing voice-recording lifecycle. */
 final class AudioRecorderV2Controller {
 
@@ -62,7 +64,7 @@ final class AudioRecorderV2Controller {
                 .setOutputDirectory(outputDirectory)
                 .setMinimumDurationMs(700L)
                 .setMaximumDurationMs(0L)
-                .setNoiseSuppression(SharedSettings.audioRecorderNoiseSuppression.get())
+                .setNoiseSuppression(NekoConfig.voiceEnhancements ? AudioRecordingSession.NoiseSuppression.SYSTEM : SharedSettings.audioRecorderNoiseSuppression.get())
                 .setListener(new AudioRecordingSession.Listener() {
                     @Override
                     public void onStateChanged(@NonNull AudioRecordingSession.StateInfo stateInfo) {
