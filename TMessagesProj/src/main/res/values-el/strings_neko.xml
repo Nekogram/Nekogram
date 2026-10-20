@@ -320,6 +320,29 @@
     <string name="TabsPositionTop">Κορυφή</string>
     <string name="TabsPositionBottom">Κάτω</string>
     <string name="StrokeOnViews">Εφέ Λάμψης</string>
+    <string name="CameraInVideoMessages">Κάμερα σε Μηνύματα Βίντεο</string>
+    <string name="AskCamera">Ερώτηση κάθε φορά</string>
+    <string name="FrontCamera">Εμπρόσθια Κάμερα</string>
+    <string name="RearCamera">Οπίσθια Κάμερα</string>
+    <string name="GooeyAvatarAnimation">\"Gooey\" avatar κινούμενο</string>
+    <string name="JsonCopyKey">Αντιγραφή Κλειδιού</string>
+    <string name="JsonCopyValue">Αντιγραφή Τιμής</string>
+    <string name="LocalCustomEmoji">Τοπικά προσαρμοσμένα emoji</string>
+    <string name="MiniSenderAvatar">Μικρή φώτο αποστολέα</string>
+    <string name="ExternalStreamingProtocol">Πρωτόκολλο εξωτερικής ροής</string>
+    <string name="ExternalStreamingProtocolDescription">Επιλέξτε τον τρόπο με τον οποίο τα ημιτελή βίντεο θα μεταδίδονται σε εξωτερικές συσκευές αναπαραγωγής. Η εγγενής μετάδοση λειτουργεί καλύτερα με τις περισσότερες σύγχρονες συσκευές αναπαραγωγής, αν τα βίντεο «παγώνουν» ή δεν αναπαράγονται, επιλέξτε HTTP.</string>
+    <string name="ExternalStreamingProtocolContentProvider">Τοπική</string>
+    <string name="ExternalStreamingProtocolHttp">HTTP</string>
+    <string name="ExportSession">Εξαγωγή Συνεδρίας</string>
+    <string name="SessionQR">Συνεδρία QR</string>
+    <string name="CreateSessionQR">Δημιουργία Συνεδρίας QR</string>
+    <string name="PassQR">Κωδικός QR</string>
+    <string name="CreatePassQR">Δημιουργία QR κωδικού πρόσβασης</string>
+    <string name="PassQRNewPassword">Προστατέψτε αυτόν τον QR με έναν κωδικό πρόσβασης</string>
+    <string name="ConfirmNewPassword">Επιβεβαίωση κωδικού</string>
+    <string name="PassQRAbout">Αποθηκεύει τον κωδικό πρόσβασής σας ως κρυπτογραφημένο QR. Μπορείτε να το σαρώσετε για να συνδεθείτε από άλλη συσκευή.</string>
+    <string name="PassQREncryption">Σάρωση με το Nekogram για σύνδεση.</string>
+    <string name="InvalidPassQr">Μη έγκυρος QR κωδικός πρόσβασης</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ρυθμίσεις προσβασιμότητας</string>
 </resources>

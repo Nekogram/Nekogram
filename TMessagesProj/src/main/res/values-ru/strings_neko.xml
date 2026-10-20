@@ -334,6 +334,15 @@
     <string name="ExternalStreamingProtocolDescription">Выберите способ потоковой передачи незавершенных видеороликов на внешние плееры. Наивысший режим работает с большинством современных плееров; если видео зависит или не воспроизводится, переключитесь на HTTP.</string>
     <string name="ExternalStreamingProtocolContentProvider">Внешний поставщик контента по протоколу потоковой передачи</string>
     <string name="ExternalStreamingProtocolHttp">Внешний протокол потоковой передачи HTTP</string>
+    <string name="ExportSession">Экспорт сессии</string>
+    <string name="SessionQR">QR Сессия</string>
+    <string name="CreateSessionQR">Создать QR Сессию</string>
+    <string name="PassQR">QR-код для доступа</string>
+    <string name="CreatePassQR">Создать QR-код для доступа</string>
+    <string name="PassQRNewPassword">Защитите этот QR-код с паролем</string>
+    <string name="ConfirmNewPassword">Подтвердить пароль</string>
+    <string name="PassQRAbout">Сохраняет ваш пароль в виде зашифрованного QR-кода. Вы можете отсканировать его, чтобы войти в систему на другом устройстве.</string>
+    <string name="InvalidPassQr">Неверный QR-код для доступа</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Настройки доступности</string>
 </resources>
