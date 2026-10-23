@@ -36,7 +36,7 @@ public class TlViewer {
             var data = new CleanSerializedData(object.getObjectSize());
             object.serializeToStream(data);
             var readData = new SerializedData(data.toByteArray());
-            var jsonElement = TlBinaryReader.deserializeObject(TlReaders.READERS, readData);
+            var jsonElement = TlBinaryReader.deserializeObject(TlReaders::read, readData);
             var jsonFragment = new JsonActivity(jsonElement);
             fragment.presentFragment(jsonFragment);
             readData.cleanup();

@@ -188,35 +188,32 @@ abstract class GenerateTlReadersTask : DefaultTask() {
         out.appendLine()
         out.appendLine("import org.telegram.tgnet.TLObject;")
         out.appendLine()
-        out.appendLine("import java.util.HashMap;")
-        out.appendLine("import java.util.Map;")
-        out.appendLine("import java.util.function.Function;")
-        out.appendLine()
         out.appendLine("public final class TlReaders {")
         out.appendLine()
-        out.appendLine("    public static final Map<Integer, Function<TlBinaryReader, JsonObject>>")
-        out.appendLine("            READERS = new HashMap<>($totalCount);")
-        out.appendLine()
-        out.appendLine("    static {")
+        out.appendLine("    public static JsonObject read(int c, TlBinaryReader r) {")
+        out.appendLine("        return switch (c) {")
 
         currentObjects.forEach { entry ->
             out.appendLine(
-                "        READERS.put(0x${entry.magic.toString(16)}, TlReaders::${
+                "            case 0x${entry.magic.toString(16)} -> ${
                     javaReadMethodName(
                         entry.name
                     )
-                });"
+                }(r);"
             )
         }
         legacyObjects.forEach { legacy ->
             out.appendLine(
-                "        READERS.put(0x${legacy.entry.magic.toString(16)}, TlReaders::${
+                "            case 0x${legacy.entry.magic.toString(16)} -> ${
                     javaReadMethodName(
                         legacy.entry.name
                     )
-                }Layer${legacy.layer});"
+                }Layer${legacy.layer}(r);"
             )
         }
+        out.appendLine("            default ->")
+        out.appendLine("                    throw new IllegalStateException(\"Unknown constructor: 0x\" + Integer.toUnsignedString(c, 16));")
+        out.appendLine("        };")
         out.appendLine("    }")
         out.appendLine()
 

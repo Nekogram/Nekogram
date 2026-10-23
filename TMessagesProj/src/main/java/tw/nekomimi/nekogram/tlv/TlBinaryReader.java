@@ -8,11 +8,11 @@ import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-import org.telegram.tgnet.SerializedData;
+import org.telegram.tgnet.InputSerializedData;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.tgnet.Vector;
 
-import java.util.Map;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class TlBinaryReader {
@@ -20,16 +20,16 @@ public class TlBinaryReader {
     private static final JsonPrimitive JSON_TRUE = new JsonPrimitive(true);
     private static final JsonPrimitive JSON_FALSE = new JsonPrimitive(false);
 
-    private final Map<Integer, Function<TlBinaryReader, JsonObject>> objectsMap;
-    private final SerializedData data;
+    private final BiFunction<Integer, TlBinaryReader, JsonObject> reader;
+    private final InputSerializedData data;
 
-    private TlBinaryReader(Map<Integer, Function<TlBinaryReader, JsonObject>> objectsMap, SerializedData data) {
-        this.objectsMap = objectsMap;
+    private TlBinaryReader(BiFunction<Integer, TlBinaryReader, JsonObject> reader, InputSerializedData data) {
+        this.reader = reader;
         this.data = data;
     }
 
-    public static JsonElement deserializeObject(Map<Integer, Function<TlBinaryReader, JsonObject>> objectsMap, SerializedData data) {
-        return new TlBinaryReader(objectsMap, data).readObject();
+    public static JsonElement deserializeObject(BiFunction<Integer, TlBinaryReader, JsonObject> reader, InputSerializedData data) {
+        return new TlBinaryReader(reader, data).readObject();
     }
 
     public int readInt() {
@@ -85,12 +85,7 @@ public class TlBinaryReader {
             return JsonNull.INSTANCE;
         }
 
-        var reader = objectsMap.get(constructor);
-        if (reader == null) {
-            throw new IllegalStateException("Unknown constructor: 0x" + Integer.toUnsignedString(constructor, 16));
-        }
-
-        return reader.apply(this);
+        return reader.apply(constructor, this);
     }
 
     public JsonArray readVector(
