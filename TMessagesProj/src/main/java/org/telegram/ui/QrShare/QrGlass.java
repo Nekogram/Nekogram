@@ -17,6 +17,8 @@ import android.graphics.SweepGradient;
 
 import java.util.HashMap;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 /**
  * The parts of the QR glass shared by every view that draws it (the QR screen, the scanner, the emoji islands): the top
  * sheen and the "Dark out" outline, both pre-rendered bitmaps drawn as plain bitmap draws — no gradient shaders, clip-out
@@ -100,6 +102,7 @@ public final class QrGlass {
      * there, the crescents are tinted per scene): the caller draws it itself.
      */
     public static boolean drawRim(Canvas c, RectF r, float radius, int grp, float alpha) {
+        if (!NekoConfig.strokeOnViews) return true;
         if (!QrRender.hasNodes()) return false;
         if (alpha <= 0.004f) return true;
         ensureRims();
