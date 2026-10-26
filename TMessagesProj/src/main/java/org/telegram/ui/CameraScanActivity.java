@@ -172,10 +172,6 @@ public class CameraScanActivity extends BaseFragment {
             return false;
         }
 
-        default boolean validateQr(String text) {
-            return true;
-        }
-
         default String getSubtitleText() {
             return null;
         }
@@ -1381,10 +1377,6 @@ public class CameraScanActivity extends BaseFragment {
                 text = null;
             }
             if (TextUtils.isEmpty(text)) {
-                onNoQrFound();
-                return null;
-            }
-            if (delegate != null && !delegate.validateQr(text)) {
                 onNoQrFound();
                 return null;
             }

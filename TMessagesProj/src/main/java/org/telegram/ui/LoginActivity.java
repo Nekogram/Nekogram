@@ -366,6 +366,8 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
     private ActionBarMenuItem moreButtonView;
     private RadialProgressView radialProgressView;
 
+    private final LoginQrScanner loginQrScanner = new LoginQrScanner();
+
     private ImageView proxyButtonView;
     private ProxyDrawable proxyDrawable;
 
@@ -516,6 +518,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
     @Override
     public void onFragmentDestroy() {
         super.onFragmentDestroy();
+        loginQrScanner.destroyScanOverlay();
         for (int a = 0; a < views.length; a++) {
             if (views[a] != null) {
                 views[a].onDestroyActivity();
@@ -770,7 +773,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             } else if (id == 1) {
                 setPage(VIEW_QR_LOGIN, true, null, false);
             } else if (id == 2) {
-                LoginQrScanner.showScanner(this, (authorization, err) -> {
+                loginQrScanner.showScanner(this, moreButtonView, (authorization, err) -> {
                     if ("CANCELLED".equals(err)) return;
                     if (authorization instanceof TLRPC.TL_auth_authorization auth) {
                         onAuthSuccess(auth);
@@ -968,6 +971,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
     @Override
     public void onPause() {
         super.onPause();
+        loginQrScanner.destroyScanOverlay();
         if (newAccount) {
             ConnectionsManager.getInstance(currentAccount).setAppPaused(true, false);
         }
@@ -1150,6 +1154,10 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
 
     @Override
     public boolean onBackPressed(boolean invoked) {
+        if (loginQrScanner.hasScanOverlay()) {
+            if (invoked) loginQrScanner.closeScanOverlay();
+            return false;
+        }
         if (emailChangeIsSuggestion && currentViewNum == VIEW_ADD_EMAIL) {
             return false;
         }
