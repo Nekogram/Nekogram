@@ -219,6 +219,7 @@ public class QrShareActivity extends BaseFragment {
             intent.setType("image/*");
             intent.putExtra(Intent.EXTRA_STREAM, uri);
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.setDataAndType(uri, "image/jpeg");
         } else if (!TextUtils.isEmpty(link)) {
             // no image (not laid out yet): the link as text
             intent.setType("text/plain");
