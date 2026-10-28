@@ -2333,7 +2333,7 @@ public class MessagesStorage extends BaseController {
                     for (int a = 0; a < dialogs.size(); a++) {
                         long did = dialogs.keyAt(a);
                         ReadDialog dialog = dialogs.valueAt(a);
-                        if (getMessagesController().isForum(did) || isForum(did, FORUM_TYPE_BOT) || getMessagesController().isMonoForumWithManageRights(did)) {
+                        if (getMessagesController().isForum(did) || getMessagesController().isMonoForumWithManageRights(did)) {
                             getMessagesController().markAllTopicsAsRead(did);
                         }
                         getMessagesController().markDialogAsRead(did, dialog.lastMid, dialog.lastMid, dialog.date, false, 0, dialog.unreadCount, true, 0);
@@ -11833,7 +11833,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void updateMessageVerifyFlags(ArrayList<TLRPC.Message> messages) {
-        Utilities.stageQueue.postRunnable(() -> {
+        storageQueue.postRunnable(() -> {
             boolean databaseInTransaction = false;
             SQLitePreparedStatement state = null;
             try {

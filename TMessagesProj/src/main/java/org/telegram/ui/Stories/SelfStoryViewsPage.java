@@ -1261,7 +1261,7 @@ public class SelfStoryViewsPage extends FrameLayout implements NotificationCente
                         TL_stories.TL_storyReactionsList res = (TL_stories.TL_storyReactionsList) response;
                         MessagesController.getInstance(currentAccount).putUsers(res.users, false);
                         MessagesController.getInstance(currentAccount).putChats(res.chats, false);
-                        MessagesStorage.getInstance(currentAccount).putUsersAndChats(res.users, res.chats, true, false);
+                        MessagesStorage.getInstance(currentAccount).putUsersAndChats(res.users, res.chats, true, true);
                         if (initial) {
                             initial = false;
                             for (int i = 0; i < reactions.size(); i++) {
@@ -1347,7 +1347,7 @@ public class SelfStoryViewsPage extends FrameLayout implements NotificationCente
                         MessagesController.getInstance(currentAccount).getStoriesController().applyStoryViewsBlocked(res);
                         MessagesController.getInstance(currentAccount).putUsers(res.users, false);
                         MessagesController.getInstance(currentAccount).putChats(res.chats, false);
-                        MessagesStorage.getInstance(currentAccount).putUsersAndChats(res.users, res.chats, true, false);
+                        MessagesStorage.getInstance(currentAccount).putUsersAndChats(res.users, res.chats, true, true);
                         if (initial) {
                             initial = false;
                             for (int i = 0; i < views.size(); i++) {

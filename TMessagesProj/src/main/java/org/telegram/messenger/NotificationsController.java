@@ -762,7 +762,7 @@ public class NotificationsController extends BaseController implements Notificat
                     if (msgs != null && msgs.size() <= 0) pushMessagesDict.remove(msgObject.getDialogId());
                     ArrayList<Integer> ids = new ArrayList<>();
                     ids.add(msgObject.getId());
-                    getMessagesStorage().deletePushMessages(msgObject.getDialogId(), ids);
+                    getMessagesStorage().getStorageQueue().postRunnable(() -> getMessagesStorage().deletePushMessages(msgObject.getDialogId(), ids));
                     i--;
                     changed = true;
                 }

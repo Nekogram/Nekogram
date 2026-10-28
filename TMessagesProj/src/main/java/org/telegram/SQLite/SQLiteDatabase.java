@@ -12,8 +12,6 @@ import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ApplicationLoader;
 
-import tw.nekomimi.nekogram.helpers.AnalyticsHelper;
-
 public class SQLiteDatabase {
 
 	private final long sqliteHandle;
@@ -33,12 +31,8 @@ public class SQLiteDatabase {
 	}
 
 	public void checkThread() {
-		if (Thread.currentThread() != openThread) {
-			var exception = new RuntimeException("SQLite operation on wrong thread");
-			AnalyticsHelper.captureException(exception);
-			if (BuildVars.LOGS_ENABLED) {
-				FileLog.e(exception);
-			}
+		if (BuildVars.LOGS_ENABLED && Thread.currentThread() != openThread) {
+			FileLog.e(new RuntimeException("SQLite operation on wrong thread"));
 		}
 	}
 
