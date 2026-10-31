@@ -389,9 +389,9 @@ public class ActionBarMenuSubItem extends FrameLayout {
         subtextView.setText(text);
     }
 
-    public void setAnimatedSubtextColor(int color) {
+    public void setAnimatedSubtextColorKey(int colorKey) {
         if (animatedSubtextView != null) {
-            animatedSubtextView.setTextColor(color);
+            animatedSubtextView.setTextColor(getThemedColor(colorKey));
         }
     }
 

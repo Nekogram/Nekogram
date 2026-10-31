@@ -92,7 +92,7 @@ public class PopupHelper {
         }
         if (dc != 0) {
             var swipeBack = options.makeSwipeback();
-            DatacenterPopupWrapper.fillDcItems(swipeBack, options::closeSwipeback, fragment.getResourceProvider());
+            DatacenterPopupWrapper.fillDcItems(swipeBack, options::closeSwipeback);
             options.add(R.drawable.msg_satellite, LocaleController.getString(R.string.DatacenterStatusShort), UserHelper.formatDCString(dc), () -> options.openSwipeback(swipeBack));
         }
         if (userId != 0) {
