@@ -35365,6 +35365,38 @@ public class ChatActivity extends BaseFragment implements
 
     private boolean processSelectedOptionLongClick(int option) {
         switch (option) {
+            case OPTION_REPLY: {
+                if (isPeerNoForwards() || currentChat == null || ChatObject.isChannelAndNotMegaGroup(currentChat)) return false;
+                var messageObject = selectedObjectGroup != null ? selectedObjectGroup.captionMessage : selectedObject;
+                if (messageObject.isOut() || messageObject.messageOwner.noforwards) {
+                    return false;
+                }
+                var fromPeer = messageObject.getFromPeer();
+                if (fromPeer == null || fromPeer.user_id == 0) {
+                    return false;
+                }
+                var args = new Bundle();
+                args.putLong("user_id", fromPeer.user_id);
+                if (!getMessagesController().checkCanOpenChat(args, this)) {
+                    return true;
+                }
+                args.putBoolean("historyPreloaded", false);
+                var chatActivity = new ChatActivity(args);
+                presentFragment(chatActivity);
+                if (chatActivityEnterView != null && chatActivity.chatActivityEnterView != null) {
+                    chatActivity.chatActivityEnterView.setFieldText(
+                            chatActivityEnterView.getFieldText()
+                    );
+                }
+                chatActivity.replyingQuoteGroup = selectedObjectGroup;
+                chatActivity.onHideFieldPanelRunnable = () -> {
+                    if (chatActivityEnterView != null) {
+                        chatActivityEnterView.hideTopView(true);
+                    }
+                };
+                chatActivity.showFieldPanelForReplyQuote(messageObject, null);
+                return true;
+            }
             case OPTION_REPEAT: {
                 return processRepeatMessage(true);
             }
