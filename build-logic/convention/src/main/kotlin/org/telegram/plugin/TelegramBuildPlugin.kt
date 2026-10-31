@@ -21,8 +21,7 @@ class TelegramBuildPlugin : Plugin<Project> {
             ) {
                 localizationFiles.from(
                     project.fileTree("src/main/res") {
-                        include("values-*/strings.xml")
-                        include("values-*/strings_neko.xml")
+                        include("values-*/strings*.xml")
                     }
                 )
 
