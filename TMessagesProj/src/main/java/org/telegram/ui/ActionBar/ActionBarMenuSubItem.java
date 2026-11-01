@@ -106,10 +106,16 @@ public class ActionBarMenuSubItem extends FrameLayout {
 
     public void makeCheckView(int needCheck) {
         if (needCheck > 0) {
-            checkView = new CheckBox2(getContext(), 26, resourcesProvider);
-            checkView.setDrawUnchecked(false);
-            checkView.setColor(-1, -1, Theme.key_actionBarDefaultSubmenuItem);
-            checkView.setDrawBackgroundAsArc(-1);
+            if (needCheck == 3) {
+                checkView = new CheckBox2(getContext(), 20, resourcesProvider);
+                checkView.setColor(Theme.key_telegram_color, Theme.key_dialogCheckboxSquareDisabled, Theme.key_checkboxCheck);
+                checkView.setDrawBackgroundAsArc(10);
+            } else {
+                checkView = new CheckBox2(getContext(), 26, resourcesProvider);
+                checkView.setDrawUnchecked(false);
+                checkView.setColor(-1, -1, Theme.key_actionBarDefaultSubmenuItem);
+                checkView.setDrawBackgroundAsArc(-1);
+            }
             if (needCheck == 1) {
                 checkViewLeft = !LocaleController.isRTL;
                 addView(checkView, LayoutHelper.createFrame(26, LayoutHelper.MATCH_PARENT, Gravity.CENTER_VERTICAL | (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT)));
@@ -410,7 +416,7 @@ public class ActionBarMenuSubItem extends FrameLayout {
             });
             animatedSubtextView.setVisibility(GONE);
             if (imageView.getVisibility() == VISIBLE) animatedSubtextView.setPadding(LocaleController.isRTL ? 0 : dp(43), 0, LocaleController.isRTL ? dp(43) : 0, 0);
-            addView(animatedSubtextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_VERTICAL, 0, 10, 0, 0));
+            addView(animatedSubtextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_VERTICAL, 0, 10, 0, 0));
         }
         boolean visible = !TextUtils.isEmpty(text);
         boolean oldVisible = animatedSubtextView.getVisibility() == VISIBLE;

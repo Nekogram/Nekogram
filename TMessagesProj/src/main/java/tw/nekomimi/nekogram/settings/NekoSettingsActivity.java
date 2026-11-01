@@ -139,7 +139,7 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity implements Fa
         });
         syncItem = menu.addItem(1, R.drawable.cloud_sync);
         syncItem.setContentDescription(LocaleController.getString(R.string.CloudConfig));
-        syncItem.setOnClickListener(v -> CloudSettingsHelper.getInstance().showDialog(this));
+        syncItem.setOnClickListener(v -> CloudSettingsHelper.getInstance().showPopup(this, syncItem));
 
         return fragmentView;
     }
