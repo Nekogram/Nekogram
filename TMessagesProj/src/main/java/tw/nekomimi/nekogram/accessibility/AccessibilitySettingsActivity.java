@@ -50,7 +50,7 @@ public class AccessibilitySettingsActivity extends BaseNekoSettingsActivity {
 
         items.add(UItem.asHeader(LocaleController.getString(R.string.Chats)));
         items.add(UItem.asCheck(announceDialogTypeRow, LocaleController.getString(R.string.AccAnnounceDialogType)).setChecked(AccConfig.announceDialogType));
-        items.add(UItem.asCheck(announceDialogMuted, LocaleController.getString(R.string.AccAnnounceDialogMuted)).setChecked(AccConfig.announceDialogType));
+        items.add(UItem.asCheck(announceDialogMuted, LocaleController.getString(R.string.AccAnnounceDialogMuted)).setChecked(AccConfig.announceDialogMuted));
         items.add(UItem.asShadow(null));
 
         items.add(UItem.asCheck(announceFileProgressRow, LocaleController.getString(R.string.AccAnnounceFileProgress)).setChecked(AccConfig.announceFileProgress));

@@ -41,7 +41,7 @@ public class AccConfig {
             delayBetweenAnnouncingOfChangingOfSeekbarValue = preferences.getInt(DELAY_BETWEEN_ANNOUNCING_OF_CHANGING_OF_SEEKBAR_VALUE_KEY, TIME_DEFAULT);
             showNumbersOfItems = preferences.getBoolean(SHOW_NUMBERS_OF_ITEMS_KEY, true);
             showIndexOfItem = preferences.getBoolean(SHOW_INDEX_OF_ITEM_KEY, true);
-            showSeekbarValueChanges = preferences.getBoolean("show_seekbar_value_changes", true);
+            showSeekbarValueChanges = preferences.getBoolean(SHOW_SEEKBAR_VALUE_CHANGES_KEY, true);
 
             announceFileProgress = preferences.getBoolean("announceFileProgress", true);
             showTranslatedLanguage = preferences.getBoolean("showTranslatedLanguage", true);
@@ -62,7 +62,7 @@ public class AccConfig {
     public static void saveShowNumbersOfItems() {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("accconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean(SHOW_NUMBERS_OF_ITEMS_KEY, !showIndexOfItem).apply();
+        editor.putBoolean(SHOW_NUMBERS_OF_ITEMS_KEY, !showNumbersOfItems).apply();
         showNumbersOfItems = !showNumbersOfItems;
     }
 
