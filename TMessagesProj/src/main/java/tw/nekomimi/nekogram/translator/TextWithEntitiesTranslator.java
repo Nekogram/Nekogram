@@ -1,6 +1,6 @@
 package tw.nekomimi.nekogram.translator;
 
-import com.google.net.cronet.okhttptransport.CronetCallFactory;
+import com.google.net.cronet.okhttptransport.CronetInterceptor;
 
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Components.TranslateAlert2;
@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import app.nekogram.translator.AndroidTranslatorConfig;
 import app.nekogram.translator.BaiduTranslator;
 import app.nekogram.translator.BaseTranslator;
 import app.nekogram.translator.DeepLTranslator;
@@ -17,10 +18,8 @@ import app.nekogram.translator.LingoTranslator;
 import app.nekogram.translator.MicrosoftTranslator;
 import app.nekogram.translator.SogouTranslator;
 import app.nekogram.translator.TranSmartTranslator;
-import app.nekogram.translator.TranslatorConfig;
 import app.nekogram.translator.YandexTranslator;
 import app.nekogram.translator.YouDaoTranslator;
-import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.CronetHelper;
@@ -34,39 +33,34 @@ public class TextWithEntitiesTranslator implements Translator.ITranslator {
 
     public static TextWithEntitiesTranslator of(String type) {
         if (!configuredCallFactory) {
-            TranslatorConfig.setCallFactory(buildCallFactory());
+            AndroidTranslatorConfig.setOkhttpClient(buildClient());
             configuredCallFactory = true;
         }
         return wrappedTranslators.computeIfAbsent(type, type1 -> {
             var translator = switch (type1) {
-                case Translator.PROVIDER_YANDEX -> YandexTranslator.getInstance();
-                case Translator.PROVIDER_LINGO -> LingoTranslator.getInstance();
-                case Translator.PROVIDER_DEEPL -> DeepLTranslator.getInstance();
-                case Translator.PROVIDER_MICROSOFT -> MicrosoftTranslator.getInstance();
-                case Translator.PROVIDER_YOUDAO -> YouDaoTranslator.getInstance();
-                case Translator.PROVIDER_BAIDU -> BaiduTranslator.getInstance();
-                case Translator.PROVIDER_SOGOU -> SogouTranslator.getInstance();
-                case Translator.PROVIDER_TENCENT -> TranSmartTranslator.getInstance();
-                default -> GoogleAppTranslator.getInstance();
+                case Translator.PROVIDER_YANDEX -> YandexTranslator.INSTANCE;
+                case Translator.PROVIDER_LINGO -> LingoTranslator.INSTANCE;
+                case Translator.PROVIDER_DEEPL -> DeepLTranslator.INSTANCE;
+                case Translator.PROVIDER_MICROSOFT -> MicrosoftTranslator.INSTANCE;
+                case Translator.PROVIDER_YOUDAO -> YouDaoTranslator.INSTANCE;
+                case Translator.PROVIDER_BAIDU -> BaiduTranslator.INSTANCE;
+                case Translator.PROVIDER_SOGOU -> SogouTranslator.INSTANCE;
+                case Translator.PROVIDER_TENCENT -> TranSmartTranslator.INSTANCE;
+                default -> GoogleAppTranslator.INSTANCE;
             };
             return new TextWithEntitiesTranslator(translator);
         });
     }
 
-    private static Call.Factory buildCallFactory() {
+    private static OkHttpClient buildClient() {
+        var builder = new OkHttpClient.Builder();
+        builder.connectTimeout(120, TimeUnit.SECONDS);
+        builder.readTimeout(120, TimeUnit.SECONDS);
+        builder.writeTimeout(120, TimeUnit.SECONDS);
         if (CronetHelper.isAvailable()) {
-            var builder = CronetCallFactory.newBuilder(CronetHelper.getEngine());
-            builder.setCallTimeoutMillis(120 * 1000);
-            builder.setReadTimeoutMillis(120 * 1000);
-            builder.setWriteTimeoutMillis(120 * 1000);
-            return builder.build();
-        } else {
-            var builder = new OkHttpClient.Builder();
-            builder.connectTimeout(120, TimeUnit.SECONDS);
-            builder.readTimeout(120, TimeUnit.SECONDS);
-            builder.writeTimeout(120, TimeUnit.SECONDS);
-            return builder.build();
+            builder.addInterceptor(CronetInterceptor.newBuilder(CronetHelper.getEngine()).build());
         }
+        return builder.build();
     }
 
     private final BaseTranslator translator;
@@ -82,14 +76,14 @@ public class TextWithEntitiesTranslator implements Translator.ITranslator {
         }
         if (NekoConfig.keepFormatting) {
             var html = HTMLKeeper.entitiesToHtml(query.text, query.entities, false);
-            var result = translator.translate(html, null, tl);
+            var result = translator.translateSync(html, null, tl);
             var textAndEntitiesTranslated = HTMLKeeper.htmlToEntities(result.getTranslation(), query.entities, false);
             return Translator.TranslationResult.of(
                     TranslateAlert2.preprocess(query, textAndEntitiesTranslated),
                     result.getSourceLanguage()
             );
         } else {
-            var result = translator.translate(query.text, null, tl);
+            var result = translator.translateSync(query.text, null, tl);
             return Translator.TranslationResult.of(
                     Translator.textWithEntities(result.getTranslation(), null)
                     , result.getSourceLanguage());

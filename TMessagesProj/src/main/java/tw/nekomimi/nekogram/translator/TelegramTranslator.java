@@ -47,11 +47,11 @@ public class TelegramTranslator implements Translator.ITranslator {
 
     @Override
     public boolean supportLanguage(String language) {
-        return GoogleAppTranslator.getInstance().supportLanguage(language);
+        return GoogleAppTranslator.INSTANCE.supportLanguage(language);
     }
 
     @Override
     public List<String> getTargetLanguages() {
-        return GoogleAppTranslator.getInstance().getTargetLanguages();
+        return GoogleAppTranslator.INSTANCE.getTargetLanguages();
     }
 }
