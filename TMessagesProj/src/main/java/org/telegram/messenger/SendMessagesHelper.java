@@ -6750,6 +6750,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                         media.flags &=~ 64;
                         media.video_cover = null;
                         req.media = media;
+                        var hasMediaSpoilers = media.spoiler;
                         getConnectionsManager().sendRequest(req, (res, err) -> AndroidUtilities.runOnUIThread(() -> {
                             if (res instanceof TLRPC.TL_messageMediaDocument) {
                                 final TLRPC.TL_messageMediaDocument mediaDocument = (TLRPC.TL_messageMediaDocument) res;
@@ -6757,6 +6758,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                 final TLRPC.TL_inputMediaUploadedPhoto newMedia = new TLRPC.TL_inputMediaUploadedPhoto();
                                 newMedia.live_photo = true;
                                 newMedia.file = message.coverFile;
+                                newMedia.spoiler = hasMediaSpoilers;
                                 newMedia.video = new TLRPC.TL_inputDocument();
                                 newMedia.video.id = mediaDocument.document.id;
                                 newMedia.video.access_hash = mediaDocument.document.access_hash;
