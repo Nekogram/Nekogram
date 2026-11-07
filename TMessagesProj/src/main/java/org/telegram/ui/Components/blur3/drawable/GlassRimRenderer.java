@@ -20,6 +20,8 @@ import androidx.annotation.NonNull;
 
 import org.telegram.ui.Components.blur3.utils.NinePatchBuilder;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 /**
  * Draws a {@link GlassRim} around a rounded rect. Each layer (the top crescent, the bottom one, the ring) is a white mask
  * baked once per geometry into a nine-patch: the corners as they are, the straight parts stretched (along a straight edge
@@ -68,6 +70,7 @@ public final class GlassRimRenderer {
     /** Draws the rim of the rounded rect (left, top, right, bottom; radii as in Path#addRoundRect), faded by alpha. */
     public void draw(@NonNull Canvas canvas, float left, float top, float right, float bottom,
                      @NonNull float[] shapeRadii, @NonNull GlassRim rim, float alpha) {
+        if (!NekoConfig.strokeOnViews) return;
         final float w = right - left, h = bottom - top;
         if (w < 1 || h < 1 || alpha <= 0) {
             return;
