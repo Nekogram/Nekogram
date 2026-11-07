@@ -172,7 +172,7 @@ public class JsonActivity extends BaseNekoSettingsActivity {
     public View createView(Context context) {
         var fragmentView = super.createView(context);
 
-        var menu = actionBar.createMenu();
+        var menu = simpleActionBar.createMenu();
         var copyItem = menu.addItem(1, R.drawable.msg_copy);
         copyItem.setContentDescription(LocaleController.getString(R.string.ExportAsJson));
         copyItem.setOnClickListener(v -> {

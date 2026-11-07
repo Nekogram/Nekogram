@@ -1,7 +1,6 @@
 package tw.nekomimi.nekogram.settings;
 
 import android.os.CountDownTimer;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
 
@@ -94,20 +93,6 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
     @Override
     protected void onItemClick(UItem item, View view, int position, float x, float y) {
         int id = item.id;
-        if (false) {
-            var builder = new AlertDialog.Builder(getParentActivity(), resourcesProvider);
-            var message = new TextView(getParentActivity());
-            message.setText(getSpannedString(R.string.SoonRemovedOption, "https://t.me/" + LocaleController.getString(R.string.OfficialChannelUsername)));
-            message.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
-            message.setLinkTextColor(getThemedColor(Theme.key_dialogTextLink));
-            message.setHighlightColor(getThemedColor(Theme.key_dialogLinkSelection));
-            message.setPadding(AndroidUtilities.dp(23), 0, AndroidUtilities.dp(23), 0);
-            message.setMovementMethod(new AndroidUtilities.LinkMovementMethodMy());
-            message.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
-            builder.setView(message);
-            builder.setPositiveButton(LocaleController.getString(R.string.OK), null);
-            showDialog(builder.create());
-        }
         if (id == deleteAccountRow) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), resourcesProvider);
             builder.setMessage(LocaleController.getString(R.string.TosDeclineDeleteAccount));

@@ -172,7 +172,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
     public boolean onFragmentCreate() {
         super.onFragmentCreate();
 
-        NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.emojiLoaded);
+        NotificationCenter.getGlobalInstance().addWeakObserver(this, NotificationCenter.emojiLoaded);
 
         return true;
     }

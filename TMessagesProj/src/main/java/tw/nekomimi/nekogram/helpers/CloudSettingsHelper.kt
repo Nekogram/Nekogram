@@ -1,11 +1,10 @@
 package tw.nekomimi.nekogram.helpers
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Base64
-import android.view.Gravity
-import android.view.View
+import android.util.TypedValue
+import android.widget.TextView
 import androidx.core.content.edit
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -14,18 +13,19 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.telegram.messenger.AndroidUtilities.dp
-import org.telegram.messenger.AndroidUtilities.dpf2
 import org.telegram.messenger.ApplicationLoader
 import org.telegram.messenger.FileLog
 import org.telegram.messenger.LocaleController
 import org.telegram.messenger.R
 import org.telegram.messenger.UserConfig
+import org.telegram.ui.ActionBar.ActionBarMenuItem
 import org.telegram.ui.ActionBar.ActionBarMenuSubItem
 import org.telegram.ui.ActionBar.BaseFragment
 import org.telegram.ui.ActionBar.Theme
+import org.telegram.ui.ActionBar.ThemeBind
 import org.telegram.ui.Components.Bulletin
 import org.telegram.ui.Components.BulletinFactory
-import org.telegram.ui.Components.ItemOptions
+import org.telegram.ui.Components.LayoutHelper
 import tw.nekomimi.nekogram.NekoConfig
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
@@ -46,25 +46,24 @@ class CloudSettingsHelper {
     private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
     private var syncJob: Job? = null
 
-    fun showPopup(parentFragment: BaseFragment, scrimView: View) {
+    fun addItems(parentFragment: BaseFragment, item: ActionBarMenuItem) {
         val resourcesProvider = parentFragment.resourceProvider
         val context = parentFragment.parentActivity ?: return
         val currentAccount = parentFragment.currentAccount
         val bulletinFactory =
             BulletinFactory.of(Bulletin.BulletinWindow.make(context), resourcesProvider)
 
-        ItemOptions.makeOptions(parentFragment, scrimView).apply {
-            setDimAlpha(0x08)
-
-            add(R.drawable.cloud_upload, LocaleController.getString(R.string.CloudConfigSync), null)
-            val syncOption = last
-
-            add(
-                R.drawable.cloud_download,
-                LocaleController.getString(R.string.CloudConfigRestore),
-                null
+        item.apply {
+            val syncOption = addSubItem(
+                0,
+                R.drawable.cloud_upload,
+                LocaleController.getString(R.string.CloudConfigSync)
             )
-            val restoreOption = last
+            val restoreOption = addSubItem(
+                1,
+                R.drawable.cloud_download,
+                LocaleController.getString(R.string.CloudConfigRestore)
+            )
 
             fun updateText(animated: Boolean) {
                 syncOption.setAnimatedSubtext(formatLastSyncDate(), animated)
@@ -98,38 +97,50 @@ class CloudSettingsHelper {
                 }
             }
 
-            getCloudStorageHelper(currentAccount).getItem("neko_settings_updated_at") { res, error ->
-                cloudSyncedDate[currentAccount] = if (error == null && !res.isNullOrBlank()) {
-                    res.toLongOrNull() ?: -1L
-                } else {
-                    -1L
-                }
-                restoreOption.setAnimatedSubtext(formatCloudDate(currentAccount), true)
-            }
+            addColoredGap()
 
-            addGap()
-
-            val autoSyncOption = AutoSyncItem(context, resourcesProvider).apply {
-                setTextAndIcon(
-                    LocaleController.getString(R.string.CloudConfigAutoSync),
-                    R.drawable.sync
-                )
-                setChecked(autoSync)
-                setOnClickListener {
-                    autoSync = !autoSync
-                    preferences.edit { putBoolean("auto_sync", autoSync) }
+            val autoSyncOption = ActionBarMenuSubItem(context, 3, false, false, resourcesProvider)
+                .apply {
+                    setTextAndIcon(
+                        LocaleController.getString(R.string.CloudConfigAutoSync),
+                        R.drawable.sync
+                    )
                     setChecked(autoSync)
+                    setOnClickListener {
+                        autoSync = !autoSync
+                        preferences.edit { putBoolean("auto_sync", autoSync) }
+                        setChecked(autoSync)
+                    }
                 }
+            addSubItem(autoSyncOption, LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT)
+
+            addColoredGap()
+
+            val textView = TextView(context).apply {
+                setTag(R.id.fit_width_tag, 1)
+                setPadding(dp(13f), dp(8f), dp(13f), dp(8f))
+                setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13f)
+                ThemeBind.textColor(this, Theme.key_dialogTextBlack, resourcesProvider)
+                text = LocaleController.getString(R.string.CloudConfigDesc)
             }
-            addView(autoSyncOption)
+            addSubItem(textView, LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT)
 
-            addGap()
-            addText(LocaleController.getString(R.string.CloudConfigDesc), 13)
+            setSubMenuDelegate(object : ActionBarMenuItem.ActionBarSubMenuItemDelegate {
+                override fun onShowSubMenu() {
+                    getCloudStorageHelper(currentAccount).getItem("neko_settings_updated_at") { res, error ->
+                        cloudSyncedDate[currentAccount] =
+                            if (error == null && !res.isNullOrBlank()) {
+                                res.toLongOrNull() ?: -1L
+                            } else {
+                                -1L
+                            }
+                        restoreOption.setAnimatedSubtext(formatCloudDate(currentAccount), true)
+                    }
+                }
 
-            setBlur(false, true)
-            setGravity(if (LocaleController.isRTL) Gravity.LEFT else Gravity.RIGHT)
-            show()
-            setTranslationY(-dpf2(64f))
+                override fun onHideSubMenu() {
+                }
+            })
         }
     }
 
@@ -272,25 +283,6 @@ class CloudSettingsHelper {
             factory.createSimpleBulletin(R.raw.chats_infotip, title, error)
         }
         bulletin.show()
-    }
-
-    @SuppressLint("ViewConstructor")
-    class AutoSyncItem(context: Context?, resourcesProvider: Theme.ResourcesProvider?) :
-        ActionBarMenuSubItem(context, false, false, resourcesProvider) {
-        init {
-            setPadding(dp(18f), 0, dp(18f), 0)
-            setColors(
-                Theme.getColor(Theme.key_actionBarDefaultSubmenuItem, resourcesProvider),
-                Theme.getColor(Theme.key_actionBarDefaultSubmenuItemIcon, resourcesProvider)
-            )
-            setSelectorColor(
-                Theme.multAlpha(
-                    Theme.getColor(Theme.key_actionBarDefaultSubmenuItem, resourcesProvider),
-                    0.12f
-                )
-            )
-            makeCheckView(3)
-        }
     }
 
     companion object {
