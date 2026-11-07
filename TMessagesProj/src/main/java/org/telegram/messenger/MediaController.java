@@ -1152,8 +1152,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     private AudioRecordingSession.Result audioRecorderV2PendingResult;
 
     private Runnable recordStartRunnable;
-    private DispatchQueue recordQueue;
-    private DispatchQueue fileEncodingQueue;
+    private DispatchQueue2 recordQueue;
+    private DispatchQueue2 fileEncodingQueue;
     private Runnable recordRunnable = new Runnable() {
         @Override
         public void run() {
@@ -1448,9 +1448,9 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     public MediaController() {
-        recordQueue = new DispatchQueue("recordQueue");
+        recordQueue = new DispatchQueue2("recordQueue");
         recordQueue.setPriority(Thread.MAX_PRIORITY);
-        fileEncodingQueue = new DispatchQueue("fileEncodingQueue");
+        fileEncodingQueue = new DispatchQueue2("fileEncodingQueue");
         fileEncodingQueue.setPriority(Thread.MAX_PRIORITY);
 
         recordQueue.postRunnable(() -> {
@@ -2040,8 +2040,12 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
     }
 
-    protected boolean isRecordingAudio() {
+    public boolean isRecordingAudio() {
         return recordStartRunnable != null || audioRecorderV2StartRunnable != null || recordingAudio != null;
+    }
+
+    public int getRecordingGuid() {
+        return recordingGuid;
     }
 
     private boolean isNearToSensor(float value) {
@@ -4506,7 +4510,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
     }
 
-    private boolean shouldUseAudioRecorderV2(int account) {
+    public static boolean shouldUseAudioRecorderV2(int account) {
         return SharedSettings.audioRecorderV2Enabled.isSet() ?
             SharedSettings.audioRecorderV2Enabled.get() :
             !MessagesController.getInstance(account).config.audioRecorderV2Disabled.get();

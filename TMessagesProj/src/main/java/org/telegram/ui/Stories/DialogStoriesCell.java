@@ -73,6 +73,7 @@ import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.ActionBar.ThemeBind;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AnimatedFloat;
 import org.telegram.ui.Components.AnimatedTextView;
@@ -229,7 +230,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
             topView.setOrientation(LinearLayout.VERTICAL);
             TextView overscrollTextView = new TextView(getContext());
             overscrollTextView.setText("Screen oversrcoll: " + overScrollCoef);
-            overscrollTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText));
+            ThemeBind.textColor(overscrollTextView, Theme.key_windowBackgroundWhiteBlueText);
             SeekBarView seekBar = new SeekBarView(getContext());
             float progress = Math.min(1.0f, Math.max(0.0f, (overScrollCoef - 0.2f) / 0.8f));
             seekBar.setProgress(progress);
@@ -250,7 +251,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
             topView.addView(seekBar, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 38, 0, 5, 0, 20, 0));
             TextView collapsedSpringTextView = new TextView(getContext());
             collapsedSpringTextView.setText("Collapsed spring: " + collapsedSpringCoef);
-            collapsedSpringTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText));
+            ThemeBind.textColor(collapsedSpringTextView, Theme.key_windowBackgroundWhiteBlueText);
             topView.addView(collapsedSpringTextView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 38, 0, 20, 0, 20, 0));
             SeekBarView collapsedSpringSeekBar = new SeekBarView(getContext());
             collapsedSpringSeekBar.setProgress((collapsedSpringCoef - 0.25f) / 2.25f);
@@ -270,7 +271,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
 
             TextView expandedSpringTextView = new TextView(getContext());
             expandedSpringTextView.setText("Expanded X spring: " + expandedSpringCoef);
-            expandedSpringTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText));
+            ThemeBind.textColor(expandedSpringTextView, Theme.key_windowBackgroundWhiteBlueText);
             topView.addView(expandedSpringTextView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 38, 0, 20, 0, 20, 0));
             SeekBarView expandedSpringSeekBar = new SeekBarView(getContext());
             expandedSpringSeekBar.setProgress((expandedSpringCoef - 0.25f) / 2.25f);
@@ -930,12 +931,13 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
 
         if (progress != 0) {
             final float translationOffset = subtitleOverlayContainer.getTotalVisibility() * -dp(10);
+            final float barOffset = (dp(56) - ActionBar.getCurrentActionBarHeight()) / 2f;
 
             float offset = (titleView.getMeasuredHeight() - titleView.getTextHeight()) / 2f;
             titleView.setPivotX(0);
             titleView.setScaleX(lerp(1f, 0.95f, subtitleOverlayContainer.getTotalVisibility()));
             titleView.setScaleY(lerp(1f, 0.95f, subtitleOverlayContainer.getTotalVisibility()));
-            titleView.setTranslationY(bottomY + dp(14) - offset + dp(FAKE_TOP_PADDING) - dp(6) * subtitleOverlayContainer.getTotalVisibility());
+            titleView.setTranslationY(bottomY - barOffset + dp(14) - offset + dp(FAKE_TOP_PADDING) - dp(6) * subtitleOverlayContainer.getTotalVisibility());
             int cellWidth = dp(72);
             lastViewRight += -cellWidth + getAvatarRight(cellWidth, collapsedProgress) + dp(12);
             titleView.setTranslationX(lastViewRight);
@@ -943,13 +945,13 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
 
             offset = (telegramLogoView.getMeasuredHeight() - telegramLogoView.getTextHeight()) / 2f;
             telegramLogoView.setTranslationX(titleView.getTranslationX() + dp(1));
-            telegramLogoView.setTranslationY(bottomY + dp(14 + FAKE_TOP_PADDING) - offset + translationOffset /*titleView.getTranslationY() + dpf2(37.33f)*/);
+            telegramLogoView.setTranslationY(bottomY - barOffset + dp(14 + FAKE_TOP_PADDING) - offset + translationOffset /*titleView.getTranslationY() + dpf2(37.33f)*/);
 
             emojiStatusView.setTranslationX(titleView.getTranslationX() - dpf2(3.33f) + telegramLogoView.getMeasuredWidth());
-            emojiStatusView.setTranslationY(bottomY + dp(14 - 11 + FAKE_TOP_PADDING + 4.333f) + translationOffset);
+            emojiStatusView.setTranslationY(bottomY - barOffset + dp(14 - 11 + FAKE_TOP_PADDING + 4.333f) + translationOffset);
 
             subtitleOverlayContainer.setTranslationX(titleView.getTranslationX());
-            subtitleOverlayContainer.setTranslationY(bottomY + dp(15 + FAKE_TOP_PADDING + 4.333f + 8));
+            subtitleOverlayContainer.setTranslationY(bottomY - barOffset + dp(15 + FAKE_TOP_PADDING + 4.333f + 8));
         }
 
         super.dispatchDraw(canvas);
@@ -992,7 +994,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         updateItems(false, false);
-        NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.storiesUpdated);
+        NotificationCenter.getInstance(currentAccount).addWeakObserver(this, NotificationCenter.storiesUpdated);
         ellipsizeSpanAnimator.onAttachedToWindow();
         statusDrawable.attach();
     }
@@ -1167,6 +1169,20 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
             StoryCell cell = (StoryCell) view;
             cell.invalidate();
         });
+        updateStatusDrawableColor();
+    }
+
+    private void updateStatusDrawableColor() {
+        try {
+            if (statusDrawable != null) {
+                statusDrawable.setColor(getThemedColor(Theme.key_profile_verifiedBackground));
+            }
+            if (emojiStatusView != null) {
+                emojiStatusView.invalidate();
+            }
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
     }
 
     private int getTextLogoColor() {
@@ -2180,7 +2196,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
                     }
                 };
             }
-            premiumStar.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_profile_verifiedBackground), PorterDuff.Mode.MULTIPLY));
+            ThemeBind.drawableColorFilter(this, premiumStar, Theme.key_profile_verifiedBackground, fragment != null ? fragment.getResourceProvider() : null, PorterDuff.Mode.MULTIPLY);
             statusDrawable.set(premiumStar, animated);
             statusDrawable.setParticles(false, animated);
         } else {

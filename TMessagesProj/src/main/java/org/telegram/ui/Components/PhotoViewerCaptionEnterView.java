@@ -532,8 +532,8 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
     }
 
     public void onCreate() {
-        NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.emojiLoaded);
-        NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.currentUserPremiumStatusChanged);
+        NotificationCenter.getGlobalInstance().addWeakObserver(this, NotificationCenter.emojiLoaded);
+        NotificationCenter.getInstance(currentAccount).addWeakObserver(this, NotificationCenter.currentUserPremiumStatusChanged);
         sizeNotifierLayout.setDelegate(this);
     }
 

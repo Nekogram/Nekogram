@@ -36,6 +36,8 @@ final class RoundVideoCodecRecorder implements RoundVideoGlProcessor.FrameTiming
     private static final long CODEC_TIMEOUT_US = 10_000;
     private static final int TIMING_CAPACITY = 256;
     private static final int TIMING_LOG_INTERVAL = 30;
+    private static final long WORKER_JOIN_TIMEOUT_MS = 5000;
+    private static final long WORKER_ABANDON_TIMEOUT_MS = 1000;
 
     private final RoundVideoMp4Writer writer;
     private final long timelineOffsetUs;
@@ -44,6 +46,7 @@ final class RoundVideoCodecRecorder implements RoundVideoGlProcessor.FrameTiming
     private final int videoFrameRate;
     private final RoundVideoDiagnostics diagnostics;
     private final ErrorListener errorListener;
+    private final ErrorListener segmentRejectedListener;
     private final AtomicBoolean errorReported = new AtomicBoolean();
     private final ArrayList<PendingAudioSample> pendingAudioSamples = new ArrayList<>();
     private final AudioTimestamp audioTimestamp = new AudioTimestamp();
@@ -58,7 +61,11 @@ final class RoundVideoCodecRecorder implements RoundVideoGlProcessor.FrameTiming
     private Runnable audioReadyListener;
     private Runnable videoReadyListener;
     private volatile boolean stopping;
+    private volatile boolean workersAbandoned;
+    private volatile boolean segmentRejected;
     private boolean stopFinalizationStarted;
+    private int runningWorkers;
+    private boolean releaseAfterWorkers;
     private volatile long stopPresentationTimeUs = Long.MAX_VALUE;
     private volatile long submittedSequence;
     private boolean prepared;
@@ -96,7 +103,8 @@ final class RoundVideoCodecRecorder implements RoundVideoGlProcessor.FrameTiming
             int videoBitrate,
             int videoFrameRate,
             @NonNull RoundVideoDiagnostics diagnostics,
-            @NonNull ErrorListener errorListener
+            @NonNull ErrorListener errorListener,
+            @NonNull ErrorListener segmentRejectedListener
     ) {
         this.writer = writer;
         this.timelineOffsetUs = timelineOffsetUs;
@@ -105,6 +113,7 @@ final class RoundVideoCodecRecorder implements RoundVideoGlProcessor.FrameTiming
         this.videoFrameRate = videoFrameRate;
         this.diagnostics = diagnostics;
         this.errorListener = errorListener;
+        this.segmentRejectedListener = segmentRejectedListener;
     }
 
     @NonNull
@@ -151,6 +160,7 @@ final class RoundVideoCodecRecorder implements RoundVideoGlProcessor.FrameTiming
                     + ", audioSessionId=" + audioRecord.getAudioSessionId());
             videoDrainThread = new Thread(this::drainVideo, "RoundVideoVideoEncoder");
             audioThread = new Thread(this::captureAndEncodeAudio, "RoundVideoAudioEncoder");
+            runningWorkers = 2;
             videoDrainThread.start();
             audioThread.start();
         } catch (RuntimeException e) {
@@ -160,6 +170,8 @@ final class RoundVideoCodecRecorder implements RoundVideoGlProcessor.FrameTiming
     }
 
     synchronized boolean isStarted() { return started; }
+
+    int getVideoFrameRate() { return videoFrameRate; }
 
     long getTimeOriginNs() { return timeOriginNs; }
 
@@ -188,9 +200,27 @@ final class RoundVideoCodecRecorder implements RoundVideoGlProcessor.FrameTiming
         } catch (IllegalStateException e) {
             diagnostics.error("video encoder EOS failed", e);
         }
-        join(videoDrainThread);
-        join(audioThread);
+        join(videoDrainThread, WORKER_JOIN_TIMEOUT_MS);
+        join(audioThread, WORKER_JOIN_TIMEOUT_MS);
         logSummary();
+        synchronized (this) {
+            if (runningWorkers > 0) {
+                workersAbandoned = true;
+            }
+        }
+        if (workersAbandoned) {
+            join(videoDrainThread, WORKER_ABANDON_TIMEOUT_MS);
+            join(audioThread, WORKER_ABANDON_TIMEOUT_MS);
+        }
+        synchronized (this) {
+            if (runningWorkers > 0) {
+                // Releasing a codec that a worker is still calling into crashes natively.
+                releaseAfterWorkers = true;
+                diagnostics.log("codec release deferred until encoder threads exit: running="
+                        + runningWorkers);
+                return;
+            }
+        }
         release();
     }
 
@@ -220,7 +250,11 @@ final class RoundVideoCodecRecorder implements RoundVideoGlProcessor.FrameTiming
 
     private void resetStats() {
         stopping = false;
+        workersAbandoned = false;
+        segmentRejected = false;
         stopFinalizationStarted = false;
+        runningWorkers = 0;
+        releaseAfterWorkers = false;
         stopPresentationTimeUs = Long.MAX_VALUE;
         timeOriginNs = 0;
         videoBytes = audioBytes = 0;
@@ -245,7 +279,12 @@ final class RoundVideoCodecRecorder implements RoundVideoGlProcessor.FrameTiming
         pendingAudioSamples.clear();
     }
 
-    private void createVideoEncoder() throws IOException {
+    /**
+     * Returns the AVC encoder configuration used for recording. Trimming re-encodes with the same
+     * configuration so the re-encoded frames share the recorded SPS/PPS.
+     */
+    @NonNull
+    static MediaFormat createVideoEncoderFormat(int outputSize, int videoBitrate, int videoFrameRate) {
         MediaFormat format = MediaFormat.createVideoFormat(
                 MediaFormat.MIMETYPE_VIDEO_AVC,
                 outputSize,
@@ -255,6 +294,22 @@ final class RoundVideoCodecRecorder implements RoundVideoGlProcessor.FrameTiming
         format.setInteger(MediaFormat.KEY_BIT_RATE, videoBitrate);
         format.setInteger(MediaFormat.KEY_FRAME_RATE, videoFrameRate);
         format.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, 1);
+        return format;
+    }
+
+    /** Returns the size of SPS/PPS an encoder prepends to sync frames, or zero. */
+    static int getPrependedHeaderSize(@NonNull MediaFormat format) {
+        if (!format.containsKey(MediaFormat.KEY_PREPEND_HEADER_TO_SYNC_FRAMES)
+                || format.getInteger(MediaFormat.KEY_PREPEND_HEADER_TO_SYNC_FRAMES) != 1) {
+            return 0;
+        }
+        ByteBuffer sps = format.getByteBuffer("csd-0");
+        ByteBuffer pps = format.getByteBuffer("csd-1");
+        return (sps == null ? 0 : sps.remaining()) + (pps == null ? 0 : pps.remaining());
+    }
+
+    private void createVideoEncoder() throws IOException {
+        MediaFormat format = createVideoEncoderFormat(outputSize, videoBitrate, videoFrameRate);
         videoCodec = MediaCodec.createEncoderByType(MediaFormat.MIMETYPE_VIDEO_AVC);
         MediaCodecInfo.VideoCapabilities capabilities = videoCodec.getCodecInfo()
                 .getCapabilitiesForType(MediaFormat.MIMETYPE_VIDEO_AVC)
@@ -297,7 +352,7 @@ final class RoundVideoCodecRecorder implements RoundVideoGlProcessor.FrameTiming
         MediaCodec.BufferInfo info = new MediaCodec.BufferInfo();
         try {
             boolean ended = false;
-            while (!ended) {
+            while (!ended && !workersAbandoned) {
                 int index = videoCodec.dequeueOutputBuffer(info, CODEC_TIMEOUT_US);
                 if (index == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED) {
                     setTrackFormat(true, videoCodec.getOutputFormat());
@@ -320,6 +375,8 @@ final class RoundVideoCodecRecorder implements RoundVideoGlProcessor.FrameTiming
         } catch (RuntimeException e) {
             if (!stopping) reportError(e);
             else diagnostics.error("video drain failed while stopping", e);
+        } finally {
+            onWorkerExited();
         }
     }
 
@@ -331,7 +388,7 @@ final class RoundVideoCodecRecorder implements RoundVideoGlProcessor.FrameTiming
         boolean inputEnded = false;
         boolean outputEnded = false;
         try {
-            while (!outputEnded) {
+            while (!outputEnded && !workersAbandoned) {
                 outputEnded = drainAudioOutput(info, inputEnded ? CODEC_TIMEOUT_US : 0);
                 if (outputEnded) break;
                 int index = audioCodec.dequeueInputBuffer(CODEC_TIMEOUT_US);
@@ -384,6 +441,21 @@ final class RoundVideoCodecRecorder implements RoundVideoGlProcessor.FrameTiming
         } catch (RuntimeException e) {
             if (!stopping) reportError(e);
             else diagnostics.error("audio capture failed while stopping", e);
+        } finally {
+            onWorkerExited();
+        }
+    }
+
+    private void onWorkerExited() {
+        boolean release;
+        synchronized (this) {
+            runningWorkers--;
+            release = releaseAfterWorkers && runningWorkers == 0;
+            if (release) releaseAfterWorkers = false;
+        }
+        if (release) {
+            diagnostics.log("deferred codec release: encoder threads exited");
+            release();
         }
     }
 
@@ -457,7 +529,7 @@ final class RoundVideoCodecRecorder implements RoundVideoGlProcessor.FrameTiming
     }
 
     private void writeOrBufferAudioSample(ByteBuffer source, MediaCodec.BufferInfo info) {
-        if (source == null) return;
+        if (source == null || segmentRejected) return;
         if (info.presentationTimeUs >= stopPresentationTimeUs) {
             droppedAudioBuffers++;
             droppedAudioAfterStop++;
@@ -535,23 +607,32 @@ final class RoundVideoCodecRecorder implements RoundVideoGlProcessor.FrameTiming
 
     private void setTrackFormat(boolean video, MediaFormat format) {
         try {
-            if (video
-                    && format.containsKey(MediaFormat.KEY_PREPEND_HEADER_TO_SYNC_FRAMES)
-                    && format.getInteger(MediaFormat.KEY_PREPEND_HEADER_TO_SYNC_FRAMES) == 1) {
-                ByteBuffer sps = format.getByteBuffer("csd-0");
-                ByteBuffer pps = format.getByteBuffer("csd-1");
-                prependHeaderSize = (sps == null ? 0 : sps.remaining())
-                        + (pps == null ? 0 : pps.remaining());
+            if (video) {
+                prependHeaderSize = getPrependedHeaderSize(format);
+                writer.setEncoderFrameRate(videoFrameRate);
             }
-            writer.setTrackFormat(video, format);
             diagnostics.log((video ? "video" : "audio") + " output format: " + format);
+            writer.setTrackFormat(video, format);
+        } catch (RoundVideoMp4Writer.CodecConfigurationChangedException e) {
+            rejectSegment(e);
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
     }
 
+    /**
+     * Drops this segment when its encoder output cannot be appended to the earlier segments.
+     * The samples already written stay valid, so the recording degrades to what was kept.
+     */
+    private void rejectSegment(@NonNull Exception error) {
+        if (segmentRejected) return;
+        segmentRejected = true;
+        diagnostics.error("recording segment rejected; earlier segments are kept", error);
+        segmentRejectedListener.onError(error);
+    }
+
     private void writeSample(boolean video, ByteBuffer source, MediaCodec.BufferInfo sourceInfo) {
-        if (source == null) return;
+        if (source == null || segmentRejected) return;
         try {
             if (video
                     && prependHeaderSize > 0
@@ -720,10 +801,10 @@ final class RoundVideoCodecRecorder implements RoundVideoGlProcessor.FrameTiming
         codec.release();
     }
 
-    private void join(Thread thread) {
+    private void join(Thread thread, long timeoutMs) {
         if (thread == null) return;
         try {
-            thread.join(5000);
+            thread.join(timeoutMs);
             if (thread.isAlive()) diagnostics.log("encoder thread did not stop: " + thread.getName());
         } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
     }

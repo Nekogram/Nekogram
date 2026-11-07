@@ -23,6 +23,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.ActionBar.ThemeBind;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.ScaleStateListAnimator;
@@ -105,10 +106,10 @@ public class ChatActivityActionsButtonsLayout extends LinearLayout {
         forwardButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         forwardButton.setPadding(AndroidUtilities.dp(7), 0, AndroidUtilities.dp(7), 0);
         forwardButton.setCompoundDrawablePadding(AndroidUtilities.dp(6));
-        forwardButton.setTextColor(Theme.getColor(Theme.key_glass_defaultText, resourcesProvider));
+        ThemeBind.textColor(forwardButton, Theme.key_glass_defaultText, resourcesProvider);
         forwardButton.setTypeface(AndroidUtilities.bold());
         Drawable image = getContext().getResources().getDrawable(iconRes).mutate();
-        image.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_glass_defaultIcon, resourcesProvider), PorterDuff.Mode.MULTIPLY));
+        ThemeBind.drawableColorFilter(this, image, Theme.key_glass_defaultIcon, resourcesProvider, PorterDuff.Mode.MULTIPLY);
         forwardButton.setCompoundDrawablesWithIntrinsicBounds(iconLeft ? image : null, null, iconLeft ? null : image, null);
         if (button == this.forwardButton) {
             var optionsView = new ActionBarMenuItem(getContext(), null, 0, 0);

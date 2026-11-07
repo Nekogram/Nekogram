@@ -125,6 +125,7 @@ import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.BottomSheetTabs;
 import org.telegram.ui.ActionBar.INavigationLayout;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.ActionBar.ThemeBind;
 import org.telegram.ui.ArticleViewer;
 import org.telegram.ui.CameraScanActivity;
 import org.telegram.ui.ChatActivity;
@@ -181,7 +182,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import tw.nekomimi.nekogram.Extra;
 import tw.nekomimi.nekogram.helpers.WebAppHelper;
 
-public abstract class BotWebViewContainer extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
+public abstract class BotWebViewContainer extends FrameLayout implements NotificationCenter.NotificationCenterDelegate, Theme.Colorable {
     private final static String DURGER_KING_USERNAME = "DurgerKingBot";
     private final static int REQUEST_CODE_WEB_VIEW_FILE = 3000, REQUEST_CODE_WEB_PERMISSION = 4000, REQUEST_CODE_QR_CAMERA_PERMISSION = 5000;
     private final static int DIALOG_SEQUENTIAL_COOLDOWN_TIME = 3000;
@@ -311,7 +312,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
 
         webViewNotAvailableText = new TextView(context);
         webViewNotAvailableText.setText(getString(R.string.BotWebViewNotAvailablePlaceholder));
-        webViewNotAvailableText.setTextColor(getColor(Theme.key_windowBackgroundWhiteGrayText));
+        ThemeBind.textColor(webViewNotAvailableText, Theme.key_windowBackgroundWhiteGrayText, resourcesProvider);
         webViewNotAvailableText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         webViewNotAvailableText.setGravity(Gravity.CENTER);
         webViewNotAvailableText.setVisibility(GONE);
@@ -1085,9 +1086,9 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
         super.onAttachedToWindow();
         d("attached");
 
-        NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.didSetNewTheme);
-        NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.onActivityResultReceived);
-        NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.onRequestPermissionResultReceived);
+        NotificationCenter.getGlobalInstance().addWeakObserver(this, NotificationCenter.didSetNewTheme);
+        NotificationCenter.getGlobalInstance().addWeakObserver(this, NotificationCenter.onActivityResultReceived);
+        NotificationCenter.getGlobalInstance().addWeakObserver(this, NotificationCenter.onRequestPermissionResultReceived);
 
         Bulletin.addDelegate(this, new Bulletin.Delegate() {
             @Override
@@ -1207,6 +1208,30 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
             onActivityResult((int) args[0], (int) args[1], (Intent) args[2]);
         } else if (id == NotificationCenter.onRequestPermissionResultReceived) {
             onRequestPermissionsResult((int) args[0], (String[]) args[1], (int[]) args[2]);
+        }
+    }
+
+    private int themedWebViewBackgroundColor;
+
+    @Override
+    public void updateColors() {
+        try {
+            if (webView != null) {
+                final int color = getColor(Theme.key_windowBackgroundWhite);
+                if (color != themedWebViewBackgroundColor) {
+                    themedWebViewBackgroundColor = color;
+                    webView.setBackgroundColor(color);
+                }
+            }
+            if (!flickerViewColorOverriden && flickerView != null && flickerViewColor != getColor(Theme.key_bot_loadingIcon)) {
+                flickerView.setColorFilter(new PorterDuffColorFilter(flickerViewColor = getColor(Theme.key_bot_loadingIcon), PorterDuff.Mode.SRC_IN));
+                if (flickerViewDrawable != null) {
+                    flickerViewDrawable.setColor(flickerViewColor);
+                }
+                flickerView.invalidate();
+            }
+        } catch (Exception e) {
+            FileLog.e(e);
         }
     }
 
@@ -1868,13 +1893,18 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                     JSONObject jsonObject = new JSONObject(eventData);
                     String colorString = jsonObject.optString("color", null);
                     int color;
-                    if (TextUtils.isEmpty(colorString)) {
+                    final boolean themed = TextUtils.isEmpty(colorString);
+                    if (themed) {
                         color = Theme.getColor(Theme.key_windowBackgroundGray, resourcesProvider);
                     } else {
                         color = Color.parseColor(colorString);
                     }
                     if (delegate != null) {
-                        delegate.onWebAppSetNavigationBarColor(color);
+                        if (themed) {
+                            delegate.onWebAppResetNavigationBarColor(color);
+                        } else {
+                            delegate.onWebAppSetNavigationBarColor(color);
+                        }
                     }
                 } catch (Exception e) {
                     FileLog.e(e);
@@ -3728,6 +3758,11 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
 
         default void onWebAppSetNavigationBarColor(int color) {};
 
+        /** bottom bar color reset to the theme color (windowBackgroundGray) */
+        default void onWebAppResetNavigationBarColor(int color) {
+            onWebAppSetNavigationBarColor(color);
+        }
+
         default void onWebAppBackgroundChanged(boolean actionBarColor, int color) {};
 
         default void onLocationGranted(boolean granted) {}
@@ -4540,11 +4575,11 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                     EditTextCaption editText = new EditTextCaption(context, resourcesProvider);
                     editText.lineYFix = true;
                     editText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
-                    editText.setTextColor(Theme.getColor(Theme.key_dialogTextBlack, resourcesProvider));
-                    editText.setHintColor(Theme.getColor(Theme.key_groupcreate_hintText, resourcesProvider));
+                    ThemeBind.textColor(editText, Theme.key_dialogTextBlack, resourcesProvider);
+                    ThemeBind.editHintColor(editText, Theme.key_groupcreate_hintText, resourcesProvider);
                     editText.setFocusable(true);
                     editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-                    editText.setLineColors(Theme.getColor(Theme.key_windowBackgroundWhiteInputField, resourcesProvider), Theme.getColor(Theme.key_windowBackgroundWhiteInputFieldActivated, resourcesProvider), Theme.getColor(Theme.key_text_RedRegular, resourcesProvider));
+                    ThemeBind.lineColors(editText, Theme.key_windowBackgroundWhiteInputField, Theme.key_windowBackgroundWhiteInputFieldActivated, Theme.key_text_RedRegular, resourcesProvider);
                     editText.setImeOptions(EditorInfo.IME_ACTION_DONE);
                     editText.setBackgroundDrawable(null);
                     editText.setPadding(0, dp(6), 0, dp(6));
@@ -5026,7 +5061,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                                     AlertDialog alertDialog = builder.show();
                                     TextView button = (TextView) alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE);
                                     if (button != null) {
-                                        button.setTextColor(Theme.getColor(Theme.key_text_RedBold));
+                                        ThemeBind.textColor(button, Theme.key_text_RedBold);
                                     }
                                 } else {
                                     download.run();

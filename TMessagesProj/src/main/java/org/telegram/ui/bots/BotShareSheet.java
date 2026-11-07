@@ -364,7 +364,7 @@ public class BotShareSheet extends BottomSheetWithRecyclerListView {
         recyclerListView.setSections();
 
         setBackgroundColor(getThemedColor(Theme.key_windowBackgroundGray));
-        fixNavigationBar(getThemedColor(Theme.key_windowBackgroundGray));
+        fixNavigationBarKey(Theme.key_windowBackgroundGray);
 
         adapter.update(false);
     }
@@ -699,4 +699,20 @@ public class BotShareSheet extends BottomSheetWithRecyclerListView {
         return messageObject;
     }
 
+
+    private int lastThemedBackgroundColor;
+
+    @Override
+    public void onThemeColorsChanged() {
+        try {
+            super.onThemeColorsChanged();
+            final int color = getThemedColor(Theme.key_windowBackgroundGray);
+            if (color != lastThemedBackgroundColor) { // setBackgroundColor allocates a color filter
+                lastThemedBackgroundColor = color;
+                setBackgroundColor(color);
+            }
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+    }
 }
