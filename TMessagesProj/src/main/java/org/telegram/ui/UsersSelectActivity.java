@@ -113,6 +113,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
 
     public boolean noChatTypes;
     public boolean allowSelf;
+    public boolean allowBots;
     public boolean doNotNewChats;
     private boolean isInclude;
     private int filterFlags;
@@ -1113,7 +1114,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                 usersStartRow = 0;
             }
 
-            final boolean allowBots = type != TYPE_PRIVATE;
+            final boolean allowBots = type != TYPE_PRIVATE || UsersSelectActivity.this.allowBots;
             final boolean allowChats = type != TYPE_PRIVATE;
 
             boolean hasSelf = false;
@@ -1499,7 +1500,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                 Utilities.searchQueue.cancelRunnable(searchRunnable);
                 searchRunnable = null;
             }
-            final boolean allowBots = type != TYPE_PRIVATE;
+            final boolean allowBots = type != TYPE_PRIVATE || UsersSelectActivity.this.allowBots;
             final boolean allowChats = type != TYPE_PRIVATE;
             if (query == null) {
                 searchResult.clear();
@@ -1510,7 +1511,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                 notifyDataSetChanged();
             } else {
                 Utilities.searchQueue.postRunnable(searchRunnable = () -> AndroidUtilities.runOnUIThread(() -> {
-                    searchAdapterHelper.queryServerSearch(query, true, allowChats, allowChats, allowSelf, false, 0, false, 0, 0);
+                    searchAdapterHelper.queryServerSearch(query, true, allowChats, allowBots, allowSelf, false, 0, false, 0, 0);
                     Utilities.searchQueue.postRunnable(searchRunnable = () -> {
                         String search1 = query.trim().toLowerCase();
                         if (search1.length() == 0) {

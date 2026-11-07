@@ -314,7 +314,8 @@ public class EditTextEffects extends AppCompatEditText {
                 !Build.MANUFACTURER.toLowerCase().contains("vivo") &&
                 !Build.MANUFACTURER.toLowerCase().contains("honor") &&
                 !Build.MANUFACTURER.toLowerCase().contains("huawei") &&
-                !Build.MANUFACTURER.toLowerCase().contains("alps")
+                !Build.MANUFACTURER.toLowerCase().contains("alps") &&
+                !Build.MANUFACTURER.toLowerCase().contains("vivo")
             ) && (
                 Build.MODEL == null ||
                 !Build.MODEL.toLowerCase().contains("mediapad")
