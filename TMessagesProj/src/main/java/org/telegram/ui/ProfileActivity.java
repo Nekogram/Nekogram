@@ -5605,9 +5605,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             view.setTextColor(applyPeerColor(getThemedColor(Theme.key_actionBarDefaultSubtitle), true, false));
             view.setTextSizePx(dp(13.5f));
             view.setGravity(Gravity.LEFT);
-            view.setPadding(AndroidUtilities.dp(4), AndroidUtilities.dp(2), AndroidUtilities.dp(4), AndroidUtilities.dp(2));
             return view;
         });
+        idTextView.setPadding(AndroidUtilities.dp(4), AndroidUtilities.dp(2), AndroidUtilities.dp(4), AndroidUtilities.dp(2));
         idTextView.setAlpha(1.0f);
         idTextView.setTag(1.0f);
         idTextView.setInAnimation(context, R.anim.alpha_in);
@@ -9168,7 +9168,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 final float onlinePadding = !hasFallbackPhoto && onlineTextView.getExactWidth() <= onlineMaxWidth - onlineTextView.getPaddingLeft() - onlineTextView.getPaddingRight() ? onlineTextView.getPaddingLeft() : 0;
                 float onlineX = viewportWidth / 2f - (params2.leftMargin + onlinePadding + Math.min(onlineTextView.getExactWidth(), onlineMaxWidth) * 0.5f);
                 final FrameLayout.LayoutParams params3 = (FrameLayout.LayoutParams) idTextView.getLayoutParams();
-                float idX = viewportWidth / 2f - (params3.leftMargin + Math.min(idTextView.getExactWidth(), params3.width) * 0.5f);
+                final float idMaxWidth = params3.width;
+                final float idPadding = idTextView.getExactWidth() <= idMaxWidth - idTextView.getPaddingLeft() - idTextView.getPaddingRight() ? idTextView.getPaddingLeft() : 0;
+                float idX = viewportWidth / 2f - (params3.leftMargin + idPadding + Math.min(idTextView.getExactWidth(), idMaxWidth) * 0.5f);
 
                 this.nameX = nameX;
                 this.onlineX = onlineX;
