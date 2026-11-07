@@ -84,7 +84,6 @@ public class NekoConfig {
     public static boolean autoTranslate = true;
     public static boolean bottomFilterTabs = false;
     public static boolean confirmAVMessage = false;
-    public static boolean disableAppBarShadow = false;
     public static boolean disableGreetingSticker = false;
     public static boolean disableInstantCamera = false;
     public static boolean disableJumpToNextChannel = false;
@@ -191,7 +190,6 @@ public class NekoConfig {
             autoTranslate = preferences.getBoolean("autoTranslate", true);
             bottomFilterTabs = preferences.getBoolean("bottomFilterTabs", false);
             confirmAVMessage = preferences.getBoolean("confirmAVMessage", false);
-            disableAppBarShadow = preferences.getBoolean("disableAppBarShadow", false);
             disableGreetingSticker = preferences.getBoolean("disableGreetingSticker", false);
             disableInstantCamera = preferences.getBoolean("disableInstantCamera", false);
             disableJumpToNextChannel = preferences.getBoolean("disableJumpToNextChannel", false);
@@ -870,11 +868,6 @@ public class NekoConfig {
     public static void toggleConfirmAVMessage() {
         confirmAVMessage = !confirmAVMessage;
         preferences.edit().putBoolean("confirmAVMessage", confirmAVMessage).apply();
-    }
-
-    public static void toggleDisableAppBarShadow() {
-        disableAppBarShadow = !disableAppBarShadow;
-        preferences.edit().putBoolean("disableAppBarShadow", disableAppBarShadow).apply();
     }
 
     public static void toggleDisableGreetingSticker() {

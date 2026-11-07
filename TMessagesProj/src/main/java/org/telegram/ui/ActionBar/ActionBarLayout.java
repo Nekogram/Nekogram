@@ -93,7 +93,6 @@ import java.util.Collections;
 import java.util.List;
 
 import tw.nekomimi.nekogram.FragmentPreviewWindow;
-import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.AnalyticsHelper;
 
 public class ActionBarLayout extends FrameLayout implements INavigationLayout, FloatingDebugProvider {
@@ -1058,7 +1057,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
 
     @Override
     public void drawHeaderShadow(Canvas canvas, int alpha, int y) {
-        if (headerShadowDrawable != null && SharedConfig.drawActionBarShadow && !NekoConfig.disableAppBarShadow) {
+        if (headerShadowDrawable != null && SharedConfig.drawActionBarShadow) {
             alpha = alpha / 2;
             if (headerShadowDrawable.getAlpha() != alpha) {
                 headerShadowDrawable.setAlpha(alpha);
