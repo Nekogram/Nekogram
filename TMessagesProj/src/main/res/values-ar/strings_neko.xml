@@ -275,15 +275,10 @@
     <string name="NavigationAnimationSpring">طبيعي</string>
     <string name="CloudConfig">إعدادات السحابة</string>
     <string name="CloudConfigDesc">احفظ إعدادات Neko الخاصة بك في سحابة Telegram.</string>
-    <string name="CloudConfigSyncDate">آخر مزامنة: %s, السحابة: %s</string>
     <string name="CloudConfigSyncDateNever">أبداً</string>
-    <string name="CloudConfigSync">المزامنة مع السحابة</string>
     <string name="CloudConfigSyncShort">مزامنة</string>
-    <string name="CloudConfigRestore">استعادة البيانات من السحابة</string>
     <string name="CloudConfigRestoreShort">استعادة</string>
     <string name="CloudConfigSyncing">مزامنة...</string>
-    <string name="CloudConfigAutoSync">المزامنة التلقائية</string>
-    <string name="CloudConfigAutoSyncDesc">مزامنة إلى السحابة تلقائيًا بعد إجراء تغييرات على إعدادات التطبيق.</string>
     <string name="CloudConfigSyncFailed">فشل مزامنة الإعدادات إلى السحابة.</string>
     <string name="CloudConfigRestoreFailed">فشل في استعادة الإعدادات من السحابة.</string>
     <string name="ReducedColors">تقليل الألوان</string>

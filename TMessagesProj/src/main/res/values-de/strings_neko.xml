@@ -272,15 +272,10 @@
     <string name="NavigationAnimationSpring">Natürlich</string>
     <string name="CloudConfig">Cloudeinstellungen</string>
     <string name="CloudConfigDesc">Deine Nekoeinstellungen in der Telegramcloud sichern.</string>
-    <string name="CloudConfigSyncDate">Zuletzt synchronisiert: %s, Cloud: %s</string>
     <string name="CloudConfigSyncDateNever">niemals</string>
-    <string name="CloudConfigSync">Mit der Cloud synchronisieren</string>
     <string name="CloudConfigSyncShort">Synchronisieren</string>
-    <string name="CloudConfigRestore">Aus der Cloud wiederherstellen</string>
     <string name="CloudConfigRestoreShort">Wiederherstellen</string>
     <string name="CloudConfigSyncing">Synchronisieren...</string>
-    <string name="CloudConfigAutoSync">Automatisch synchronisieren</string>
-    <string name="CloudConfigAutoSyncDesc">Automatisch mit der Cloud synchronisieren, nachdem die Nekoeinstellungen geändert wurden.</string>
     <string name="CloudConfigSyncFailed">Synchronisierung der Einstellungen mit der Cloud fehlgeschlagen.</string>
     <string name="CloudConfigRestoreFailed">Wiederherstellen der Einstellungen aus der Cloud fehlgeschlagen.</string>
     <string name="ReducedColors">Reduzierte Farben</string>

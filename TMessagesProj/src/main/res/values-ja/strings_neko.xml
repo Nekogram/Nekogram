@@ -275,15 +275,10 @@
     <string name="NavigationAnimationSpring">ナチュラル</string>
     <string name="CloudConfig">クラウドの設定</string>
     <string name="CloudConfigDesc">Nekogramの設定をTelegramクラウドに保存します。</string>
-    <string name="CloudConfigSyncDate">最終同期: %s / クラウド: %s</string>
     <string name="CloudConfigSyncDateNever">しない</string>
-    <string name="CloudConfigSync">クラウドに同期</string>
     <string name="CloudConfigSyncShort">同期</string>
-    <string name="CloudConfigRestore">クラウドから復元</string>
     <string name="CloudConfigRestoreShort">復元</string>
     <string name="CloudConfigSyncing">同期しています…</string>
-    <string name="CloudConfigAutoSync">自動同期</string>
-    <string name="CloudConfigAutoSyncDesc">Nekogramの設定を変更すると、自動的にクラウドに同期します。</string>
     <string name="CloudConfigSyncFailed">設定をクラウドに同期できませんでした。</string>
     <string name="CloudConfigRestoreFailed">クラウドから設定を復元できませんでした。</string>
     <string name="ReducedColors">色を減少</string>

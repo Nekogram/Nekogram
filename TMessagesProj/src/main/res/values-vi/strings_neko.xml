@@ -273,15 +273,10 @@
     <string name="NavigationAnimationSpring">Tự nhiên</string>
     <string name="CloudConfig">Cài đặt đám mây</string>
     <string name="CloudConfigDesc">Lưu Cài đặt Neko của bạn vào đám mây Telegram.</string>
-    <string name="CloudConfigSyncDate">Lần cuối đồng bộ: %s, đám mây: %s</string>
     <string name="CloudConfigSyncDateNever">không bao giờ</string>
-    <string name="CloudConfigSync">Đồng bộ lên đám mây</string>
     <string name="CloudConfigSyncShort">Đồng bộ</string>
-    <string name="CloudConfigRestore">Khôi phục từ đám mây</string>
     <string name="CloudConfigRestoreShort">Khôi phục</string>
     <string name="CloudConfigSyncing">Đang đồng bộ...</string>
-    <string name="CloudConfigAutoSync">Tự động đồng bộ</string>
-    <string name="CloudConfigAutoSyncDesc">Tự động đồng bộ với đám mây sau khi thực hiện thay đổi với Cài đặt Neko.</string>
     <string name="CloudConfigSyncFailed">Không thể đồng bộ cài đặt với đám mây.</string>
     <string name="CloudConfigRestoreFailed">Không thể khôi phục cài đặt từ đám mây.</string>
     <string name="ReducedColors">Giảm màu sắc</string>

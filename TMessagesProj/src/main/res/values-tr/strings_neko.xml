@@ -273,15 +273,10 @@
     <string name="NavigationAnimationSpring">Doğal</string>
     <string name="CloudConfig">Bulut Ayarları</string>
     <string name="CloudConfigDesc">Neko Ayarlarınızı Telegram bulutuna kaydedin.</string>
-    <string name="CloudConfigSyncDate">Son senkronize edillme: %s, bulut: %s</string>
     <string name="CloudConfigSyncDateNever">asla</string>
-    <string name="CloudConfigSync">Bulut\'a senkronize edin</string>
     <string name="CloudConfigSyncShort">Senkronize et</string>
-    <string name="CloudConfigRestore">Buluttan geri yükleme</string>
     <string name="CloudConfigRestoreShort">Geri Yükle</string>
     <string name="CloudConfigSyncing">Senkronize ediliyor...</string>
-    <string name="CloudConfigAutoSync">Otomatik senkronize et</string>
-    <string name="CloudConfigAutoSyncDesc">Neko Ayarlarında değişiklik yaptıktan sonra otomatik olarak buluta senkronize et.</string>
     <string name="CloudConfigSyncFailed">Ayarlar buluta senkronize edilemedi.</string>
     <string name="CloudConfigRestoreFailed">Buluttan ayarlar geri yüklenemedi.</string>
     <string name="ReducedColors">Renkleri azaltın</string>

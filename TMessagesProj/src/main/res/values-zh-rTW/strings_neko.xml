@@ -274,15 +274,10 @@
     <string name="NavigationAnimationSpring">自然</string>
     <string name="CloudConfig">雲設定</string>
     <string name="CloudConfigDesc">將您的喵設定儲存到 Telegram 雲端。</string>
-    <string name="CloudConfigSyncDate">上次同步：%s，雲端：%s</string>
     <string name="CloudConfigSyncDateNever">絕不</string>
-    <string name="CloudConfigSync">同步至雲端</string>
     <string name="CloudConfigSyncShort">同步</string>
-    <string name="CloudConfigRestore">從雲端恢復</string>
     <string name="CloudConfigRestoreShort">恢復</string>
     <string name="CloudConfigSyncing">正在同步...</string>
-    <string name="CloudConfigAutoSync">自動同步</string>
-    <string name="CloudConfigAutoSyncDesc">更改喵設定後自動同步到雲端。</string>
     <string name="CloudConfigSyncFailed">無法將設定同步到雲端。</string>
     <string name="CloudConfigRestoreFailed">無法從雲端恢復設定。</string>
     <string name="ReducedColors">減少顏色</string>

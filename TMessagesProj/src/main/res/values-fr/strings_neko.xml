@@ -274,15 +274,10 @@
     <string name="NavigationAnimationSpring">Naturel</string>
     <string name="CloudConfig">Paramètres du Cloud</string>
     <string name="CloudConfigDesc">Enregistrez vos paramètres Neko sur le cloud de Telegram.</string>
-    <string name="CloudConfigSyncDate">Dernière synchronisation : %s, cloud : %s</string>
     <string name="CloudConfigSyncDateNever">jamais</string>
-    <string name="CloudConfigSync">Synchroniser vers le cloud</string>
     <string name="CloudConfigSyncShort">Synchronisation</string>
-    <string name="CloudConfigRestore">Restaurer depuis le cloud</string>
     <string name="CloudConfigRestoreShort">Restaurer</string>
     <string name="CloudConfigSyncing">Synchronisation...</string>
-    <string name="CloudConfigAutoSync">Synchro automatique</string>
-    <string name="CloudConfigAutoSyncDesc">Synchroniser automatiquement vers le cloud après modifications des paramètres de Neko.</string>
     <string name="CloudConfigSyncFailed">Échec de la synchronisation des paramètres vers le cloud.</string>
     <string name="CloudConfigRestoreFailed">Impossible de restaurer les paramètres depuis le cloud.</string>
     <string name="ReducedColors">Réduire les couleurs</string>

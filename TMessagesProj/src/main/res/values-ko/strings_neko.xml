@@ -262,15 +262,10 @@
     <string name="NavigationAnimationSpring">Natural</string>
     <string name="CloudConfig">클라우드 설정</string>
     <string name="CloudConfigDesc">네코 설정을 텔레그램 클라우드에 저장합니다.</string>
-    <string name="CloudConfigSyncDate">마지막 동기화: %s, 클라우드: %s</string>
     <string name="CloudConfigSyncDateNever">동기화 안함</string>
-    <string name="CloudConfigSync">클라우드에 동기화</string>
     <string name="CloudConfigSyncShort">동기화</string>
-    <string name="CloudConfigRestore">클라우드에서 복원</string>
     <string name="CloudConfigRestoreShort">복원</string>
     <string name="CloudConfigSyncing">동기화...</string>
-    <string name="CloudConfigAutoSync">자동 동기화</string>
-    <string name="CloudConfigAutoSyncDesc">네코 설정을 변경한 후 클라우드에 자동으로 동기화합니다.</string>
     <string name="CloudConfigSyncFailed">설정을 클라우드에 동기화하지 못했습니다.</string>
     <string name="CloudConfigRestoreFailed">클라우드에서 설정을 복원하지 못했습니다.</string>
     <string name="ReducedColors">색상 줄이기</string>

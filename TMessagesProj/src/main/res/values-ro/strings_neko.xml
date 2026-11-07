@@ -271,15 +271,10 @@
     <string name="NavigationAnimationSpring">Natural</string>
     <string name="CloudConfig">Setări Cloud</string>
     <string name="CloudConfigDesc">Salvați setările Neko în Telegram Cloud.</string>
-    <string name="CloudConfigSyncDate">Ultima sincronizare: %s, cloud: %s</string>
     <string name="CloudConfigSyncDateNever">niciodată</string>
-    <string name="CloudConfigSync">Sincronizare în cloud</string>
     <string name="CloudConfigSyncShort">Sincronizare</string>
-    <string name="CloudConfigRestore">Restabiliți din cloud</string>
     <string name="CloudConfigRestoreShort">Restabiliți</string>
     <string name="CloudConfigSyncing">Se sincronizează...</string>
-    <string name="CloudConfigAutoSync">Auto sincronizare</string>
-    <string name="CloudConfigAutoSyncDesc">Sincronizați setările automat cu cloud după modificarea setărilor Neko.</string>
     <string name="CloudConfigSyncFailed">Sincronizarea setărilor cu cloud a eșuat.</string>
     <string name="CloudConfigRestoreFailed">Restabilirea setărilor din cloud a eșuat.</string>
     <string name="ReducedColors">Reduceți culorile</string>

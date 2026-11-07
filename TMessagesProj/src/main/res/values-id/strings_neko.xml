@@ -273,15 +273,10 @@
     <string name="NavigationAnimationSpring">Natural</string>
     <string name="CloudConfig">Pengaturan cloud</string>
     <string name="CloudConfigDesc">Simpan pengaturan Neko Anda ke Telegram cloud.</string>
-    <string name="CloudConfigSyncDate">Terakhir disinkronkan: %s, cloud: %s</string>
     <string name="CloudConfigSyncDateNever">tidak pernah</string>
-    <string name="CloudConfigSync">Sinkronkan ke cloud</string>
     <string name="CloudConfigSyncShort">Sinkronisasi</string>
-    <string name="CloudConfigRestore">Pulihkan dari cloud</string>
     <string name="CloudConfigRestoreShort">Pulihkan</string>
     <string name="CloudConfigSyncing">Menyinkronkan...</string>
-    <string name="CloudConfigAutoSync">Sinkronkan otomatis</string>
-    <string name="CloudConfigAutoSyncDesc">Otomatis sinkronkan ke cloud setelah membuat perubahan pada pengaturan Neko.</string>
     <string name="CloudConfigSyncFailed">Gagal menyinkronkan pengaturan ke cloud.</string>
     <string name="CloudConfigRestoreFailed">Gagal memulihkan pengaturan dari cloud.</string>
     <string name="ReducedColors">Kurangi warna</string>

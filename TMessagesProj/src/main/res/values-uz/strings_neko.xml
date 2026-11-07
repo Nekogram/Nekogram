@@ -270,15 +270,10 @@
     <string name="NavigationAnimationSpring">Tabiiy</string>
     <string name="CloudConfig">Bulut Sozlamalari</string>
     <string name="CloudConfigDesc">Neko sozlamalarini Telegram bulutga saqlash.</string>
-    <string name="CloudConfigSyncDate">Sinxronlandi: %s, bulutga: %s</string>
     <string name="CloudConfigSyncDateNever">hech qachon</string>
-    <string name="CloudConfigSync">Bulutga sinxronlash</string>
     <string name="CloudConfigSyncShort">Sinxronlash</string>
-    <string name="CloudConfigRestore">Bulutdan tiklsh</string>
     <string name="CloudConfigRestoreShort">Tiklash</string>
     <string name="CloudConfigSyncing">Sinxronlanmoqda...</string>
-    <string name="CloudConfigAutoSync">Avto sinxronlash</string>
-    <string name="CloudConfigAutoSyncDesc">Neko sozlamalarini o\'zgartirgach bulutga avtomatik sinxronlash.</string>
     <string name="CloudConfigSyncFailed">Sozlamalarni bulutga sinxronlashda xatolik.</string>
     <string name="CloudConfigRestoreFailed">Sozlamalarni bulutdan tiklashda xatolik.</string>
     <string name="ReducedColors">Ranglarni kamaytirish</string>

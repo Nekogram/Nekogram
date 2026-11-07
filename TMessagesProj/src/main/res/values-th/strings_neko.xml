@@ -271,15 +271,10 @@
     <string name="NavigationAnimationSpring">เป็นธรรมชาติ</string>
     <string name="CloudConfig">การตั้งค่าคลาวด์</string>
     <string name="CloudConfigDesc">บันทึกการตั้งค่า Neko ของคุณไปยังคลาวด์ Telegram</string>
-    <string name="CloudConfigSyncDate">ซิงค์ล่าสุด: %s, คลาวด์: %s</string>
     <string name="CloudConfigSyncDateNever">ไม่เคย</string>
-    <string name="CloudConfigSync">ซิงค์ไปยังคลาวด์</string>
     <string name="CloudConfigSyncShort">ซิงค์</string>
-    <string name="CloudConfigRestore">กู้คืนจากคลาวด์</string>
     <string name="CloudConfigRestoreShort">คืนค่า</string>
     <string name="CloudConfigSyncing">กำลังซิงค์...</string>
-    <string name="CloudConfigAutoSync">การซิงค์อัตโนมัติ</string>
-    <string name="CloudConfigAutoSyncDesc">ซิงค์ไปยังคลาวด์โดยอัตโนมัติหลังจากทำการเปลี่ยนแปลงการตั้งค่า Neko</string>
     <string name="CloudConfigSyncFailed">ไม่สามารถซิงค์การตั้งค่าไปยังคลาวด์ได้</string>
     <string name="CloudConfigRestoreFailed">ไม่สามารถคืนค่าการตั้งค่าจากคลาวด์ได้</string>
     <string name="ReducedColors">ลดสี</string>

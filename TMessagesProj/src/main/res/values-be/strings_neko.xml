@@ -272,15 +272,10 @@
     <string name="NavigationAnimationSpring">Натуральны</string>
     <string name="CloudConfig">Налады воблачнага сховішча</string>
     <string name="CloudConfigDesc">Захаваць вашы налады Neko у воблачным сховішчы Telegram.</string>
-    <string name="CloudConfigSyncDate">Апошняя сінхранізацыя: %s, у воблаку: %s</string>
     <string name="CloudConfigSyncDateNever">ніколі</string>
-    <string name="CloudConfigSync">Захаваць у воблака</string>
     <string name="CloudConfigSyncShort">Сінхранізаваць</string>
-    <string name="CloudConfigRestore">Аднавіць з воблака</string>
     <string name="CloudConfigRestoreShort">Аднавіць</string>
     <string name="CloudConfigSyncing">Сінхранізацыя...</string>
-    <string name="CloudConfigAutoSync">Аўтасінхранізацыя</string>
-    <string name="CloudConfigAutoSyncDesc">Аўтаматычная сінхранізацыя з воблакам пасля змены налад Neko.</string>
     <string name="CloudConfigSyncFailed">Не атрымалася сінхранізаваць налады з воблакам.</string>
     <string name="CloudConfigRestoreFailed">Не ўдалося аднавіць налады з воблака.</string>
     <string name="ReducedColors">Паменшыць колькасць колераў</string>

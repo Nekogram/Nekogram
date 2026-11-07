@@ -271,15 +271,10 @@
     <string name="NavigationAnimationSpring">Природна</string>
     <string name="CloudConfig">Подешавања облака</string>
     <string name="CloudConfigDesc">Сачувајте ваша Neko подешавања у Telegram облак.</string>
-    <string name="CloudConfigSyncDate">Последња синхронизација: %s, облак: %s</string>
     <string name="CloudConfigSyncDateNever">никада</string>
-    <string name="CloudConfigSync">Снхронизуј са облаком</string>
     <string name="CloudConfigSyncShort">Синхронизуј</string>
-    <string name="CloudConfigRestore">Врати из облака</string>
     <string name="CloudConfigRestoreShort">Врати</string>
     <string name="CloudConfigSyncing">Синхронизација...</string>
-    <string name="CloudConfigAutoSync">Аутоматска синхронизација</string>
-    <string name="CloudConfigAutoSyncDesc">Аутоматскa синхронизaција са облаком након што извршите промене у Neko подешавањима.</string>
     <string name="CloudConfigSyncFailed">Није успела синхронизација подешавања са облаком.</string>
     <string name="CloudConfigRestoreFailed">Није успело враћање подешавања из облака.</string>
     <string name="ReducedColors">Смањи боје</string>

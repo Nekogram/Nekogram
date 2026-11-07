@@ -271,15 +271,10 @@
     <string name="NavigationAnimationSpring">عادی</string>
     <string name="CloudConfig">تنظیمات ابری</string>
     <string name="CloudConfigDesc">تنظیمات Neko خود را در ابر تلگرام ذخیره کنید.</string>
-    <string name="CloudConfigSyncDate">آخرین همگام سازی: %s، ابر: %s</string>
     <string name="CloudConfigSyncDateNever">هرگز</string>
-    <string name="CloudConfigSync">همگام سازی با ابر</string>
     <string name="CloudConfigSyncShort">همگام‌سازی</string>
-    <string name="CloudConfigRestore">بازیابی از ابر</string>
     <string name="CloudConfigRestoreShort">بازیابی</string>
     <string name="CloudConfigSyncing">در حال همگام سازی...</string>
-    <string name="CloudConfigAutoSync">همگام سازی خودکار</string>
-    <string name="CloudConfigAutoSyncDesc">پس از ایجاد تغییرات در تنظیمات Neko، به طور خودکار با ابر همگام سازی کنید.</string>
     <string name="CloudConfigSyncFailed">تنظیمات با ابر همگام‌سازی نشد.</string>
     <string name="CloudConfigRestoreFailed">بازیابی تنظیمات از ابر انجام نشد.</string>
     <string name="ReducedColors">رنگ ها را کاهش دهید</string>

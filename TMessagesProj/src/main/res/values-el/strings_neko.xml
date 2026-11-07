@@ -273,15 +273,10 @@
     <string name="NavigationAnimationSpring">Φυσική</string>
     <string name="CloudConfig">Ρυθμίσεις Cloud</string>
     <string name="CloudConfigDesc">Αποθήκευση ρυθμίσεων Neko στο Telegram cloud.</string>
-    <string name="CloudConfigSyncDate">Τελευταίος συγχρονισμός: %s, cloud: %s</string>
     <string name="CloudConfigSyncDateNever">ποτέ</string>
-    <string name="CloudConfigSync">Συγχρονισμός στο cloud</string>
     <string name="CloudConfigSyncShort">Συγχρονισμός</string>
-    <string name="CloudConfigRestore">Επαναφορά από το cloud</string>
     <string name="CloudConfigRestoreShort">Επαναφορά</string>
     <string name="CloudConfigSyncing">Συγχρονισμός...</string>
-    <string name="CloudConfigAutoSync">Αυτόματος συγχρονισμός</string>
-    <string name="CloudConfigAutoSyncDesc">Συγχρονισμός στο cloud αυτόματα μετά τις αλλαγές στις ρυθμίσεις του Neko.</string>
     <string name="CloudConfigSyncFailed">Αποτυχία συγχρονισμού ρυθμίσεων στο cloud.</string>
     <string name="CloudConfigRestoreFailed">Αποτυχία επαναφοράς ρυθμίσεων από το cloud.</string>
     <string name="ReducedColors">Μείωση χρωμάτων</string>

@@ -165,15 +165,10 @@
     <string name="SaveToDownloadCount_many">%1$d файлды жүктеулерге сақтау</string>
     <string name="SaveToDownloadCount_other">%1$d файлды жүктеулерге сақтау</string>
     <string name="CloudConfigDesc">Neko параметрлерін Telegram бұлтына сақтаңыз.</string>
-    <string name="CloudConfigSyncDate">Соңғы синхрондалған: %s, бұлт: %s</string>
     <string name="CloudConfigSyncDateNever">ешқашан</string>
-    <string name="CloudConfigSync">Бұлтпен синхрондау</string>
     <string name="CloudConfigSyncShort">Синхрондау</string>
-    <string name="CloudConfigRestore">Бұлттан қалпына келтіру</string>
     <string name="CloudConfigRestoreShort">Қалпына келтіру</string>
     <string name="CloudConfigSyncing">Синхрондалуда...</string>
-    <string name="CloudConfigAutoSync">Аутоматты синхрондау</string>
-    <string name="CloudConfigAutoSyncDesc">Neko Параметрлеріне өзгертулер енгізгеннен кейін бұлтпен аутоматты түрде синхрондаңыз.</string>
     <string name="CloudConfigSyncFailed">Параметрлерді бұлтпен синхрондау сәтсіз аяқталды.</string>
     <string name="CloudConfigRestoreFailed">Бұлттан параметрлерді қалпына келтіру мүмкін болмады.</string>
     <string name="ReducedColors">Түстерді азайтыңыз</string>
