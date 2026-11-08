@@ -290,7 +290,7 @@ public class TopicsSidePanel extends FrameLayout implements NotificationCenter.N
         searchIcon.setImageResource(R.drawable.outline_header_search);
         searchIcon.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_windowBackgroundWhiteGrayText), PorterDuff.Mode.SRC_IN));
         searchContainer.addView(searchIcon, LayoutHelper.createFrame(20, 20, Gravity.LEFT | Gravity.CENTER_VERTICAL, 14, 0, 0, 0));
-        searchField = new EditText(context);
+        searchField = new EditTextBoldCursor(context);
         searchField.setBackground(null);
         searchField.setPadding(0, 0, 0, 0);
         searchField.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
