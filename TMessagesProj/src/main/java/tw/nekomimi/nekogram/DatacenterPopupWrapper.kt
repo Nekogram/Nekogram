@@ -11,6 +11,7 @@ import org.telegram.messenger.browser.Browser
 import org.telegram.tgnet.ConnectionsManager
 import org.telegram.ui.ActionBar.ActionBarMenuSubItem
 import org.telegram.ui.ActionBar.Theme
+import org.telegram.ui.ActionBar.ThemeBind
 import org.telegram.ui.Components.ItemOptions
 import org.telegram.ui.Components.LayoutHelper
 import org.telegram.ui.Components.LinkSpanDrawable.LinksTextView
@@ -47,8 +48,8 @@ object DatacenterPopupWrapper {
                 setTag(R.id.fit_width_tag, 1)
                 setPadding(dp(13f), 0, dp(13f), dp(8f))
                 setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13f)
-                setTextColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuItem))
-                setLinkTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteLinkText))
+                ThemeBind.textColor(this, Theme.key_actionBarDefaultSubmenuItem)
+                ThemeBind.linkTextColor(this, Theme.key_windowBackgroundWhiteLinkText)
                 text = AndroidUtilities.replaceSingleTag(
                     LocaleController.getString(R.string.DatacenterStatusAbout)
                 ) {

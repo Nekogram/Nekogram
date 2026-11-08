@@ -30,6 +30,7 @@ import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.INavigationLayout;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.ActionBar.ThemeBind;
 import org.telegram.ui.Cells.TextCheckbox2Cell;
 import org.telegram.ui.Cells.TextDetailSettingsCell;
 import org.telegram.ui.Cells.TextSettingsCell;
@@ -456,12 +457,14 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
             } else {
                 textCell.setText(item.text, divider);
             }
+            var textView = textCell.getTextView();
+            ThemeBind.clear(textView);
             if (item.red) {
-                textCell.setTextColor(Theme.getColor(Theme.key_text_RedRegular, resourcesProvider));
+                ThemeBind.textColor(textView, Theme.key_text_RedRegular, resourcesProvider);
             } else if (item.accent) {
-                textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText2, resourcesProvider));
+                ThemeBind.textColor(textView, Theme.key_windowBackgroundWhiteBlueText2, resourcesProvider);
             } else {
-                textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourcesProvider));
+                ThemeBind.textColor(textView, Theme.key_windowBackgroundWhiteBlackText, resourcesProvider);
             }
         }
 

@@ -36,6 +36,7 @@ import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.ActionBar.ThemeBind;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.ItemOptions;
 import org.telegram.ui.Components.LayoutHelper;
@@ -299,7 +300,7 @@ public class JsonActivity extends BaseNekoSettingsActivity {
         }
     }
 
-    private static class JsonNodeView extends LinearLayout {
+    private static class JsonNodeView extends LinearLayout implements Theme.Colorable {
 
         private static final String DOCUMENTATION_URL_PREFIX = "https://core.telegram.org/constructor/";
         private static final Paint guidePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -338,7 +339,7 @@ public class JsonActivity extends BaseNekoSettingsActivity {
             keyTextView = new TextView(context);
             keyTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
             keyTextView.setTypeface(Typeface.MONOSPACE);
-            keyTextView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
+            ThemeBind.textColor(keyTextView, Theme.key_windowBackgroundWhiteBlackText, resourcesProvider);
             keyTextView.setHyphenationFrequency(Layout.HYPHENATION_FREQUENCY_NONE);
             addView(keyTextView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.LEFT));
 
@@ -355,7 +356,7 @@ public class JsonActivity extends BaseNekoSettingsActivity {
             };
             valueTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
             valueTextView.setTypeface(Typeface.MONOSPACE);
-            valueTextView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
+            ThemeBind.textColor(valueTextView, Theme.key_windowBackgroundWhiteBlackText, resourcesProvider);
             valueTextView.setHyphenationFrequency(Layout.HYPHENATION_FREQUENCY_NONE);
             valueTextView.setOnLinkPressListener(span -> {
                 valueTextView.setLoading(span);
@@ -479,5 +480,9 @@ public class JsonActivity extends BaseNekoSettingsActivity {
             return Theme.getColor(key, resourcesProvider);
         }
 
+        @Override
+        public void updateColors() {
+            guidePaint.setColor(getThemedColor(Theme.key_windowBackgroundWhiteHintText));
+        }
     }
 }
