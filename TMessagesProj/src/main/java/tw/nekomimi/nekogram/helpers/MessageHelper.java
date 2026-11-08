@@ -290,6 +290,9 @@ public class MessageHelper extends BaseController {
         } else if (selectedObject.type == MessageObject.TYPE_ARTICLE) {
             messageObject = selectedObject;
         }
+        if (MessageObject.getMedia(messageObject) instanceof TLRPC.TL_messageMediaWidget) {
+            return null;
+        }
         if (messageObject != null && messageObject.isEphemeral()) {
             return null;
         }
