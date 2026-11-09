@@ -16,7 +16,6 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 
-import org.apache.commons.lang3.function.BooleanConsumer;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
@@ -36,6 +35,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import app.nekogram.translator.exception.Http429Exception;
@@ -242,7 +242,7 @@ public class Translator {
         });
     }
 
-    public static void showTranslationProviderSelector(BaseFragment fragment, View view, BooleanConsumer callback) {
+    public static void showTranslationProviderSelector(BaseFragment fragment, View view, Consumer<Boolean> callback) {
         if (NekoConfig.transType == NekoConfig.TRANS_TYPE_EXTERNAL) {
             var app = TranslatorApps.getTranslatorApp();
             var apps = TranslatorApps.getTranslatorApps();

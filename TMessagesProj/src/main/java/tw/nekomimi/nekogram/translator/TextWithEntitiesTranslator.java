@@ -3,7 +3,6 @@ package tw.nekomimi.nekogram.translator;
 import com.google.net.cronet.okhttptransport.CronetInterceptor;
 
 import org.telegram.tgnet.TLRPC;
-import org.telegram.ui.Components.TranslateAlert2;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +23,7 @@ import okhttp3.OkHttpClient;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.CronetHelper;
 import tw.nekomimi.nekogram.translator.deepl.DeepLOAuth;
-import tw.nekomimi.nekogram.translator.html.HTMLKeeper;
+import tw.nekomimi.nekogram.translator.html.TranslationEntities;
 
 public class TextWithEntitiesTranslator implements Translator.ITranslator {
 
@@ -64,24 +63,28 @@ public class TextWithEntitiesTranslator implements Translator.ITranslator {
     }
 
     private final BaseTranslator translator;
+    private final boolean isGoogle;
+    private final boolean isDeepL;
+    private final boolean supportHTML;
 
     private TextWithEntitiesTranslator(BaseTranslator translator) {
         this.translator = translator;
+        isGoogle = translator instanceof GoogleAppTranslator;
+        isDeepL = translator instanceof DeepLTranslator;
+        supportHTML = !(translator instanceof SogouTranslator);
     }
 
     @Override
     public Translator.TranslationResult translate(TLRPC.TL_textWithEntities query, String fl, String tl) throws Exception {
-        if (translator instanceof DeepLTranslator) {
+        if (isDeepL) {
             DeepLOAuth.configureAccessToken();
         }
-        if (NekoConfig.keepFormatting) {
-            var html = HTMLKeeper.entitiesToHtml(query.text, query.entities, false);
+        if (supportHTML && NekoConfig.keepFormatting) {
+            var format = isGoogle ? TranslationEntities.Format.BARE : TranslationEntities.Format.ID;
+            var html = TranslationEntities.encode(query, format);
             var result = translator.translateSync(html, null, tl);
-            var textAndEntitiesTranslated = HTMLKeeper.htmlToEntities(result.getTranslation(), query.entities, false);
-            return Translator.TranslationResult.of(
-                    TranslateAlert2.preprocess(query, textAndEntitiesTranslated),
-                    result.getSourceLanguage()
-            );
+            var textAndEntitiesTranslated = TranslationEntities.decode(query, result.getTranslation(), format);
+            return Translator.TranslationResult.of(textAndEntitiesTranslated, result.getSourceLanguage());
         } else {
             var result = translator.translateSync(query.text, null, tl);
             return Translator.TranslationResult.of(
