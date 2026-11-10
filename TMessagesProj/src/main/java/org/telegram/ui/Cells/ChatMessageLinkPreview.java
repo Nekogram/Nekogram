@@ -176,7 +176,7 @@ class ChatMessageLinkPreview {
             float rad = (float) Math.floor(SharedConfig.bubbleRadius / (cell.currentMessageObject.isSponsored() ? 2f : 3f));
             cell.linkLine
                 .offsetEmoji(0, drawPhotoImageBefore ? (1f - cell.isSmallImage()) * (dp(18) + cell.photoImage.getImageHeight() + (cell.siteNameLayout != null ? cell.siteNameLayout.getLineBottom(cell.siteNameLayout.getLineCount() - 1) : 0)) : 0)
-                .drawBackground(canvas, AndroidUtilities.rectTmp, rad, rad, rad, alpha, NekoConfig.reducedColors, false);
+                .drawBackground(canvas, AndroidUtilities.rectTmp, rad, rad, rad, alpha, false, NekoConfig.reducedColors);
 
             int rippleColor = cell.linkLine.getBackgroundColor();
             if (selector == null) {
