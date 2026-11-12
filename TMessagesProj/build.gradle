@@ -127,7 +127,7 @@ dependencies {
     implementation 'co.nstant.in:cbor:0.9'
 
     implementation 'com.google.firebase:firebase-analytics:23.2.0'
-    implementation 'io.sentry:sentry-android:8.62.0'
+    implementation 'io.sentry:sentry-android:8.64.0'
 }
 
 android {
