@@ -68,6 +68,9 @@ class CloudSettingsHelper {
             fun updateText(animated: Boolean) {
                 syncOption.setAnimatedSubtext(formatLastSyncDate(), animated)
                 restoreOption.setAnimatedSubtext(formatCloudDate(currentAccount), animated)
+                val hasCloud = cloudSyncedDate.getOrElse(currentAccount) { -1L } > 0
+                restoreOption.isEnabled = hasCloud
+                restoreOption.alpha = if (hasCloud) 1f else 0.5f
             }
             updateText(animated = false)
 
